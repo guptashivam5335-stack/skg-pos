@@ -42,18 +42,19 @@
   .badge-admin { background: #FEF3C7; color: #92400E; }
   .badge-staff { background: #E0F2FE; color: #075985; }
 
-  /* DRAWER MENU */
+  /* DRAWER MENU (Fixed Scrolling) */
   .drawer-overlay {
     display: none; position: fixed; inset: 0; background: rgba(0,0,0,0.5); z-index: 1100;
   }
   .drawer-overlay.active { display: block; }
   .drawer {
-    position: fixed; top: 0; left: 0; bottom: 0; width: 260px; background: #0F172A;
+    position: fixed; top: 0; left: 0; bottom: 0; width: 275px; background: #0F172A;
     color: white; z-index: 1200; transform: translateX(-100%); transition: transform 0.25s ease;
     display: flex; flex-direction: column; justify-content: space-between; padding: 18px 12px;
+    overflow-y: auto; -webkit-overflow-scrolling: touch; max-height: 100vh;
   }
   .drawer.open { transform: translateX(0); }
-  .drawer-nav { display: flex; flex-direction: column; gap: 4px; margin-top: 15px; overflow-y: auto; }
+  .drawer-nav { display: flex; flex-direction: column; gap: 6px; margin-top: 15px; flex: 1; }
   .drawer-nav button {
     background: transparent; border: none; color: #CBD5E1; text-align: left;
     padding: 11px 14px; border-radius: 8px; font-size: 13px; font-weight: 600;
@@ -208,7 +209,6 @@
   </div>
 </div>
 
-<!-- MAIN VIEWPORT -->
 <div class="app-container">
 
   <!-- 1. POS VIEW -->
@@ -574,7 +574,6 @@ function doPost(e) {
 
 </div>
 
-
 <!-- MODAL: SETTINGS & SECURITY (PIN & UPI CONFIG) -->
 <div id="settingsModal" class="modal-screen">
   <div class="modal-body" style="max-width:380px;">
@@ -598,11 +597,11 @@ function doPost(e) {
       <b style="font-size:13px; color:#92400E; display:block; margin-bottom:4px;">🔒 Change ADMIN PIN</b>
       <div class="f-group" style="margin-bottom:6px;">
         <label style="font-size:11px; color:#78350F;">Current Admin PIN</label>
-        <input type="password" id="curAdminPin" placeholder="Enter current PIN (Default: 1234)">
+        <input type="password" id="curAdminPin" placeholder="Enter current Admin PIN" autocomplete="off">
       </div>
       <div class="f-group" style="margin-bottom:8px;">
         <label style="font-size:11px; color:#78350F;">New Admin PIN (Min 4 digits)</label>
-        <input type="password" id="newAdminPin" placeholder="Enter new 4-digit PIN">
+        <input type="password" id="newAdminPin" placeholder="Enter new 4-digit PIN" autocomplete="off">
       </div>
       <button class="btn-submit" onclick="saveAdminPinConfig()" style="width:100%; background:#B45309; font-size:12px; padding:7px;">Update Admin PIN</button>
     </div>
@@ -612,7 +611,7 @@ function doPost(e) {
       <b style="font-size:13px; color:#0369A1; display:block; margin-bottom:4px;">👤 Change STAFF / USER PIN</b>
       <p style="font-size:11px; color:#0284C7; margin-bottom:6px;">Staff/Counter boy is PIN se login karega:</p>
       <div class="f-group" style="margin-bottom:8px;">
-        <input type="password" id="newStaffPin" placeholder="Enter new Staff PIN (Default: 0000)">
+        <input type="password" id="newStaffPin" placeholder="Enter new Staff PIN" autocomplete="off">
       </div>
       <button class="btn-submit" onclick="saveStaffPinConfig()" style="width:100%; background:#0284C7; font-size:12px; padding:7px;">Update Staff PIN</button>
     </div>
@@ -639,8 +638,7 @@ function doPost(e) {
     
     <div class="f-group" style="margin-bottom:14px;">
       <label>Passcode / PIN</label>
-      <input type="password" id="loginPin" placeholder="Enter PIN">
-      <small style="font-size:11px; color:#64748B;" id="pinHint">Default Admin PIN: 1234</small>
+      <input type="password" id="loginPin" placeholder="Enter 4-digit PIN" autocomplete="off">
     </div>
 
     <div style="display:flex; justify-content:flex-end; gap:8px;">
@@ -744,12 +742,12 @@ function saveAdminPinConfig() {
   const cur = document.getElementById('curAdminPin').value.trim();
   const nxt = document.getElementById('newAdminPin').value.trim();
 
-  if (cur !== adminPin && cur !== "1234") {
+  if (cur !== adminPin) {
     alert("❌ Current Admin PIN is incorrect!");
     return;
   }
   if (!nxt || nxt.length < 4) {
-    alert("❌ New Admin PIN must be at least 4 digits/characters!");
+    alert("❌ New Admin PIN must be at least 4 digits!");
     return;
   }
 
@@ -863,34 +861,39 @@ function openLogin() {
   document.getElementById('loginModal').style.display = 'flex';
 }
 function closeLogin() { document.getElementById('loginModal').style.display = 'none'; }
-
-function updatePinHint() {
-  const r = document.getElementById('loginRole').value;
-  document.getElementById('pinHint').innerText = r === "ADMIN" ? "Default Admin PIN: 1234" : "Default Staff PIN: 0000";
-}
+function updatePinHint() {}
 
 function authenticateUser() {
   const role = document.getElementById('loginRole').value;
   const pin = document.getElementById('loginPin').value.trim();
 
+  if (!pin) {
+    alert("❌ Please enter PIN passcode!");
+    return;
+  }
+
   if (role === "ADMIN") {
-    if (pin === adminPin || pin === "1234") {
+    if (pin === adminPin) {
       currentUserRole = "ADMIN";
       localStorage.setItem('skg_role', "ADMIN");
       alert("✅ Logged in as ADMIN. Full modification & PnL controls active.");
       closeLogin();
       updateRoleView();
       renderAll();
-    } else alert("❌ Incorrect Admin PIN!");
+    } else {
+      alert("❌ Incorrect Admin PIN!");
+    }
   } else {
-    if (pin === userPin || pin === "0000" || pin === "") {
+    if (pin === userPin) {
       currentUserRole = "USER";
       localStorage.setItem('skg_role', "USER");
       alert("✅ Logged in as STAFF. Billing & entry mode active.");
       closeLogin();
       updateRoleView();
       renderAll();
-    } else alert("❌ Incorrect Staff PIN!");
+    } else {
+      alert("❌ Incorrect Staff PIN!");
+    }
   }
 }
 
@@ -1138,7 +1141,7 @@ function checkoutBill() {
     const itemTotal = (itemSub - itemDisc) + itemTax;
     const itemProfit = (itemSub - itemDisc) - (inv.cost * c.qty);
 
-    inv.stock -= c.qty; // Realtime deduction
+    inv.stock -= c.qty;
     sales.push({
       billNo, date: dateStr, party: cust, sku: c.sku, name: c.name,
       channel: currentChannel, qty: c.qty, rate: rate, subtotal: itemSub,
@@ -1268,7 +1271,7 @@ function addPurchase() {
   if (qty <= 0) { alert("Enter valid quantity!"); return; }
 
   const item = items.find(i => i.sku === sku);
-  item.stock += qty; // Add stock
+  item.stock += qty;
   purchases.push({
     id: "PUR-" + Math.floor(1000 + Math.random() * 9000),
     date: new Date().toISOString().split('T')[0],
@@ -1556,7 +1559,6 @@ function renderReports() {
 
   const netSurplus = totProfit - totOpex - totSpoilage - intCharge;
 
-  // P&L Breakdown View
   document.getElementById('pnlRev').innerText = "₹" + totRev.toLocaleString('en-IN', {minimumFractionDigits:2});
   document.getElementById('pnlCogs').innerText = "- ₹" + Math.max(0, totCogs).toLocaleString('en-IN', {minimumFractionDigits:2});
   document.getElementById('pnlGross').innerText = "₹" + totProfit.toLocaleString('en-IN', {minimumFractionDigits:2});
@@ -1575,7 +1577,6 @@ function renderReports() {
   nDisp.innerText = "₹" + netSurplus.toLocaleString('en-IN', {minimumFractionDigits:2});
   nDisp.style.color = netSurplus >= 0 ? "var(--success)" : "var(--danger)";
 
-  // Product Table View
   const pBody = document.getElementById('repProductTable');
   pBody.innerHTML = '';
   Object.values(pMap).sort((a,b) => b.rev - a.rev).forEach(p => {
@@ -1614,7 +1615,6 @@ function renderAll() {
   populateDropdowns();
 }
 
-// Safe initial load
 renderAll();
 </script>
 </body>
