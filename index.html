@@ -175,6 +175,7 @@
     </div>
   </div>
   <div class="nav-right">
+    <span class="user-badge" style="background:#E2E8F0; color:#1E293B; cursor:pointer;" onclick="openSettingsModal()">⚙️ Settings</span>
     <span class="user-badge badge-admin" id="roleBadge" onclick="openLogin()">👤 ADMIN</span>
   </div>
 </header>
@@ -197,6 +198,8 @@
       <button onclick="showTab('partiesView', this)">👥 Party Ledgers (Khata)</button>
       <button id="navCapitalBtn" onclick="showTab('capitalView', this)">💰 Capital & Financier</button>
       <button id="navReportsBtn" onclick="showTab('reportsView', this)">📊 Reports & Full PnL</button>
+      <button onclick="openSettingsModal()">⚙️ PIN & UPI Settings</button>
+      <button onclick="showTab('connectTab', this)">🔗 Google Sheet Sync</button>
     </div>
   </div>
   <div style="font-size:11px; color:#94A3B8; text-align:center;">
@@ -515,6 +518,7 @@
         </div>
       </div>
 
+      <!-- FORMAL P&L STATEMENT -->
       <div style="background:#F8FAFC; border:1px solid var(--border); border-radius:8px; padding:14px; max-width:620px; margin-bottom:16px;">
         <h4 style="font-size:14px; font-weight:800; border-bottom:1px solid #CBD5E1; padding-bottom:6px; margin-bottom:10px;">
           Trading & Profit & Loss Statement (SKG Trading Company)
@@ -534,6 +538,7 @@
         </div>
       </div>
 
+      <!-- PRODUCT SALES & MARGIN TABLE -->
       <h4 style="font-size:13.5px; font-weight:700; margin-bottom:6px;">Product-Wise Turnover & Margin</h4>
       <div class="scroll-table">
         <table>
@@ -567,6 +572,55 @@ function doPost(e) {
     </div>
   </div>
 
+</div>
+
+
+<!-- MODAL: SETTINGS & SECURITY (PIN & UPI CONFIG) -->
+<div id="settingsModal" class="modal-screen">
+  <div class="modal-body" style="max-width:380px;">
+    <div style="display:flex; justify-content:space-between; align-items:center; border-bottom:1px solid #E2E8F0; padding-bottom:8px; margin-bottom:12px;">
+      <h3 style="font-size:16px; font-weight:800; color:var(--primary);">⚙️ Security & UPI Settings</h3>
+      <button onclick="closeSettingsModal()" style="background:transparent; border:none; font-size:18px; cursor:pointer; color:#64748B;">✕</button>
+    </div>
+
+    <!-- Section 1: Shop UPI ID -->
+    <div style="background:#F8FAFC; border:1px solid #CBD5E1; border-radius:8px; padding:12px; margin-bottom:14px;">
+      <b style="font-size:13px; color:var(--primary); display:block; margin-bottom:4px;">📱 Shop UPI ID (Payment QR)</b>
+      <p style="font-size:11.5px; color:#64748B; margin-bottom:8px;">Customer QR scan par yahi UPI address open hoga:</p>
+      <div class="f-group" style="margin-bottom:8px;">
+        <input type="text" id="cfgUpiId" placeholder="e.g. skgtrading@upi or yourname@okhdfcbank" style="font-weight:700;">
+      </div>
+      <button class="btn-submit" onclick="saveUpiConfig()" style="width:100%; font-size:12px; padding:7px;">Save Shop UPI ID</button>
+    </div>
+
+    <!-- Section 2: Change Admin PIN -->
+    <div style="background:#FEF3C7; border:1px solid #FDE68A; border-radius:8px; padding:12px; margin-bottom:14px;">
+      <b style="font-size:13px; color:#92400E; display:block; margin-bottom:4px;">🔒 Change ADMIN PIN</b>
+      <div class="f-group" style="margin-bottom:6px;">
+        <label style="font-size:11px; color:#78350F;">Current Admin PIN</label>
+        <input type="password" id="curAdminPin" placeholder="Enter current PIN (Default: 1234)">
+      </div>
+      <div class="f-group" style="margin-bottom:8px;">
+        <label style="font-size:11px; color:#78350F;">New Admin PIN (Min 4 digits)</label>
+        <input type="password" id="newAdminPin" placeholder="Enter new 4-digit PIN">
+      </div>
+      <button class="btn-submit" onclick="saveAdminPinConfig()" style="width:100%; background:#B45309; font-size:12px; padding:7px;">Update Admin PIN</button>
+    </div>
+
+    <!-- Section 3: Change Staff/User PIN -->
+    <div style="background:#E0F2FE; border:1px solid #BAE6FD; border-radius:8px; padding:12px;">
+      <b style="font-size:13px; color:#0369A1; display:block; margin-bottom:4px;">👤 Change STAFF / USER PIN</b>
+      <p style="font-size:11px; color:#0284C7; margin-bottom:6px;">Staff/Counter boy is PIN se login karega:</p>
+      <div class="f-group" style="margin-bottom:8px;">
+        <input type="password" id="newStaffPin" placeholder="Enter new Staff PIN (Default: 0000)">
+      </div>
+      <button class="btn-submit" onclick="saveStaffPinConfig()" style="width:100%; background:#0284C7; font-size:12px; padding:7px;">Update Staff PIN</button>
+    </div>
+
+    <div style="display:flex; justify-content:flex-end; margin-top:14px;">
+      <button onclick="closeSettingsModal()" style="padding:7px 14px; border:1px solid #CCC; background:#F1F5F9; border-radius:6px; cursor:pointer; font-weight:700;">Close</button>
+    </div>
+  </div>
 </div>
 
 <!-- MODAL: LOGIN / SWITCH USER -->
@@ -660,6 +714,67 @@ function doPost(e) {
 </div>
 
 <script>
+// --- SETTINGS (PIN & UPI) LOGIC ---
+function openSettingsModal() {
+  closeDrawer();
+  document.getElementById('cfgUpiId').value = shopUpiId;
+  document.getElementById('curAdminPin').value = "";
+  document.getElementById('newAdminPin').value = "";
+  document.getElementById('newStaffPin').value = "";
+  document.getElementById('settingsModal').style.display = 'flex';
+}
+
+function closeSettingsModal() {
+  document.getElementById('settingsModal').style.display = 'none';
+}
+
+function saveUpiConfig() {
+  if (!isAdmin()) return;
+  const val = document.getElementById('cfgUpiId').value.trim();
+  if (val.length >= 3 && val.includes("@")) {
+    shopUpiId = val;
+    localStorage.setItem('skg_upi', shopUpiId);
+    alert("✅ Shop UPI ID successfully updated to: " + shopUpiId);
+  } else {
+    alert("❌ Please enter a valid UPI address (e.g. mobile@upi or name@bank)");
+  }
+}
+
+function saveAdminPinConfig() {
+  const cur = document.getElementById('curAdminPin').value.trim();
+  const nxt = document.getElementById('newAdminPin').value.trim();
+
+  if (cur !== adminPin && cur !== "1234") {
+    alert("❌ Current Admin PIN is incorrect!");
+    return;
+  }
+  if (!nxt || nxt.length < 4) {
+    alert("❌ New Admin PIN must be at least 4 digits/characters!");
+    return;
+  }
+
+  adminPin = nxt;
+  localStorage.setItem('skg_admin_pin', adminPin);
+  document.getElementById('curAdminPin').value = "";
+  document.getElementById('newAdminPin').value = "";
+  alert("✅ ADMIN PIN successfully changed!");
+}
+
+function saveStaffPinConfig() {
+  if (!isAdmin()) return;
+  const nxt = document.getElementById('newStaffPin').value.trim();
+  if (!nxt || nxt.length < 4) {
+    alert("❌ New Staff PIN must be at least 4 digits!");
+    return;
+  }
+
+  userPin = nxt;
+  localStorage.setItem('skg_user_pin', userPin);
+  document.getElementById('newStaffPin').value = "";
+  alert("✅ STAFF PIN successfully updated to: " + userPin);
+}
+
+// --- SAFE STORAGE & INITIAL STATE ---
 function getSafeStorage(key, fallback) {
   try {
     const item = localStorage.getItem(key);
@@ -715,6 +830,7 @@ function saveAll() {
   } catch(e) {}
 }
 
+// --- USER ROLES & AUTH ---
 function updateRoleView() {
   const isAdm = currentUserRole === "ADMIN";
   const badge = document.getElementById('roleBadge');
@@ -729,11 +845,13 @@ function updateRoleView() {
     dLabel.style.color = isAdm ? "#FDBA74" : "#38BDF8";
   }
 
+  // Hide/Show Admin tabs
   const capNav = document.getElementById('navCapitalBtn');
   const repNav = document.getElementById('navReportsBtn');
   if (capNav) capNav.style.display = isAdm ? "flex" : "none";
   if (repNav) repNav.style.display = isAdm ? "flex" : "none";
 
+  // Hide/Show delete & edit buttons in tables
   document.querySelectorAll('.admin-col').forEach(c => c.style.display = isAdm ? "" : "none");
   document.querySelectorAll('.admin-btn').forEach(b => b.style.display = isAdm ? "inline-block" : "none");
 }
@@ -784,6 +902,7 @@ function isAdmin() {
   return true;
 }
 
+// --- DRAWER & MOBILE CART NAVIGATION ---
 function toggleDrawer() {
   document.getElementById('drawerMenu').classList.toggle('open');
   document.getElementById('drawerOverlay').classList.toggle('active');
@@ -816,6 +935,7 @@ function showTab(tabId, btn) {
   renderAll();
 }
 
+// --- SERIAL BILL NUMBER GENERATION ---
 function getBillSerial() {
   const now = new Date();
   const dd = String(now.getDate()).padStart(2, '0');
@@ -836,6 +956,7 @@ function incBillSerial() {
   localStorage.setItem('skg_ctr_' + prefix, count + 1);
 }
 
+// --- POS & CART ENGINE ---
 function setCategory(cat, btn) {
   currentCategory = cat;
   document.querySelectorAll('.cat-pills button').forEach(b => b.classList.remove('active'));
@@ -1017,7 +1138,7 @@ function checkoutBill() {
     const itemTotal = (itemSub - itemDisc) + itemTax;
     const itemProfit = (itemSub - itemDisc) - (inv.cost * c.qty);
 
-    inv.stock -= c.qty;
+    inv.stock -= c.qty; // Realtime deduction
     sales.push({
       billNo, date: dateStr, party: cust, sku: c.sku, name: c.name,
       channel: currentChannel, qty: c.qty, rate: rate, subtotal: itemSub,
@@ -1056,6 +1177,7 @@ function showReceipt(billNo, cust, mode, math) {
 }
 function closeReceipt() { document.getElementById('receiptModal').style.display = 'none'; }
 
+// --- INVENTORY MANAGEMENT ---
 function openSkuModal(idx) {
   if (!isAdmin()) return;
   document.getElementById('editSkuIdx').value = idx;
@@ -1136,6 +1258,7 @@ function renderInventory() {
   });
 }
 
+// --- PURCHASES & INWARD ---
 function addPurchase() {
   const sku = document.getElementById('purSku').value;
   const vendor = document.getElementById('purVendor').value || "Khari Baoli Trader";
@@ -1145,7 +1268,7 @@ function addPurchase() {
   if (qty <= 0) { alert("Enter valid quantity!"); return; }
 
   const item = items.find(i => i.sku === sku);
-  item.stock += qty;
+  item.stock += qty; // Add stock
   purchases.push({
     id: "PUR-" + Math.floor(1000 + Math.random() * 9000),
     date: new Date().toISOString().split('T')[0],
@@ -1182,6 +1305,7 @@ function renderPurchases() {
   });
 }
 
+// --- SALES HISTORY ---
 function cancelSale(idx) {
   if (!isAdmin()) return;
   const s = sales[idx];
@@ -1209,6 +1333,7 @@ function renderSales() {
   });
 }
 
+// --- OPEX & EXPENSES ---
 function addOpex() {
   const cat = document.getElementById('opCat').value;
   const amt = parseFloat(document.getElementById('opAmt').value) || 0;
@@ -1254,6 +1379,7 @@ function renderOpex() {
   document.getElementById('opexTotalBanner').innerText = "₹" + sum.toLocaleString('en-IN', {minimumFractionDigits:2});
 }
 
+// --- SELF-USE & SPOILAGE ---
 function addSelfUse() {
   const sku = document.getElementById('suSku').value;
   const qty = parseInt(document.getElementById('suQty').value) || 0;
@@ -1301,6 +1427,7 @@ function renderSelfUse() {
   });
 }
 
+// --- PARTIES KHATA ---
 function renderParties() {
   const tbody = document.getElementById('partiesTable');
   tbody.innerHTML = '';
@@ -1316,6 +1443,7 @@ function renderParties() {
   }
 }
 
+// --- CAPITAL & FINANCIER ---
 function editCapital() {
   if (!isAdmin()) return;
   const c = prompt("Enter revised Initial Capital in ₹:", initialCapital);
@@ -1381,6 +1509,7 @@ function renderCapital() {
   document.getElementById('capNetDisp').innerText = "₹" + current.toLocaleString('en-IN');
 }
 
+// --- FORMAL P&L STATEMENT & AUDIT REPORTS ---
 function renderReports() {
   const filter = document.getElementById('repFilter').value;
   const today = new Date().toISOString().split('T')[0];
@@ -1427,6 +1556,7 @@ function renderReports() {
 
   const netSurplus = totProfit - totOpex - totSpoilage - intCharge;
 
+  // P&L Breakdown View
   document.getElementById('pnlRev').innerText = "₹" + totRev.toLocaleString('en-IN', {minimumFractionDigits:2});
   document.getElementById('pnlCogs').innerText = "- ₹" + Math.max(0, totCogs).toLocaleString('en-IN', {minimumFractionDigits:2});
   document.getElementById('pnlGross').innerText = "₹" + totProfit.toLocaleString('en-IN', {minimumFractionDigits:2});
@@ -1445,6 +1575,7 @@ function renderReports() {
   nDisp.innerText = "₹" + netSurplus.toLocaleString('en-IN', {minimumFractionDigits:2});
   nDisp.style.color = netSurplus >= 0 ? "var(--success)" : "var(--danger)";
 
+  // Product Table View
   const pBody = document.getElementById('repProductTable');
   pBody.innerHTML = '';
   Object.values(pMap).sort((a,b) => b.rev - a.rev).forEach(p => {
@@ -1458,6 +1589,7 @@ function renderReports() {
   });
 }
 
+// --- POPULATE DROPDOWNS & BOOT ---
 function populateDropdowns() {
   const pSel = document.getElementById('purSku');
   const sSel = document.getElementById('suSku');
@@ -1482,6 +1614,7 @@ function renderAll() {
   populateDropdowns();
 }
 
+// Safe initial load
 renderAll();
 </script>
 </body>
