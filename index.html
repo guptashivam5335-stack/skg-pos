@@ -2,669 +2,542 @@
 <html lang="hi">
 <head>
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>SKG Trading Co. | The Foodophiles POS & ERP v4.0</title>
-<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+<title>SKG Trading Co. | The Foodophiles POS & ERP</title>
 <style>
   :root {
     --primary: #1B365D;
-    --primary-light: #2a4d7d;
+    --primary-light: #254B82;
     --accent: #E67E22;
     --success: #27AE60;
     --danger: #E74C3C;
     --bg: #F4F6F9;
     --card: #FFFFFF;
-    --text: #2C3E50;
-    --text-muted: #7F8C8D;
-    --border: #E2E8F0;
+    --text: #1E293B;
+    --text-muted: #64748B;
+    --border: #CBD5E1;
   }
-  * { box-sizing: border-box; margin: 0; padding: 0; font-family: 'Inter', sans-serif; }
-  body { background: var(--bg); color: var(--text); display: flex; height: 100vh; overflow: hidden; }
+  * { box-sizing: border-box; margin: 0; padding: 0; font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Oxygen, Ubuntu, Cantarell, sans-serif; -webkit-tap-highlight-color: transparent; }
+  body { background: var(--bg); color: var(--text); min-height: 100vh; display: flex; flex-direction: column; }
 
-  aside {
-    width: 255px; background: var(--primary); color: white; display: flex;
-    flex-direction: column; justify-content: space-between; padding: 18px 10px;
-    box-shadow: 2px 0 10px rgba(0,0,0,0.1); flex-shrink: 0;
-  }
-  .brand { padding: 0 10px 16px; border-bottom: 1px solid rgba(255,255,255,0.12); }
-  .brand h1 { font-size: 16px; font-weight: 800; color: #FFF; letter-spacing: 0.5px; }
-  .brand span { font-size: 11.5px; color: #F39C12; font-weight: 600; display: block; margin-top: 2px; }
-  
-  nav { margin-top: 14px; display: flex; flex-direction: column; gap: 4px; }
-  nav button {
-    background: transparent; border: none; color: #CBD5E1; text-align: left;
-    padding: 9.5px 12px; border-radius: 8px; font-size: 12.5px; font-weight: 500;
-    cursor: pointer; display: flex; align-items: center; gap: 8px; transition: all 0.2s;
-  }
-  nav button:hover { background: var(--primary-light); color: #FFF; }
-  nav button.active { background: var(--accent); color: white; font-weight: 700; }
-  
-  .sidebar-footer { font-size: 10.5px; color: #94A3B8; padding: 10px; text-align: center; border-top: 1px solid rgba(255,255,255,0.12); }
-
-  main { flex: 1; display: flex; flex-direction: column; overflow: hidden; }
   header {
-    background: white; padding: 11px 22px; border-bottom: 1px solid var(--border);
+    background: var(--primary); color: white; padding: 10px 14px;
     display: flex; justify-content: space-between; align-items: center;
+    position: sticky; top: 0; z-index: 1000; box-shadow: 0 2px 8px rgba(0,0,0,0.15);
   }
-  .header-title h2 { font-size: 17px; font-weight: 700; color: var(--primary); }
-  .header-actions { display: flex; gap: 10px; align-items: center; }
-  .badge-btn {
-    font-size: 11.5px; font-weight: 600; padding: 5px 12px; border-radius: 20px;
-    cursor: pointer; border: 1px solid transparent; display: flex; align-items: center; gap: 5px;
+  .nav-left { display: flex; align-items: center; gap: 10px; }
+  .menu-btn {
+    background: rgba(255,255,255,0.15); border: none; color: white;
+    font-size: 20px; width: 36px; height: 36px; border-radius: 6px; cursor: pointer; display: flex; align-items: center; justify-content: center;
   }
-  .badge-admin { background: #FEF3C7; color: #B45309; border-color: #FDE68A; }
-  .badge-upi { background: #E0F2FE; color: #0369A1; border-color: #BAE6FD; }
+  .brand-title { font-size: 15px; font-weight: 800; letter-spacing: 0.5px; }
+  .brand-sub { font-size: 11px; color: #FDBA74; font-weight: 600; display: block; }
 
-  .content-area { flex: 1; padding: 16px; overflow-y: auto; }
-  .view-panel { display: none; }
-  .view-panel.active { display: block; min-height: 100%; }
+  .nav-right { display: flex; align-items: center; gap: 8px; }
+  .user-badge {
+    padding: 5px 10px; border-radius: 20px; font-size: 11.5px; font-weight: 700;
+    cursor: pointer; border: 1px solid rgba(255,255,255,0.2);
+  }
+  .badge-admin { background: #FEF3C7; color: #92400E; }
+  .badge-staff { background: #E0F2FE; color: #075985; }
 
-  .pos-container { display: grid; grid-template-columns: 1fr 390px; gap: 16px; height: 100%; }
-  .pos-products { background: white; border-radius: 10px; padding: 14px; border: 1px solid var(--border); overflow-y: auto; }
-  .pos-cart { background: white; border-radius: 10px; padding: 14px; border: 1px solid var(--border); display: flex; flex-direction: column; justify-content: space-between; overflow-y: auto; }
+  .drawer-overlay {
+    display: none; position: fixed; inset: 0; background: rgba(0,0,0,0.5); z-index: 1100;
+  }
+  .drawer-overlay.active { display: block; }
+  .drawer {
+    position: fixed; top: 0; left: 0; bottom: 0; width: 260px; background: #0F172A;
+    color: white; z-index: 1200; transform: translateX(-100%); transition: transform 0.25s ease;
+    display: flex; flex-direction: column; justify-content: space-between; padding: 18px 12px;
+  }
+  .drawer.open { transform: translateX(0); }
+  .drawer-nav { display: flex; flex-direction: column; gap: 4px; margin-top: 15px; overflow-y: auto; }
+  .drawer-nav button {
+    background: transparent; border: none; color: #CBD5E1; text-align: left;
+    padding: 11px 14px; border-radius: 8px; font-size: 13px; font-weight: 600;
+    cursor: pointer; display: flex; align-items: center; gap: 10px;
+  }
+  .drawer-nav button:hover { background: rgba(255,255,255,0.1); color: white; }
+  .drawer-nav button.active { background: var(--accent); color: white; }
+
+  .app-container { flex: 1; padding: 12px; max-width: 1300px; width: 100%; margin: 0 auto; display: flex; flex-direction: column; }
+  .view-tab { display: none; }
+  .view-tab.active { display: block; }
+
+  .pos-grid-layout { display: grid; grid-template-columns: 1fr 380px; gap: 14px; }
+  @media (max-width: 880px) {
+    .pos-grid-layout { grid-template-columns: 1fr; }
+    .pos-cart-box { display: none; }
+    .pos-cart-box.mobile-open {
+      display: flex !important; position: fixed; inset: 0; z-index: 1300;
+      background: white; border-radius: 0; padding: 14px; overflow-y: auto;
+    }
+  }
+
+  .pos-product-box { background: white; border-radius: 10px; padding: 12px; border: 1px solid var(--border); box-shadow: 0 1px 3px rgba(0,0,0,0.05); }
+  .search-row { display: flex; gap: 8px; margin-bottom: 10px; }
+  .search-row input {
+    flex: 1; padding: 10px 12px; border: 1px solid var(--border); border-radius: 8px; font-size: 14px; outline: none;
+  }
+  .cat-pills { display: flex; gap: 6px; overflow-x: auto; padding-bottom: 6px; margin-bottom: 10px; }
+  .pill {
+    padding: 6px 12px; border-radius: 20px; font-size: 12px; font-weight: 600;
+    background: #E2E8F0; color: #334155; white-space: nowrap; cursor: pointer; border: none;
+  }
+  .pill.active { background: var(--primary); color: white; }
+
+  .product-cards { display: grid; grid-template-columns: repeat(auto-fill, minmax(140px, 1fr)); gap: 10px; }
+  .p-card {
+    border: 1px solid var(--border); border-radius: 8px; padding: 10px; background: #F8FAFC;
+    cursor: pointer; display: flex; flex-direction: column; justify-content: space-between; min-height: 105px;
+  }
+  .p-card:active { background: #E2E8F0; transform: scale(0.98); }
+  .p-title { font-size: 12.5px; font-weight: 700; color: #1E293B; line-height: 1.3; }
+  .p-cat { font-size: 11px; color: #64748B; margin: 3px 0; }
+  .p-bottom { display: flex; justify-content: space-between; align-items: center; margin-top: 6px; }
+  .p-price { font-size: 14px; font-weight: 800; color: var(--primary); }
+  .p-stock { font-size: 10px; font-weight: 700; padding: 2px 6px; border-radius: 4px; }
+  .stock-ok { background: #DCFCE7; color: #166534; }
+  .stock-low { background: #FEE2E2; color: #991B1B; }
+
+  .pos-cart-box {
+    background: white; border-radius: 10px; padding: 14px; border: 1px solid var(--border);
+    display: flex; flex-direction: column; justify-content: space-between; min-height: 520px;
+  }
+  .cart-head { display: flex; justify-content: space-between; align-items: center; border-bottom: 1px solid var(--border); padding-bottom: 8px; }
+  .cart-items-wrap { flex: 1; overflow-y: auto; max-height: 220px; margin: 8px 0; display: flex; flex-direction: column; gap: 6px; }
+  .cart-row { display: flex; justify-content: space-between; align-items: center; background: #F1F5F9; padding: 8px; border-radius: 6px; font-size: 12px; }
+  .q-btn { width: 26px; height: 26px; border: 1px solid var(--border); background: white; border-radius: 4px; font-weight: 800; cursor: pointer; }
   
-  .search-bar { display: flex; gap: 8px; margin-bottom: 12px; }
-  .search-bar input {
-    flex: 1; padding: 9px 12px; border: 1px solid var(--border); border-radius: 8px; font-size: 13.5px; outline: none;
+  .calc-row { display: flex; justify-content: space-between; align-items: center; margin-bottom: 5px; font-size: 12px; }
+  .btn-pay {
+    width: 100%; background: var(--success); color: white; border: none; padding: 12px;
+    border-radius: 8px; font-size: 15px; font-weight: 800; cursor: pointer; margin-top: 8px;
   }
-  .filter-chips { display: flex; gap: 6px; margin-bottom: 12px; overflow-x: auto; padding-bottom: 4px; }
-  .chip {
-    padding: 5px 12px; border-radius: 20px; font-size: 11.5px; background: #EEF2F6;
-    cursor: pointer; border: 1px solid transparent; white-space: nowrap; font-weight: 500;
-  }
-  .chip.active { background: var(--primary); color: white; }
+  .btn-pay:active { background: #15803D; }
 
-  .product-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(160px, 1fr)); gap: 10px; }
-  .product-card {
-    border: 1px solid var(--border); border-radius: 8px; padding: 10px; cursor: pointer;
-    background: #FAFAFA; transition: 0.15s; display: flex; flex-direction: column; justify-content: space-between;
+  .mobile-bottom-bar {
+    display: none; position: fixed; bottom: 0; left: 0; right: 0; background: var(--primary);
+    color: white; padding: 12px 18px; justify-content: space-between; align-items: center;
+    box-shadow: 0 -3px 10px rgba(0,0,0,0.2); z-index: 1000; cursor: pointer;
   }
-  .product-card:hover { border-color: var(--accent); transform: translateY(-2px); box-shadow: 0 4px 10px rgba(0,0,0,0.05); }
-  .product-name { font-weight: 600; font-size: 12.5px; color: var(--text); margin-bottom: 4px; }
-  .product-meta { font-size: 11px; color: var(--text-muted); margin-bottom: 6px; }
-  .product-price { font-size: 13.5px; font-weight: 700; color: var(--primary); }
-  .stock-pill { font-size: 9.5px; padding: 2px 5px; border-radius: 4px; float: right; font-weight: 700; }
-  .stock-good { background: #E8F5E9; color: #2E7D32; }
-  .stock-low { background: #FFEBEE; color: #C62828; }
+  @media (max-width: 880px) {
+    .mobile-bottom-bar { display: flex; }
+    .app-container { padding-bottom: 75px; }
+  }
 
-  .cart-header { display: flex; justify-content: space-between; align-items: center; border-bottom: 1px solid var(--border); padding-bottom: 8px; }
-  .channel-toggle { display: flex; gap: 4px; margin: 8px 0; background: #EEF2F6; padding: 3px; border-radius: 6px; }
-  .channel-toggle button {
-    flex: 1; border: none; padding: 6px; border-radius: 5px; font-size: 11.5px; font-weight: 600; cursor: pointer;
-  }
-  .channel-toggle button.active { background: white; color: var(--primary); box-shadow: 0 2px 4px rgba(0,0,0,0.06); }
-  
-  .cart-items { flex: 1; overflow-y: auto; margin: 8px 0; padding-right: 2px; display: flex; flex-direction: column; gap: 6px; max-height: 190px; }
-  .cart-item-row { display: flex; justify-content: space-between; align-items: center; background: #F8FAFC; padding: 6px 8px; border-radius: 6px; font-size: 12px; }
-  .qty-btn { width: 20px; height: 20px; border: 1px solid var(--border); background: white; border-radius: 4px; cursor: pointer; font-weight: bold; }
-  
-  .cart-summary { border-top: 1px solid var(--border); padding-top: 8px; }
-  .summary-row { display: flex; justify-content: space-between; align-items: center; margin-bottom: 5px; font-size: 12px; }
-  .summary-total { font-size: 16px; font-weight: 800; color: var(--primary); margin: 6px 0; }
-  
-  .btn-checkout {
-    width: 100%; background: var(--success); color: white; border: none; padding: 11px;
-    border-radius: 8px; font-weight: 700; font-size: 14px; cursor: pointer; transition: 0.2s;
-  }
-  .btn-checkout:hover { background: #219653; }
+  .card-box { background: white; border-radius: 10px; padding: 14px; border: 1px solid var(--border); box-shadow: 0 1px 3px rgba(0,0,0,0.05); }
+  .scroll-table { width: 100%; overflow-x: auto; -webkit-overflow-scrolling: touch; margin-top: 10px; }
+  table { width: 100%; border-collapse: collapse; font-size: 12.5px; min-width: 600px; }
+  th, td { padding: 9px 10px; text-align: left; border-bottom: 1px solid var(--border); white-space: nowrap; }
+  th { background: #F8FAFC; color: #475569; font-weight: 700; font-size: 12px; }
 
-  .table-card { background: white; border-radius: 10px; padding: 16px; border: 1px solid var(--border); box-shadow: 0 1px 3px rgba(0,0,0,0.02); }
-  table { width: 100%; border-collapse: collapse; font-size: 12.5px; margin-top: 12px; }
-  th, td { padding: 9px 10px; text-align: left; border-bottom: 1px solid var(--border); }
-  th { background: #F8FAFC; color: var(--text-muted); font-weight: 600; font-size: 11.5px; }
-  
-  .btn-action { padding: 3px 8px; border-radius: 4px; font-size: 11px; font-weight: 600; cursor: pointer; border: 1px solid transparent; }
-  .btn-edit { background: #E0F2FE; color: #0284C7; border-color: #BAE6FD; margin-right: 4px; }
-  .btn-del { background: #FEE2E2; color: #DC2626; border-color: #FCA5A5; }
+  .form-row { display: grid; grid-template-columns: repeat(auto-fit, minmax(160px, 1fr)); gap: 10px; margin-bottom: 12px; }
+  .f-group label { display: block; font-size: 11.5px; font-weight: 700; color: #475569; margin-bottom: 3px; }
+  .f-group input, .f-group select {
+    width: 100%; padding: 8px 10px; border: 1px solid var(--border); border-radius: 6px; font-size: 13px; outline: none; background: white;
+  }
+  .btn-submit {
+    background: var(--primary); color: white; border: none; padding: 9px 16px; border-radius: 6px;
+    font-size: 13px; font-weight: 700; cursor: pointer;
+  }
 
-  .form-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(170px, 1fr)); gap: 10px; margin-bottom: 14px; }
-  .form-group label { display: block; font-size: 11.5px; font-weight: 600; margin-bottom: 3px; color: var(--text-muted); }
-  .form-group input, .form-group select {
-    width: 100%; padding: 7px 9px; border: 1px solid var(--border); border-radius: 6px; font-size: 12.5px; outline: none;
+  .modal-screen {
+    display: none; position: fixed; inset: 0; background: rgba(0,0,0,0.6);
+    justify-content: center; align-items: center; z-index: 2000; padding: 14px;
   }
-  .btn-primary {
-    background: var(--primary); color: white; border: none; padding: 8px 16px; border-radius: 6px;
-    font-size: 12.5px; font-weight: 600; cursor: pointer;
+  .modal-body {
+    background: white; border-radius: 10px; width: 100%; max-width: 420px;
+    padding: 18px; box-shadow: 0 10px 25px rgba(0,0,0,0.25); max-height: 90vh; overflow-y: auto;
   }
-  .btn-primary:hover { background: var(--primary-light); }
-
-  /* MODALS */
-  .modal-overlay {
-    display: none; position: fixed; inset: 0; background: rgba(0,0,0,0.55);
-    justify-content: center; align-items: center; z-index: 1000;
-  }
-  .modal-box {
-    background: white; width: 330px; padding: 18px; border-radius: 10px; box-shadow: 0 10px 25px rgba(0,0,0,0.2);
-  }
-  .receipt-box {
-    background: white; width: 320px; padding: 18px; border-radius: 8px; font-family: monospace; font-size: 11px; max-height: 90vh; overflow-y: auto;
-  }
-  .receipt-center { text-align: center; margin-bottom: 8px; }
-  .receipt-divider { border-bottom: 1px dashed #333; margin: 6px 0; }
-  .print-actions { margin-top: 14px; display: flex; gap: 8px; }
-
-  @media print {
-    aside, header, .filter-chips, .search-bar, .channel-toggle, .btn-checkout, .btn-primary, .btn-action, button, select, input { display: none !important; }
-    body, main, .content-area { height: auto !important; overflow: visible !important; background: white !important; }
-    .table-card { border: none !important; box-shadow: none !important; padding: 0 !important; }
+  .receipt-view {
+    background: white; width: 100%; max-width: 320px; padding: 16px; border-radius: 8px; font-family: monospace; font-size: 11px;
   }
 </style>
 </head>
 <body>
 
-<aside>
+<header>
+  <div class="nav-left">
+    <button class="menu-btn" onclick="toggleDrawer()">☰</button>
+    <div>
+      <span class="brand-title">SKG TRADING CO.</span>
+      <span class="brand-sub">The Foodophiles • Wazirabad</span>
+    </div>
+  </div>
+  <div class="nav-right">
+    <span class="user-badge badge-admin" id="roleBadge" onclick="openLogin()">👤 ADMIN</span>
+  </div>
+</header>
+
+<div class="drawer-overlay" id="drawerOverlay" onclick="closeDrawer()"></div>
+<div class="drawer" id="drawerMenu">
   <div>
-    <div class="brand">
-      <h1>SKG TRADING CO.</h1>
-      <span>The Foodophiles (Wazirabad)</span>
+    <div style="display:flex; justify-content:space-between; align-items:center; border-bottom:1px solid rgba(255,255,255,0.15); padding-bottom:12px;">
+      <b style="font-size:15px; color:#FDBA74;">Navigation Menu</b>
+      <button onclick="closeDrawer()" style="background:transparent; border:none; color:white; font-size:20px; cursor:pointer;">✕</button>
     </div>
-    <nav>
-      <button class="active" onclick="switchTab('posTab', this)">🛒 Quick POS Terminal</button>
-      <button onclick="switchTab('inventoryTab', this)">📦 Live Inventory Master</button>
-      <button onclick="switchTab('purchaseTab', this)">📥 Purchases & Inward</button>
-      <button onclick="switchTab('salesLogTab', this)">🧾 Sales Invoices History</button>
-      <button onclick="switchTab('selfuseTab', this)">☕ Self-Use & Spoilage</button>
-      <button onclick="switchTab('partiesTab', this)">👥 Party Ledgers (Khata)</button>
-      <button onclick="switchTab('capitalTab', this)">💰 Capital & Drawings</button>
-      <button onclick="switchTab('reportsTab', this)">📊 Comprehensive Reports</button>
-      <button onclick="switchTab('connectTab', this)">🔗 Google Sheet Sync</button>
-    </nav>
+    <div class="drawer-nav">
+      <button class="active" onclick="showTab('posView', this)">🛒 Quick Billing (POS)</button>
+      <button onclick="showTab('inventoryView', this)">📦 Live Inventory Stock</button>
+      <button onclick="showTab('purchasesView', this)">📥 Purchases Inward</button>
+      <button onclick="showTab('salesView', this)">🧾 Sales Invoices History</button>
+      <button onclick="showTab('opexView', this)">💼 OPEX (Shop Expenses)</button>
+      <button onclick="showTab('selfuseView', this)">☕ Spoilage & Self-Use</button>
+      <button onclick="showTab('partiesView', this)">👥 Party Ledgers (Khata)</button>
+      <button id="navCapitalBtn" onclick="showTab('capitalView', this)">💰 Capital & Financier</button>
+      <button id="navReportsBtn" onclick="showTab('reportsView', this)">📊 Reports & Full PnL</button>
+    </div>
   </div>
-  <div class="sidebar-footer">
-    v4.0 Enhanced ERP & POS<br>Serial Bills • GST • Dynamic UPI QR
+  <div style="font-size:11px; color:#94A3B8; text-align:center;">
+    User: <b id="drawerUserLabel" style="color:#FDBA74;">ADMIN</b><br>
+    <a href="javascript:void(0)" onclick="openLogin()" style="color:#38BDF8; font-weight:700;">Switch / Login</a>
   </div>
-</aside>
+</div>
 
-<main>
-  <header>
-    <div class="header-title">
-      <h2 id="viewHeading">🛒 POS Billing Counter</h2>
-    </div>
-    <div class="header-actions">
-      <span class="badge-btn badge-upi" onclick="configureShopUPI()">📱 Shop UPI: <b id="dispShopUpi">skgtrading@upi</b></span>
-      <span class="badge-btn badge-admin" onclick="changeAdminPin()">🔒 Owner PIN: Active</span>
-    </div>
-  </header>
+<div class="app-container">
 
-  <div class="content-area">
-    
-    <!-- 1. POS TAB -->
-    <div id="posTab" class="view-panel active">
-      <div class="pos-container">
-        
-        <!-- Products Left -->
-        <div class="pos-products">
-          <div class="search-bar">
-            <input type="text" id="searchBox" placeholder="🔍 Search Item Name, Category, or SKU..." oninput="filterProducts()">
+  <!-- 1. POS VIEW -->
+  <div id="posView" class="view-tab active">
+    <div class="pos-grid-layout">
+      
+      <div class="pos-product-box">
+        <div class="search-row">
+          <input type="text" id="searchInput" placeholder="🔍 Search Item, Category, SKU..." oninput="renderProducts()">
+        </div>
+        <div class="cat-pills">
+          <button class="pill active" onclick="setCategory('ALL', this)">All</button>
+          <button class="pill" onclick="setCategory('Bakery', this)">Cakes & Pastries</button>
+          <button class="pill" onclick="setCategory('Dry Fruits', this)">Dry Fruits</button>
+          <button class="pill" onclick="setCategory('Tea Bakery', this)">Rusk & Fan</button>
+          <button class="pill" onclick="setCategory('Namkeen', this)">Namkeen</button>
+          <button class="pill" onclick="setCategory('Confectionery', this)">Toffees</button>
+          <button class="pill" onclick="setCategory('Beverages', this)">Beverages</button>
+        </div>
+        <div class="product-cards" id="productGrid"></div>
+      </div>
+
+      <div class="pos-cart-box" id="cartBox">
+        <div>
+          <div class="cart-head">
+            <b style="font-size:14px;">Current Invoice: <span id="billSerialNo" style="color:var(--primary);">INV...</span></b>
+            <div style="display:flex; gap:6px;">
+              <button onclick="clearCart()" style="border:none; background:#FEE2E2; color:#DC2626; padding:4px 8px; border-radius:4px; font-size:11.5px; font-weight:700; cursor:pointer;">Clear</button>
+              <button onclick="closeMobileCart()" style="display:none; border:1px solid #CCC; background:#E2E8F0; padding:4px 8px; border-radius:4px; font-size:11.5px; font-weight:700; cursor:pointer;" id="cartCloseBtn">✕ Close</button>
+            </div>
           </div>
-          <div class="filter-chips">
-            <span class="chip active" onclick="filterCategory('ALL', this)">All Items</span>
-            <span class="chip" onclick="filterCategory('Bakery', this)">Cakes & Pastries</span>
-            <span class="chip" onclick="filterCategory('Dry Fruits', this)">Dry Fruits</span>
-            <span class="chip" onclick="filterCategory('Tea Bakery', this)">Rusk & Fan</span>
-            <span class="chip" onclick="filterCategory('Namkeen', this)">Namkeen</span>
-            <span class="chip" onclick="filterCategory('Confectionery', this)">Toffee & Candy</span>
-            <span class="chip" onclick="filterCategory('Beverages', this)">Beverages</span>
+
+          <div style="display:flex; gap:4px; margin:8px 0; background:#E2E8F0; padding:3px; border-radius:6px;">
+            <button id="b2cBtn" style="flex:1; border:none; padding:6px; border-radius:4px; font-size:12px; font-weight:700; cursor:pointer; background:white; color:var(--primary);" onclick="setChannel('B2C')">B2C Retail</button>
+            <button id="b2bBtn" style="flex:1; border:none; padding:6px; border-radius:4px; font-size:12px; font-weight:700; cursor:pointer; background:transparent; color:#64748B;" onclick="setChannel('B2B')">B2B Wholesale</button>
           </div>
-          <div class="product-grid" id="productGrid"></div>
+
+          <input type="text" id="custName" placeholder="Customer Name (e.g. Walk-in / Sharma Paan)" value="Walk-in Customer" style="width:100%; padding:6px 10px; border:1px solid var(--border); border-radius:6px; font-size:12.5px; margin-bottom:6px;">
+
+          <div class="cart-items-wrap" id="cartItemsList">
+            <p style="text-align:center; color:var(--text-muted); font-size:12px; margin-top:30px;">Cart is empty.<br>Tap items to add.</p>
+          </div>
         </div>
 
-        <!-- Cart Right -->
-        <div class="pos-cart">
-          <div>
-            <div class="cart-header">
-              <h3 style="font-size:14.5px; font-weight:700;">Current Bill (<span id="nextBillNoLabel">INV...</span>)</h3>
-              <button onclick="clearCart()" style="border:none; background:transparent; color:var(--danger); cursor:pointer; font-size:11.5px; font-weight:600;">Clear</button>
-            </div>
-            
-            <div class="channel-toggle">
-              <button id="b2cBtn" class="active" onclick="setChannel('B2C')">B2C Retail (MRP)</button>
-              <button id="b2bBtn" onclick="setChannel('B2B')">B2B Wholesale</button>
-            </div>
-
-            <div style="margin: 6px 0;">
-              <input type="text" id="custName" placeholder="Customer Name (e.g. Walk-in / Sharma Paan)" value="Walk-in Customer" style="width:100%; padding:5px 8px; border:1px solid var(--border); border-radius:5px; font-size:12px;">
-            </div>
-
-            <div class="cart-items" id="cartItemsList">
-              <p style="text-align:center; color:var(--text-muted); font-size:12px; margin-top:35px;">Cart is empty.<br>Click items to add.</p>
-            </div>
-          </div>
-
-          <div class="cart-summary">
-            <div class="summary-row">
-              <span style="color:var(--text-muted);">Items Subtotal:</span>
-              <span id="cartSubtotalVal" style="font-weight:600;">₹0.00</span>
-            </div>
-
-            <div class="summary-row">
-              <span style="color:var(--text-muted);">Discount:</span>
-              <div style="display:flex; gap:4px; align-items:center;">
-                <input type="number" id="discountInput" value="0" min="0" oninput="calculateCartTotals()" style="width:60px; padding:2px 4px; border:1px solid var(--border); border-radius:4px; font-size:11.5px; text-align:right;">
-                <select id="discountType" onchange="calculateCartTotals()" style="border:1px solid var(--border); border-radius:4px; font-size:11px; padding:2px;">
-                  <option value="FLAT">₹ (Flat)</option>
-                  <option value="PCT">% (Pct)</option>
-                </select>
-              </div>
-            </div>
-
-            <div class="summary-row">
-              <span style="color:var(--text-muted);">GST Tax Rate:</span>
-              <select id="cartGstRate" onchange="calculateCartTotals()" style="border:1px solid var(--border); border-radius:4px; font-size:11.5px; padding:2px 4px;">
-                <option value="0">Exempted / Nil (0%)</option>
-                <option value="5">GST 5% (2.5% C + 2.5% S)</option>
-                <option value="12">GST 12% (6% C + 6% S)</option>
-                <option value="18">GST 18% (9% C + 9% S)</option>
-                <option value="28">GST 28% (14% C + 14% S)</option>
-                <option value="5_IGST">IGST 5% (Inter-State)</option>
-                <option value="12_IGST">IGST 12% (Inter-State)</option>
-                <option value="18_IGST">IGST 18% (Inter-State)</option>
+        <div>
+          <div class="calc-row"><span>Subtotal:</span><b id="subtotalDisp">₹0.00</b></div>
+          <div class="calc-row">
+            <span>Discount:</span>
+            <div style="display:flex; gap:4px;">
+              <input type="number" id="discInput" value="0" min="0" oninput="updateCartMath()" style="width:50px; padding:2px 4px; border:1px solid var(--border); border-radius:4px; text-align:right;">
+              <select id="discType" onchange="updateCartMath()" style="border:1px solid var(--border); border-radius:4px; font-size:11px;">
+                <option value="FLAT">₹</option>
+                <option value="PCT">%</option>
               </select>
             </div>
-            <div class="summary-row" id="gstTaxRow" style="display:none; color:#1E40AF; font-size:11px;">
-              <span>GST Tax Amount:</span>
-              <span id="cartGstAmountVal">₹0.00</span>
-            </div>
-
-            <div class="summary-row" style="margin-top:4px;">
-              <span>Payment Mode:</span>
-              <select id="payMode" onchange="toggleUpiQrBtn()" style="border:1px solid var(--border); border-radius:4px; padding:2px 5px; font-size:11.5px;">
-                <option value="UPI">UPI / QR Payment</option>
-                <option value="Cash">Cash Counter</option>
-              </select>
-            </div>
-
-            <div id="dynamicQrBox" style="margin: 6px 0;">
-              <button onclick="showDynamicUpiModal()" style="width:100%; background:#0284C7; color:white; border:none; padding:6px; border-radius:6px; font-size:12px; font-weight:600; cursor:pointer;">
-                📲 Show Exact Amount UPI QR Code
-              </button>
-            </div>
-
-            <div class="summary-row summary-total">
-              <span>Final Total:</span>
-              <span id="cartFinalTotalVal">₹0.00</span>
-            </div>
-            
-            <button class="btn-checkout" onclick="checkoutBill()">Generate Bill & Print Receipt</button>
           </div>
-        </div>
+          <div class="calc-row">
+            <span>GST Slab:</span>
+            <select id="gstSelect" onchange="updateCartMath()" style="border:1px solid var(--border); border-radius:4px; font-size:11px; padding:2px;">
+              <option value="0">Exempt / Nil (0%)</option>
+              <option value="5">GST 5% (2.5% C+S)</option>
+              <option value="12">GST 12% (6% C+S)</option>
+              <option value="18">GST 18% (9% C+S)</option>
+              <option value="28">GST 28% (14% C+S)</option>
+            </select>
+          </div>
+          <div class="calc-row" id="gstRow" style="display:none; color:#1E40AF;">
+            <span>GST Tax Amount:</span>
+            <span id="gstAmountDisp">₹0.00</span>
+          </div>
+          <div class="calc-row" style="margin-top:4px;">
+            <span>Payment Mode:</span>
+            <select id="paySelect" onchange="toggleUpiBtn()" style="border:1px solid var(--border); border-radius:4px; padding:2px;">
+              <option value="UPI">UPI / QR Code</option>
+              <option value="Cash">Cash Counter</option>
+            </select>
+          </div>
 
+          <button id="upiQrBtn" onclick="openUpiQrModal()" style="width:100%; background:#0284C7; color:white; border:none; padding:6px; border-radius:6px; font-size:11.5px; font-weight:700; margin:5px 0; cursor:pointer;">
+            📲 Show Exact Amount QR
+          </button>
+
+          <div class="calc-row" style="font-size:16px; font-weight:800; color:var(--primary); margin:6px 0;">
+            <span>Final Total:</span>
+            <span id="finalTotalDisp">₹0.00</span>
+          </div>
+          <button class="btn-pay" onclick="checkoutBill()">Generate Bill & Print Receipt</button>
+        </div>
       </div>
+
     </div>
 
-    <!-- 2. INVENTORY MASTER TAB -->
-    <div id="inventoryTab" class="view-panel">
-      <div class="table-card">
-        <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:12px;">
-          <div>
-            <h3 style="font-size:16px; font-weight:700;">📦 Real-Time Stock & SKU Master</h3>
-            <p style="font-size:12px; color:var(--text-muted);">Manage purchase cost, wholesale rate, retail MRP, and edit SKU parameters anytime.</p>
-          </div>
-          <button class="btn-primary" onclick="openAddSkuForm()">+ Register New SKU</button>
-        </div>
+    <div class="mobile-bottom-bar" onclick="openMobileCart()">
+      <span style="font-weight:700; font-size:13px;">🛒 View Cart (<span id="mobItemCount">0</span> items)</span>
+      <span style="font-weight:800; font-size:15px;" id="mobTotalAmount">₹0.00 ➔</span>
+    </div>
+  </div>
 
+  <!-- 2. INVENTORY VIEW -->
+  <div id="inventoryView" class="view-tab">
+    <div class="card-box">
+      <div style="display:flex; justify-content:space-between; align-items:center; flex-wrap:wrap; gap:8px;">
+        <h3 style="font-size:16px; font-weight:800;">📦 Live Stock & SKU Master</h3>
+        <button class="btn-submit admin-btn" onclick="openSkuModal(-1)">+ Register New SKU</button>
+      </div>
+      <div class="scroll-table">
         <table>
           <thead>
             <tr>
-              <th>SKU</th>
-              <th>Item Name</th>
-              <th>Category</th>
-              <th>Cost Price</th>
-              <th>Wholesale Rate</th>
-              <th>Retail MRP</th>
-              <th>Current Stock</th>
-              <th>Status</th>
-              <th>Actions</th>
+              <th>SKU</th><th>Item Name</th><th>Category</th><th>Cost (₹)</th><th>Wholesale (₹)</th><th>Retail (₹)</th><th>Stock</th><th>Status</th><th class="admin-col">Actions</th>
             </tr>
           </thead>
-          <tbody id="inventoryTableBody"></tbody>
+          <tbody id="inventoryTable"></tbody>
         </table>
       </div>
     </div>
+  </div>
 
-    <!-- 3. PURCHASES TAB -->
-    <div id="purchaseTab" class="view-panel">
-      <div class="table-card">
-        <h3 style="font-size:16px; margin-bottom:12px;">📥 Inward Stock / Purchase Entry (Khari Baoli & Sadar)</h3>
-        <div class="form-grid">
-          <div class="form-group"><label>Select Item</label><select id="purItemSelect"></select></div>
-          <div class="form-group"><label>Vendor / Supplier</label><input type="text" id="purVendor" placeholder="e.g. Khari Baoli Trader"></div>
-          <div class="form-group"><label>Quantity Inward</label><input type="number" id="purQty" placeholder="50"></div>
-          <div class="form-group"><label>Purchase Rate / Unit</label><input type="number" id="purRate" placeholder="158"></div>
-          <div class="form-group"><label>Payment Mode</label><select id="purPayMode"><option value="Cash">Cash</option><option value="Bank/NEFT">Bank Transfer</option><option value="UPI">UPI</option></select></div>
-        </div>
-        <button class="btn-primary" onclick="savePurchase()">Record Purchase & Add Stock</button>
-
-        <table style="margin-top:20px;">
-          <thead>
-            <tr>
-              <th>Purchase ID</th>
-              <th>Date</th>
-              <th>Item Name</th>
-              <th>Vendor</th>
-              <th>Qty Inward</th>
-              <th>Rate</th>
-              <th>Total Bill</th>
-              <th>Action</th>
-            </tr>
-          </thead>
-          <tbody id="purchaseTableBody"></tbody>
-        </table>
+  <!-- 3. PURCHASES VIEW -->
+  <div id="purchasesView" class="view-tab">
+    <div class="card-box">
+      <h3 style="font-size:16px; font-weight:800; margin-bottom:12px;">📥 Purchases & Inward Stock Entry</h3>
+      <div class="form-row">
+        <div class="f-group"><label>Select Item</label><select id="purSku"></select></div>
+        <div class="f-group"><label>Vendor</label><input type="text" id="purVendor" placeholder="Khari Baoli Trader"></div>
+        <div class="f-group"><label>Quantity Inward</label><input type="number" id="purQty" placeholder="50"></div>
+        <div class="f-group"><label>Rate / Unit (₹)</label><input type="number" id="purRate" placeholder="158"></div>
+        <div class="f-group"><label>Payment Mode</label><select id="purMode"><option value="Cash">Cash</option><option value="Bank">Bank Transfer</option><option value="UPI">UPI</option></select></div>
       </div>
-    </div>
+      <button class="btn-submit" onclick="addPurchase()">Record Inward Stock</button>
 
-    <!-- 4. SALES INVOICES HISTORY TAB -->
-    <div id="salesLogTab" class="view-panel">
-      <div class="table-card">
-        <h3 style="font-size:16px; margin-bottom:12px;">🧾 Serial Sales Invoices History</h3>
-        <p style="font-size:12px; color:var(--text-muted); margin-bottom:14px;">Formatted serially as <b>INV(DDMMYY)XX</b>. Owner PIN allows cancellation & stock auto-restoration.</p>
+      <div class="scroll-table">
         <table>
           <thead>
-            <tr>
-              <th>Bill No</th>
-              <th>Date</th>
-              <th>Customer</th>
-              <th>Item</th>
-              <th>Channel</th>
-              <th>Qty</th>
-              <th>Net Rate</th>
-              <th>GST Tax</th>
-              <th>Final Bill</th>
-              <th>Payment</th>
-              <th>Action</th>
-            </tr>
+            <tr><th>ID</th><th>Date</th><th>Item</th><th>Vendor</th><th>Qty</th><th>Rate</th><th>Total</th><th class="admin-col">Action</th></tr>
           </thead>
-          <tbody id="salesLogTableBody"></tbody>
+          <tbody id="purchasesTable"></tbody>
         </table>
       </div>
     </div>
+  </div>
 
-    <!-- 5. SELF-USE & SPOILAGE TAB -->
-    <div id="selfuseTab" class="view-panel">
-      <div class="table-card">
-        <h3 style="font-size:16px; margin-bottom:12px;">☕ Shop Self-Use, Tea Snacks & Spoilage / Damage Log</h3>
-        <div class="form-grid">
-          <div class="form-group"><label>Select Item</label><select id="selfItemSelect"></select></div>
-          <div class="form-group"><label>Quantity</label><input type="number" id="selfQty" placeholder="1"></div>
-          <div class="form-group">
-            <label>Reason Category</label>
-            <select id="selfReason">
-              <option value="Shop Self Use (Tea/Snacks)">Shop Self Use (Tea/Snacks)</option>
-              <option value="Expired Pastry / Cake">Expired Pastry / Cake (48h Limit)</option>
-              <option value="Damaged in Transit / Display">Damaged in Transit / Display</option>
-              <option value="Owner Household Consumption">Owner Household Consumption</option>
-            </select>
-          </div>
-          <div class="form-group"><label>Remarks</label><input type="text" id="selfRemarks" placeholder="Staff snacks / showcase defect"></div>
-        </div>
-        <button class="btn-primary" onclick="saveSelfUse()">Log Entry & Deduct Stock</button>
-
-        <table style="margin-top:20px;">
-          <thead>
-            <tr>
-              <th>Log ID</th>
-              <th>Date</th>
-              <th>Item Name</th>
-              <th>Qty</th>
-              <th>Cost Loss (₹)</th>
-              <th>Reason</th>
-              <th>Remarks</th>
-              <th>Action</th>
-            </tr>
-          </thead>
-          <tbody id="selfUseTableBody"></tbody>
-        </table>
-      </div>
-    </div>
-
-    <!-- 6. PARTIES LEDGER TAB -->
-    <div id="partiesTab" class="view-panel">
-      <div class="table-card">
-        <h3 style="font-size:16px; margin-bottom:12px;">👥 Party-Wise Ledgers (B2B Customers & Suppliers)</h3>
+  <!-- 4. SALES LOG VIEW -->
+  <div id="salesView" class="view-tab">
+    <div class="card-box">
+      <h3 style="font-size:16px; font-weight:800; margin-bottom:8px;">🧾 Serial Invoices History</h3>
+      <div class="scroll-table">
         <table>
           <thead>
-            <tr>
-              <th>Party Name</th>
-              <th>Party Type</th>
-              <th>Total Billed (₹)</th>
-              <th>Total Cleared (₹)</th>
-              <th>Balance Outstanding</th>
-            </tr>
+            <tr><th>Invoice No</th><th>Date</th><th>Customer</th><th>Item</th><th>Channel</th><th>Qty</th><th>Rate</th><th>GST</th><th>Total</th><th>Mode</th><th class="admin-col">Action</th></tr>
           </thead>
-          <tbody id="partyTableBody"></tbody>
+          <tbody id="salesTable"></tbody>
         </table>
       </div>
     </div>
+  </div>
 
-    <!-- 7. CAPITAL & DRAWINGS TAB -->
-    <div id="capitalTab" class="view-panel">
-      <div class="table-card">
-        <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:12px;">
-          <div>
-            <h3 style="font-size:16px; font-weight:700;">💰 Capital, Financier Return & Drawings</h3>
-            <p style="font-size:12px; color:var(--text-muted);">Initial capital is 100% editable whenever finalized.</p>
-          </div>
-          <button class="btn-primary" onclick="editInitialCapital()">✏️ Edit Initial Capital</button>
+  <!-- 5. OPEX VIEW -->
+  <div id="opexView" class="view-tab">
+    <div class="card-box">
+      <div style="display:flex; justify-content:space-between; align-items:center; flex-wrap:wrap; gap:8px; margin-bottom:12px;">
+        <h3 style="font-size:16px; font-weight:800;">💼 Operational Expenses (OPEX Tracker)</h3>
+        <span style="font-weight:800; color:var(--danger); font-size:14px;">Total OPEX: <span id="opexTotalBanner">₹0.00</span></span>
+      </div>
+      <div class="form-row">
+        <div class="f-group">
+          <label>Category</label>
+          <select id="opCat">
+            <option value="Shop Rent (Wazirabad)">Shop Rent (Wazirabad Dual Shop)</option>
+            <option value="Staff Salaries">Staff Salaries / Wages</option>
+            <option value="Electricity / Chiller Power">Electricity / Chiller Power Bill</option>
+            <option value="Logistics & Transport">Logistics / E-Loader Charging</option>
+            <option value="Packaging Bags & Boxes">Packaging Boxes & Seal Pouches</option>
+            <option value="Tea, Snacks & Misc">Staff Tea, Refreshments & Misc</option>
+          </select>
         </div>
-        
-        <div style="display:grid; grid-template-columns: repeat(auto-fit, minmax(180px, 1fr)); gap:12px; margin-bottom:18px;">
-          <div style="background:#EEF2F6; padding:12px 14px; border-radius:8px;">
-            <div style="font-size:11px; color:var(--text-muted); font-weight:700;">INITIAL CAPITAL INVESTED</div>
-            <div style="font-size:19px; font-weight:800; color:var(--primary); margin-top:3px;" id="dispInitCapital">₹15,00,000</div>
-          </div>
-          <div style="background:#FEF3C7; padding:12px 14px; border-radius:8px;">
-            <div style="font-size:11px; color:#B45309; font-weight:700;">TOTAL INTEREST / RETURN PAID</div>
-            <div style="font-size:19px; font-weight:800; color:#B45309; margin-top:3px;" id="dispInterestPaid">₹22,500</div>
-          </div>
-          <div style="background:#E0F2FE; padding:12px 14px; border-radius:8px;">
-            <div style="font-size:11px; color:#0369A1; font-weight:700;">TOTAL PERSONAL DRAWINGS</div>
-            <div style="font-size:19px; font-weight:800; color:#0369A1; margin-top:3px;" id="dispDrawings">₹15,000</div>
-          </div>
-          <div style="background:#DCFCE7; padding:12px 14px; border-radius:8px;">
-            <div style="font-size:11px; color:#15803D; font-weight:700;">NET CAPITAL EQUITY BALANCE</div>
-            <div style="font-size:19px; font-weight:800; color:#15803D; margin-top:3px;" id="dispNetCapital">₹14,62,500</div>
-          </div>
-        </div>
+        <div class="f-group"><label>Amount (₹)</label><input type="number" id="opAmt" placeholder="1000"></div>
+        <div class="f-group"><label>Payment Mode</label><select id="opMode"><option value="Cash">Cash</option><option value="UPI">UPI</option><option value="Bank">Bank</option></select></div>
+        <div class="f-group"><label>Notes</label><input type="text" id="opNotes" placeholder="Description"></div>
+      </div>
+      <button class="btn-submit" onclick="addOpex()">Log Expense Entry</button>
 
-        <h4 style="font-size:13px; margin-bottom:8px;">Log Capital Transaction</h4>
-        <div class="form-grid">
-          <div class="form-group">
-            <label>Transaction Type</label>
-            <select id="capType">
-              <option value="Monthly Interest Paid (Cost of Capital)">Monthly Interest / Cost of Capital Paid</option>
-              <option value="Personal Drawing (Household)">Personal Drawing (Household Withdrawal)</option>
-              <option value="Additional Capital Infusion">Additional Capital Infusion (+)</option>
-            </select>
-          </div>
-          <div class="form-group"><label>Amount (₹)</label><input type="number" id="capAmt" placeholder="22500"></div>
-          <div class="form-group"><label>Channel / Notes</label><input type="text" id="capNotes" placeholder="Paid to financier bank / household expenses"></div>
-        </div>
-        <button class="btn-primary" onclick="saveCapitalTx()">Save Capital Entry</button>
-
-        <table style="margin-top:20px;">
+      <div class="scroll-table">
+        <table>
           <thead>
-            <tr>
-              <th>Entry ID</th>
-              <th>Date</th>
-              <th>Transaction Type</th>
-              <th>Amount (₹)</th>
-              <th>Remaining Capital Balance</th>
-              <th>Notes</th>
-              <th>Action</th>
-            </tr>
+            <tr><th>ID</th><th>Date</th><th>Category</th><th>Amount (₹)</th><th>Mode</th><th>Notes</th><th class="admin-col">Action</th></tr>
           </thead>
-          <tbody id="capitalTableBody"></tbody>
+          <tbody id="opexTable"></tbody>
         </table>
       </div>
     </div>
+  </div>
 
-    <!-- 8. COMPREHENSIVE REPORTS TAB -->
-    <div id="reportsTab" class="view-panel">
-      <div class="table-card">
-        <div style="display:flex; justify-content:space-between; align-items:center; flex-wrap:wrap; gap:10px; margin-bottom:14px;">
-          <div>
-            <h3 style="font-size:17px; font-weight:800;">📊 Comprehensive Business Analytics & Audit Hub</h3>
-            <p style="font-size:12px; color:var(--text-muted); margin-top:2px;">Sales, GST Tax Returns, Inventory Valuation & Payment Registers.</p>
-          </div>
-          <div style="display:flex; gap:8px; align-items:center;">
-            <select id="reportDateFilter" onchange="generateReports()" style="border:1px solid var(--border); border-radius:6px; padding:6px 12px; font-size:12.5px; font-weight:600; outline:none; background:#FFF;">
-              <option value="ALL">All Time Record</option>
-              <option value="TODAY">Today (Daily Close)</option>
-              <option value="MONTH">This Month (Monthly)</option>
-              <option value="YEAR">This Year (Yearly)</option>
-            </select>
-            <button class="btn-primary" onclick="window.print()" style="background:#475569;">🖨️ Print / Export PDF</button>
-          </div>
+  <!-- 6. SELF-USE VIEW -->
+  <div id="selfuseView" class="view-tab">
+    <div class="card-box">
+      <h3 style="font-size:16px; font-weight:800; margin-bottom:12px;">☕ Shop Spoilage & Self-Use Log</h3>
+      <div class="form-row">
+        <div class="f-group"><label>Item</label><select id="suSku"></select></div>
+        <div class="f-group"><label>Qty</label><input type="number" id="suQty" placeholder="1"></div>
+        <div class="f-group">
+          <label>Reason</label>
+          <select id="suReason">
+            <option value="Expired Pastry / Cake">Expired Pastry / Cake (48h Spoilage)</option>
+            <option value="Shop Self Use (Chai-Rusk)">Shop Self Use (Staff Chai-Rusk)</option>
+            <option value="Damaged in Display">Damaged in Display / Showcase</option>
+          </select>
         </div>
+        <div class="f-group"><label>Notes</label><input type="text" id="suNotes" placeholder="Remarks"></div>
+      </div>
+      <button class="btn-submit" onclick="addSelfUse()">Log Spoilage & Deduct Stock</button>
 
-        <div style="display:grid; grid-template-columns: repeat(auto-fit, minmax(160px, 1fr)); gap:10px; margin-bottom:18px;">
-          <div style="background:#F0FDF4; border:1px solid #BBF7D0; padding:10px 14px; border-radius:8px;">
-            <div style="font-size:10.5px; font-weight:700; color:#166534;">TOTAL SALES REVENUE</div>
-            <div style="font-size:18px; font-weight:800; color:#15803D; margin-top:3px;" id="repTotalRev">₹0</div>
-          </div>
-          <div style="background:#EFF6FF; border:1px solid #BFDBFE; padding:10px 14px; border-radius:8px;">
-            <div style="font-size:10.5px; font-weight:700; color:#1E40AF;">NET GROSS PROFIT</div>
-            <div style="font-size:18px; font-weight:800; color:#1D4ED8; margin-top:3px;" id="repTotalProfit">₹0</div>
-          </div>
-          <div style="background:#FFFBEB; border:1px solid #FDE68A; padding:10px 14px; border-radius:8px;">
-            <div style="font-size:10.5px; font-weight:700; color:#92400E;">GST TAX COLLECTED</div>
-            <div style="font-size:18px; font-weight:800; color:#B45309; margin-top:3px;" id="repTotalGstTax">₹0</div>
-          </div>
-          <div style="background:#F1F5F9; border:1px solid #E2E8F0; padding:10px 14px; border-radius:8px;">
-            <div style="font-size:10.5px; font-weight:700; color:#475569;">TOTAL BILLS</div>
-            <div style="font-size:18px; font-weight:800; color:#334155; margin-top:3px;" id="repBillsCount">0</div>
-          </div>
-          <div style="background:#FEF2F2; border:1px solid #FECACA; padding:10px 14px; border-radius:8px;">
-            <div style="font-size:10.5px; font-weight:700; color:#991B1B;">SPOILAGE LOSS</div>
-            <div style="font-size:18px; font-weight:800; color:#DC2626; margin-top:3px;" id="repSpoilageLoss">₹0</div>
-          </div>
-        </div>
-
-        <div style="display:flex; gap:6px; margin-bottom:14px; border-bottom:1px solid var(--border); padding-bottom:6px; overflow-x:auto;">
-          <button class="chip active" onclick="switchReportSubTab('subProduct', this)">📦 Product Sales & Margin</button>
-          <button class="chip" onclick="switchReportSubTab('subGst', this)">🏛️ GST Tax Return Report</button>
-          <button class="chip" onclick="switchReportSubTab('subInvValuation', this)">📋 Inventory Valuation & Stock</button>
-          <button class="chip" onclick="switchReportSubTab('subPayment', this)">💳 Payment Mode (Cash vs UPI)</button>
-          <button class="chip" onclick="switchReportSubTab('subParty', this)">👥 Party / Customer Breakdown</button>
-          <button class="chip" onclick="switchReportSubTab('subDailyMonthly', this)">📅 Date-Wise Register</button>
-        </div>
-
-        <div id="subProduct" class="report-sub-view">
-          <h4 style="font-size:13.5px; margin-bottom:6px;">Product-Wise Sales & Profit Contribution</h4>
-          <table>
-            <thead>
-              <tr>
-                <th>Product / SKU</th>
-                <th>Units Sold</th>
-                <th>Total Turnover (₹)</th>
-                <th>Net Profit Earned (₹)</th>
-                <th>Profit Margin (%)</th>
-              </tr>
-            </thead>
-            <tbody id="repProductTableBody"></tbody>
-          </table>
-        </div>
-
-        <div id="subGst" class="report-sub-view" style="display:none;">
-          <h4 style="font-size:13.5px; margin-bottom:6px;">GST Tax Filing & Slab-Wise Collection Summary</h4>
-          <table>
-            <thead>
-              <tr>
-                <th>Tax Slab Category</th>
-                <th>Invoices Handled</th>
-                <th>Taxable Value (₹)</th>
-                <th>CGST (₹)</th>
-                <th>SGST (₹)</th>
-                <th>IGST (₹)</th>
-                <th>Total GST Collected (₹)</th>
-              </tr>
-            </thead>
-            <tbody id="repGstTableBody"></tbody>
-          </table>
-        </div>
-
-        <div id="subInvValuation" class="report-sub-view" style="display:none;">
-          <h4 style="font-size:13.5px; margin-bottom:6px;">Live Inventory Stock Holding & Asset Valuation</h4>
-          <div style="display:flex; gap:16px; margin-bottom:10px; font-size:12px; font-weight:600;">
-            <div>Total Inventory Holding Cost: <span id="valTotalCost" style="color:var(--primary); font-size:14px; font-weight:800;">₹0</span></div>
-            <div>Expected Retail Realization: <span id="valTotalRetail" style="color:var(--success); font-size:14px; font-weight:800;">₹0</span></div>
-          </div>
-          <table>
-            <thead>
-              <tr>
-                <th>SKU</th>
-                <th>Item Name</th>
-                <th>Stock Quantity</th>
-                <th>Cost / Unit</th>
-                <th>Total Cost Value (₹)</th>
-                <th>Retail Realization (₹)</th>
-                <th>Status</th>
-              </tr>
-            </thead>
-            <tbody id="repInventoryTableBody"></tbody>
-          </table>
-        </div>
-
-        <div id="subPayment" class="report-sub-view" style="display:none;">
-          <h4 style="font-size:13.5px; margin-bottom:6px;">Payment Mode Breakdown (Drawer Cash vs Bank UPI)</h4>
-          <table>
-            <thead>
-              <tr>
-                <th>Payment Mode</th>
-                <th>Bills Count</th>
-                <th>Total Collection (₹)</th>
-                <th>Collection Share (%)</th>
-              </tr>
-            </thead>
-            <tbody id="repPaymentTableBody"></tbody>
-          </table>
-        </div>
-
-        <div id="subParty" class="report-sub-view" style="display:none;">
-          <h4 style="font-size:13.5px; margin-bottom:6px;">Party & Client Volume Ranking</h4>
-          <table>
-            <thead>
-              <tr>
-                <th>Party / Customer Name</th>
-                <th>Channel Type</th>
-                <th>Orders Count</th>
-                <th>Total Billed Amount (₹)</th>
-                <th>Total Profit Realized (₹)</th>
-              </tr>
-            </thead>
-            <tbody id="repPartyTableBody"></tbody>
-          </table>
-        </div>
-
-        <div id="subDailyMonthly" class="report-sub-view" style="display:none;">
-          <h4 style="font-size:13.5px; margin-bottom:6px;">Date-Wise Sales & Cash Intake Register</h4>
-          <table>
-            <thead>
-              <tr>
-                <th>Date</th>
-                <th>Bills Count</th>
-                <th>Gross Turnover (₹)</th>
-                <th>GST Collected (₹)</th>
-                <th>Net Profit (₹)</th>
-                <th>Daily Cash (₹)</th>
-                <th>Daily UPI (₹)</th>
-              </tr>
-            </thead>
-            <tbody id="repDateTableBody"></tbody>
-          </table>
-        </div>
-
+      <div class="scroll-table">
+        <table>
+          <thead>
+            <tr><th>ID</th><th>Date</th><th>Item</th><th>Qty</th><th>Loss (₹)</th><th>Reason</th><th>Notes</th><th class="admin-col">Action</th></tr>
+          </thead>
+          <tbody id="selfUseTable"></tbody>
+        </table>
       </div>
     </div>
+  </div>
 
-    <!-- 9. GOOGLE SHEET CONNECT TAB -->
-    <div id="connectTab" class="view-panel">
-      <div class="table-card">
-        <h3 style="font-size:16px; margin-bottom:8px;">🔗 How to Connect this POS Directly to Your Google Sheet (Free)</h3>
-        <p style="font-size:13px; color:var(--text); line-height:1.6; margin-bottom:14px;">
-          Extensions &gt; Apps Script me code paste karein aur Web App deploy karein.
-        </p>
-        <div style="background:#1E293B; color:#E2E8F0; padding:14px; border-radius:8px; font-family:monospace; font-size:12px; margin-top:14px; overflow-x:auto;">
+  <!-- 7. PARTIES VIEW -->
+  <div id="partiesView" class="view-tab">
+    <div class="card-box">
+      <h3 style="font-size:16px; font-weight:800; margin-bottom:8px;">👥 Party-Wise Ledgers (Khata)</h3>
+      <div class="scroll-table">
+        <table>
+          <thead>
+            <tr><th>Party Name</th><th>Type</th><th>Total Billed</th><th>Cleared</th><th>Balance</th></tr>
+          </thead>
+          <tbody id="partiesTable"></tbody>
+        </table>
+      </div>
+    </div>
+  </div>
+
+  <!-- 8. CAPITAL VIEW (ADMIN ONLY) -->
+  <div id="capitalView" class="view-tab">
+    <div class="card-box">
+      <div style="display:flex; justify-content:space-between; align-items:center; flex-wrap:wrap; gap:8px; margin-bottom:12px;">
+        <h3 style="font-size:16px; font-weight:800;">💰 Capital, Financier Return & Drawings</h3>
+        <button class="btn-submit" onclick="editCapital()">✏️ Edit Initial Capital</button>
+      </div>
+
+      <div style="display:grid; grid-template-columns: repeat(auto-fit, minmax(140px, 1fr)); gap:8px; margin-bottom:14px;">
+        <div style="background:#F1F5F9; padding:10px; border-radius:6px;">
+          <div style="font-size:10px; font-weight:700; color:#64748B;">INITIAL CAPITAL</div>
+          <div style="font-size:16px; font-weight:800; color:var(--primary);" id="capInitDisp">₹15,00,000</div>
+        </div>
+        <div style="background:#FEF3C7; padding:10px; border-radius:6px;">
+          <div style="font-size:10px; font-weight:700; color:#B45309;">INTEREST PAID</div>
+          <div style="font-size:16px; font-weight:800; color:#B45309;" id="capInterestDisp">₹22,500</div>
+        </div>
+        <div style="background:#E0F2FE; padding:10px; border-radius:6px;">
+          <div style="font-size:10px; font-weight:700; color:#0369A1;">TOTAL DRAWINGS</div>
+          <div style="font-size:16px; font-weight:800; color:#0369A1;" id="capDrawingsDisp">₹15,000</div>
+        </div>
+        <div style="background:#DCFCE7; padding:10px; border-radius:6px;">
+          <div style="font-size:10px; font-weight:700; color:#15803D;">NET CAPITAL BALANCE</div>
+          <div style="font-size:16px; font-weight:800; color:#15803D;" id="capNetDisp">₹14,62,500</div>
+        </div>
+      </div>
+
+      <div class="form-row">
+        <div class="f-group">
+          <label>Transaction Type</label>
+          <select id="capType">
+            <option value="Financier Interest Paid">Financier Interest / Cost of Capital</option>
+            <option value="Personal Drawings">Personal Drawings (Household)</option>
+            <option value="Capital Infusion">Capital Infusion (+)</option>
+          </select>
+        </div>
+        <div class="f-group"><label>Amount (₹)</label><input type="number" id="capAmt" placeholder="22500"></div>
+        <div class="f-group"><label>Notes</label><input type="text" id="capNotes" placeholder="Bank reference"></div>
+      </div>
+      <button class="btn-submit" onclick="addCapital()">Save Capital Transaction</button>
+
+      <div class="scroll-table">
+        <table>
+          <thead>
+            <tr><th>ID</th><th>Date</th><th>Type</th><th>Amount</th><th>Balance</th><th>Notes</th><th>Action</th></tr>
+          </thead>
+          <tbody id="capitalTable"></tbody>
+        </table>
+      </div>
+    </div>
+  </div>
+
+  <!-- 9. REPORTS & PnL VIEW (ADMIN ONLY) -->
+  <div id="reportsView" class="view-tab">
+    <div class="card-box">
+      <div style="display:flex; justify-content:space-between; align-items:center; flex-wrap:wrap; gap:8px; margin-bottom:12px;">
+        <h3 style="font-size:16px; font-weight:800;">📊 Reports & Formal P&L Statement</h3>
+        <div style="display:flex; gap:6px;">
+          <select id="repFilter" onchange="renderReports()" style="border:1px solid var(--border); border-radius:4px; padding:4px 8px; font-size:12px; font-weight:700;">
+            <option value="ALL">All Time</option>
+            <option value="TODAY">Today</option>
+            <option value="MONTH">This Month</option>
+            <option value="YEAR">This Year</option>
+          </select>
+          <button class="btn-submit" onclick="window.print()" style="background:#475569;">🖨️ Print PnL</button>
+        </div>
+      </div>
+
+      <div style="background:#F8FAFC; border:1px solid var(--border); border-radius:8px; padding:14px; max-width:620px; margin-bottom:16px;">
+        <h4 style="font-size:14px; font-weight:800; border-bottom:1px solid #CBD5E1; padding-bottom:6px; margin-bottom:10px;">
+          Trading & Profit & Loss Statement (SKG Trading Company)
+        </h4>
+        <div class="calc-row"><span>Total Revenue from Sales:</span><b id="pnlRev">₹0.00</b></div>
+        <div class="calc-row" style="color:#DC2626;"><span>Less: Cost of Goods Sold (COGS):</span><b id="pnlCogs">- ₹0.00</b></div>
+        <div class="calc-row" style="padding:6px 0; border-top:1px dashed #CBD5E1; border-bottom:1px solid #CBD5E1; margin:6px 0; font-weight:800; color:var(--success);">
+          <span>= GROSS TRADING PROFIT:</span><span id="pnlGross">₹0.00</span>
+        </div>
+        <div style="font-size:11.5px; font-weight:700; color:#64748B; margin-top:6px;">OPERATING EXPENSES (OPEX):</div>
+        <div id="pnlOpexList" style="margin-left:8px; font-size:12px; color:#475569;"></div>
+        <div class="calc-row" style="color:#DC2626; margin-top:4px;"><span>Total OPEX Burn:</span><b id="pnlOpexTotal">- ₹0.00</b></div>
+        <div class="calc-row" style="color:#DC2626;"><span>Spoilage & Damaged Losses:</span><b id="pnlSpoilage">- ₹0.00</b></div>
+        <div class="calc-row" style="color:#B45309;"><span>Financier Interest Paid:</span><b id="pnlInterest">- ₹0.00</b></div>
+        <div class="calc-row" style="padding:8px 0; border-top:2px solid var(--primary); margin-top:8px; font-size:15px; font-weight:800; color:var(--primary);">
+          <span>= NET IN-HAND PROFIT:</span><span id="pnlNetProfit">₹0.00</span>
+        </div>
+      </div>
+
+      <h4 style="font-size:13.5px; font-weight:700; margin-bottom:6px;">Product-Wise Turnover & Margin</h4>
+      <div class="scroll-table">
+        <table>
+          <thead><tr><th>Product / SKU</th><th>Qty Sold</th><th>Turnover</th><th>Gross Profit</th><th>Margin %</th></tr></thead>
+          <tbody id="repProductTable"></tbody>
+        </table>
+      </div>
+    </div>
+  </div>
+
+  <!-- 10. GOOGLE SHEET CONNECT TAB -->
+  <div id="connectTab" class="view-tab">
+    <div class="card-box">
+      <h3 style="font-size:16px; margin-bottom:8px;">🔗 How to Connect this POS Directly to Your Google Sheet (Free)</h3>
+      <p style="font-size:13px; color:var(--text); line-height:1.6; margin-bottom:14px;">
+        Extensions &gt; Apps Script me code paste karein aur Web App deploy karein.
+      </p>
+      <div style="background:#1E293B; color:#E2E8F0; padding:12px; border-radius:8px; font-family:monospace; font-size:12px; margin-top:10px; overflow-x:auto;">
 <pre>// GOOGLE APPS SCRIPT CODE
 function doPost(e) {
   var ss = SpreadsheetApp.getActiveSpreadsheet();
@@ -676,269 +549,324 @@ function doPost(e) {
   }
 }
 </pre>
-        </div>
       </div>
     </div>
-
   </div>
-</main>
+
+</div>
+
+<!-- MODAL: LOGIN / SWITCH USER -->
+<div id="loginModal" class="modal-screen">
+  <div class="modal-body" style="max-width:340px;">
+    <h3 style="font-size:16px; font-weight:800; color:var(--primary); margin-bottom:4px;">Switch User / Login</h3>
+    <p style="font-size:12px; color:var(--text-muted); margin-bottom:12px;">Admin has full delete/modify permissions; Staff has entry-only mode.</p>
+    
+    <div class="f-group" style="margin-bottom:10px;">
+      <label>Select Role</label>
+      <select id="loginRole" onchange="updatePinHint()">
+        <option value="ADMIN">ADMIN (Owner - Full Control)</option>
+        <option value="USER">USER / STAFF (Counter Entry Only)</option>
+      </select>
+    </div>
+    
+    <div class="f-group" style="margin-bottom:14px;">
+      <label>Passcode / PIN</label>
+      <input type="password" id="loginPin" placeholder="Enter PIN">
+      <small style="font-size:11px; color:#64748B;" id="pinHint">Default Admin PIN: 1234</small>
+    </div>
+
+    <div style="display:flex; justify-content:flex-end; gap:8px;">
+      <button onclick="closeLogin()" style="padding:7px 12px; border:1px solid #CCC; background:#F1F5F9; border-radius:6px; cursor:pointer;">Cancel</button>
+      <button class="btn-submit" onclick="authenticateUser()">Authenticate & Login</button>
+    </div>
+  </div>
+</div>
 
 <!-- MODAL: ADD / EDIT SKU -->
-<div id="skuModal" class="modal-overlay">
-  <div class="modal-box" style="width: 420px;">
-    <h3 id="skuModalTitle" style="font-size:15px; margin-bottom:12px;">Add / Edit SKU Item</h3>
-    <input type="hidden" id="editSkuIndex" value="-1">
-    <div class="form-grid">
-      <div class="form-group"><label>Item ID / SKU</label><input type="text" id="modalSku" placeholder="SKU-011"></div>
-      <div class="form-group"><label>Item Name</label><input type="text" id="modalName" placeholder="e.g. Masala Kaju 200g"></div>
-      <div class="form-group"><label>Category</label><input type="text" id="modalCat" placeholder="Dry Fruits"></div>
-      <div class="form-group"><label>Unit</label><input type="text" id="modalUnit" placeholder="Pouch / Pcs"></div>
-      <div class="form-group"><label>Purchase Cost Price (₹)</label><input type="number" id="modalCost" placeholder="120"></div>
-      <div class="form-group"><label>B2B Wholesale Rate (₹)</label><input type="number" id="modalB2b" placeholder="140"></div>
-      <div class="form-group"><label>B2C Retail MRP (₹)</label><input type="number" id="modalB2c" placeholder="180"></div>
-      <div class="form-group"><label>Physical Stock</label><input type="number" id="modalStock" placeholder="50"></div>
+<div id="skuModal" class="modal-screen">
+  <div class="modal-body">
+    <h3 id="skuModalTitle" style="font-size:15px; font-weight:800; margin-bottom:12px;">Add / Edit SKU</h3>
+    <input type="hidden" id="editSkuIdx" value="-1">
+    <div class="form-row">
+      <div class="f-group"><label>SKU Code</label><input type="text" id="mSku"></div>
+      <div class="f-group"><label>Item Name</label><input type="text" id="mName"></div>
+      <div class="f-group"><label>Category</label><input type="text" id="mCat"></div>
+      <div class="f-group"><label>Unit</label><input type="text" id="mUnit"></div>
+      <div class="f-group"><label>Purchase Cost (₹)</label><input type="number" id="mCost"></div>
+      <div class="f-group"><label>Wholesale Rate (₹)</label><input type="number" id="mB2b"></div>
+      <div class="f-group"><label>Retail MRP (₹)</label><input type="number" id="mB2c"></div>
+      <div class="f-group"><label>Stock Quantity</label><input type="number" id="mStock"></div>
     </div>
-    <div style="display:flex; justify-content:flex-end; gap:8px; margin-top:12px;">
-      <button onclick="closeSkuModal()" style="padding:7px 12px; border:1px solid #CCC; background:#F8FAFC; border-radius:6px; cursor:pointer;">Cancel</button>
-      <button class="btn-primary" onclick="saveSkuModal()">Save SKU</button>
+    <div style="display:flex; justify-content:flex-end; gap:8px;">
+      <button onclick="closeSkuModal()" style="padding:7px 12px; border:1px solid #CCC; background:#F1F5F9; border-radius:6px; cursor:pointer;">Cancel</button>
+      <button class="btn-submit" onclick="saveSku()">Save SKU</button>
     </div>
   </div>
 </div>
 
 <!-- MODAL: DYNAMIC UPI QR POPUP -->
-<div id="upiQrModal" class="modal-overlay">
-  <div class="modal-box" style="text-align: center;">
-    <h3 style="font-size:15px; font-weight:700; color:var(--primary); margin-bottom:4px;">Pay via UPI (Exact Amount)</h3>
-    <p style="font-size:11.5px; color:var(--text-muted); margin-bottom:12px;">Customer cannot change or pay less/more.</p>
-    
-    <div style="font-size:24px; font-weight:800; color:var(--success); margin-bottom:12px;" id="qrAmountDisp">₹0.00</div>
-    
-    <div style="background:#FFF; padding:10px; display:inline-block; border:1px solid #E2E8F0; border-radius:8px; margin-bottom:10px;">
-      <img id="dynamicQrImage" src="" alt="UPI QR Code" style="width:190px; height:190px; display:block;">
+<div id="upiModal" class="modal-screen">
+  <div class="modal-body" style="text-align:center; max-width:320px;">
+    <h3 style="font-size:15px; font-weight:800; color:var(--primary); margin-bottom:4px;">UPI Payment (Exact Amount)</h3>
+    <div style="font-size:24px; font-weight:800; color:var(--success); margin:6px 0;" id="qrAmt">₹0.00</div>
+    <div style="background:#FFF; padding:8px; display:inline-block; border:1px solid var(--border); border-radius:8px; margin:6px 0;">
+      <img id="qrImg" src="" alt="UPI QR" style="width:180px; height:180px; display:block;">
     </div>
-    
-    <div style="font-size:11px; color:#555; margin-bottom:14px;">
-      UPI ID: <b id="qrUpiIdDisp">skgtrading@upi</b><br>
-      Bill Reference: <span id="qrBillRefDisp" style="font-weight:600;"></span>
-    </div>
-    
-    <button onclick="closeUpiQrModal()" class="btn-primary" style="width:100%;">Done / Close QR</button>
+    <div style="font-size:11px; color:#64748B; margin-bottom:12px;">Ref: <span id="qrRef"></span></div>
+    <button onclick="closeUpiModal()" class="btn-submit" style="width:100%;">Done / Close</button>
   </div>
 </div>
 
 <!-- MODAL: PRINTABLE RECEIPT -->
-<div id="receiptModal" class="modal-overlay">
-  <div class="receipt-box" id="printableReceipt">
-    <div class="receipt-center">
+<div id="receiptModal" class="modal-screen">
+  <div class="receipt-view" id="printReceipt">
+    <div style="text-align:center;">
       <h3 style="font-size:14px; margin-bottom:2px;">SKG TRADING CO.</h3>
       <div style="font-size:11px; font-weight:bold;">THE FOODOPHILES - WAZIRABAD</div>
-      <div style="font-size:10px; color:#555;" id="receiptTaxHeader">GST / Retail Cash Memo</div>
+      <div style="font-size:10px; color:#555;" id="rcptHeader">RETAIL CASH MEMO</div>
     </div>
-    <div class="receipt-divider"></div>
-    <div id="receiptDetails" style="font-size:10.5px; line-height:1.5;"></div>
-    <div class="receipt-divider"></div>
-    <table style="width:100%; font-size:10.5px; margin:0;" id="receiptItemsTable"></table>
-    <div class="receipt-divider"></div>
-    <div id="receiptMathBreakdown" style="font-size:10.5px; line-height:1.6;"></div>
-    <div class="receipt-divider"></div>
-    <div style="display:flex; justify-content:space-between; font-weight:bold; font-size:12.5px;">
-      <span>TOTAL PAID:</span>
-      <span id="receiptTotal"></span>
+    <div style="border-bottom:1px dashed #333; margin:6px 0;"></div>
+    <div id="rcptMeta" style="line-height:1.4;"></div>
+    <div style="border-bottom:1px dashed #333; margin:6px 0;"></div>
+    <table style="width:100%; min-width:auto; font-size:10.5px;" id="rcptTable"></table>
+    <div style="border-bottom:1px dashed #333; margin:6px 0;"></div>
+    <div id="rcptMath" style="line-height:1.5;"></div>
+    <div style="border-bottom:1px dashed #333; margin:6px 0;"></div>
+    <div style="display:flex; justify-content:space-between; font-weight:800; font-size:12.5px;">
+      <span>TOTAL PAID:</span><span id="rcptTotal"></span>
     </div>
-    <div class="receipt-center" style="margin-top:10px; font-size:10px; line-height:1.4;">
-      *** Thank you for visiting The Foodophiles! ***<br>
-      Quality Sweets, Cakes, Dry Fruits & Bakes
+    <div style="text-align:center; margin-top:10px; font-size:10px;">
+      *** Thank you for visiting The Foodophiles! ***
     </div>
-    <div class="print-actions">
-      <button onclick="window.print()" class="btn-primary" style="flex:1;">Print Receipt</button>
-      <button onclick="closeReceipt()" style="background:#CCC; border:none; padding:8px 12px; border-radius:6px; cursor:pointer;">Close</button>
+    <div style="display:flex; gap:8px; margin-top:12px;">
+      <button onclick="window.print()" class="btn-submit" style="flex:1;">Print Receipt</button>
+      <button onclick="closeReceipt()" style="background:#CCC; border:none; padding:7px 12px; border-radius:6px; cursor:pointer;">Close</button>
     </div>
   </div>
 </div>
 
 <script>
+function getSafeStorage(key, fallback) {
+  try {
+    const item = localStorage.getItem(key);
+    return item ? JSON.parse(item) : fallback;
+  } catch (e) {
+    return fallback;
+  }
+}
+
+let currentUserRole = localStorage.getItem('skg_role') || "ADMIN";
 let adminPin = localStorage.getItem('skg_admin_pin') || "1234";
-let shopUpiId = localStorage.getItem('skg_shop_upi') || "skgtrading@upi";
-let initialCapitalValue = parseFloat(localStorage.getItem('skg_initial_capital')) || 1500000;
+let userPin = localStorage.getItem('skg_user_pin') || "0000";
+let shopUpiId = localStorage.getItem('skg_upi') || "skgtrading@upi";
+let initialCapital = parseFloat(localStorage.getItem('skg_capital_val')) || 1500000;
 
-document.getElementById('dispShopUpi').innerText = shopUpiId;
-
-function verifyOwnerAccess() {
-  const entered = prompt("🔐 Enter Owner / Admin PIN to authorize:");
-  if (entered === adminPin) return true;
-  if (entered !== null) alert("❌ Wrong Owner PIN! Access Denied.");
-  return false;
-}
-
-function changeAdminPin() {
-  const current = prompt("Enter current Owner PIN:");
-  if (current === adminPin) {
-    const newP = prompt("Enter NEW 4-digit Owner PIN:");
-    if (newP && newP.length >= 4) {
-      adminPin = newP;
-      localStorage.setItem('skg_admin_pin', newP);
-      alert("✅ Owner PIN updated successfully!");
-    } else alert("PIN must be at least 4 digits.");
-  } else if (current !== null) alert("❌ Current PIN incorrect!");
-}
-
-function configureShopUPI() {
-  const current = shopUpiId;
-  const newUpi = prompt("Enter your shop UPI ID for instant QR payments (e.g. yourname@okicici, mobile@paytm):", current);
-  if (newUpi && newUpi.trim().length > 3) {
-    shopUpiId = newUpi.trim();
-    localStorage.setItem('skg_shop_upi', shopUpiId);
-    document.getElementById('dispShopUpi').innerText = shopUpiId;
-    alert("✅ Shop UPI ID saved as: " + shopUpiId);
-  }
-}
-
-function editInitialCapital() {
-  if (!verifyOwnerAccess()) return;
-  const newCap = prompt("Enter Final / Revised Initial Capital amount in ₹ (e.g. 1500000 or 1200000):", initialCapitalValue);
-  if (newCap && !isNaN(newCap) && parseFloat(newCap) > 0) {
-    initialCapitalValue = parseFloat(newCap);
-    localStorage.setItem('skg_initial_capital', initialCapitalValue);
-    if (capitalData.length > 0 && capitalData[0].type.includes("Initial")) {
-      capitalData[0].amount = initialCapitalValue;
-      capitalData[0].balance = initialCapitalValue;
-    }
-    saveState();
-    renderAll();
-    alert("✅ Initial Capital updated to ₹" + initialCapitalValue.toLocaleString('en-IN'));
-  }
-}
-
-function getTodayBillPrefix() {
-  const now = new Date();
-  const dd = String(now.getDate()).padStart(2, '0');
-  const mm = String(now.getMonth() + 1).padStart(2, '0');
-  const yy = String(now.getFullYear()).slice(-2);
-  return `INV${dd}${mm}${yy}`;
-}
-
-function getNextSerialBillNo() {
-  const prefix = getTodayBillPrefix();
-  let dailyCounter = parseInt(localStorage.getItem('skg_counter_' + prefix)) || 1;
-  const serialNo = String(dailyCounter).padStart(2, '0');
-  return `${prefix}${serialNo}`;
-}
-
-function incrementSerialBillCounter() {
-  const prefix = getTodayBillPrefix();
-  let dailyCounter = parseInt(localStorage.getItem('skg_counter_' + prefix)) || 1;
-  localStorage.setItem('skg_counter_' + prefix, dailyCounter + 1);
-}
-
-const defaultItems = [
+const seedItems = [
   { sku: "SKU-001", name: "California Almonds 250g", cat: "Dry Fruits", unit: "Pouch", cost: 158, b2b: 175, b2c: 210, stock: 50 },
-  { sku: "SKU-002", name: "Cashews W320 Grade 250g", cat: "Dry Fruits", unit: "Pouch", cost: 173, b2b: 190, b2c: 230, stock: 40 },
+  { sku: "SKU-002", name: "Cashews W320 250g", cat: "Dry Fruits", unit: "Pouch", cost: 173, b2b: 190, b2c: 230, stock: 40 },
   { sku: "SKU-003", name: "Phool Makhana Jumbo 250g", cat: "Dry Fruits", unit: "Pouch", cost: 167, b2b: 185, b2c: 230, stock: 30 },
   { sku: "SKU-004", name: "Fresh Cream Cake 1/2kg", cat: "Bakery", unit: "Pcs", cost: 130, b2b: 200, b2c: 320, stock: 6 },
   { sku: "SKU-005", name: "Special Pastry", cat: "Bakery", unit: "Pcs", cost: 18, b2b: 30, b2c: 50, stock: 20 },
   { sku: "SKU-006", name: "Suji Rusk 500g Pack", cat: "Tea Bakery", unit: "Pouch", cost: 24, b2b: 28, b2c: 42, stock: 100 },
   { sku: "SKU-007", name: "Special Jeera Fan 400g", cat: "Tea Bakery", unit: "Pouch", cost: 27, b2b: 32, b2c: 48, stock: 80 },
   { sku: "SKU-008", name: "Ratlami Sev 400g", cat: "Namkeen", unit: "Pouch", cost: 34.5, b2b: 40, b2c: 55, stock: 60 },
-  { sku: "SKU-009", name: "Novelty Toffee Jar (150 Pcs)", cat: "Confectionery", unit: "Jar", cost: 130, b2b: 155, b2c: 220, stock: 25 },
-  { sku: "SKU-010", name: "Cold Drinks 250ml PET", cat: "Beverages", unit: "Bottle", cost: 15.8, b2b: 17.5, b2c: 20, stock: 120 }
+  { sku: "SKU-009", name: "Novelty Toffee Jar 150pcs", cat: "Confectionery", unit: "Jar", cost: 130, b2b: 155, b2c: 220, stock: 25 },
+  { sku: "SKU-010", name: "Cold Drinks 250ml", cat: "Beverages", unit: "Bottle", cost: 15.8, b2b: 17.5, b2c: 20, stock: 120 }
 ];
 
-let items = JSON.parse(localStorage.getItem('skg_items')) || defaultItems;
+let items = getSafeStorage('skg_items', seedItems);
+let sales = getSafeStorage('skg_sales', []);
+let purchases = getSafeStorage('skg_purchases', []);
+let opex = getSafeStorage('skg_opex', [
+  { id: "OPX-01", date: "2026-10-01", cat: "Shop Rent (Wazirabad)", amount: 12000, mode: "Bank", notes: "Monthly Dual Shop Rent" },
+  { id: "OPX-02", date: "2026-10-02", cat: "Electricity / Chiller Power", amount: 3500, mode: "UPI", notes: "Chillers & LED lights" }
+]);
+let selfUse = getSafeStorage('skg_selfuse', []);
+let capitalData = getSafeStorage('skg_capital_tx', [
+  { id: "CAP-01", date: "2026-11-20", type: "Initial Capital Invested", amount: initialCapital, balance: initialCapital, notes: "Asset-Backed Investment" }
+]);
+
 let cart = [];
-let currentChannel = 'B2C';
-let currentCategory = 'ALL';
+let currentCategory = "ALL";
+let currentChannel = "B2C";
 
-let capitalData = JSON.parse(localStorage.getItem('skg_capital')) || [
-  { id: "CAP-01", date: "2026-11-20", type: "Initial Capital Invested", amount: initialCapitalValue, balance: initialCapitalValue, notes: "Asset-Backed Investment" },
-  { id: "CAP-02", date: "2026-12-05", type: "Monthly Interest Paid", amount: 22500, balance: initialCapitalValue - 22500, notes: "Financier/Asset Return Paid" },
-  { id: "CAP-03", date: "2026-12-10", type: "Personal Drawing", amount: 15000, balance: initialCapitalValue - 37500, notes: "Owner Household Expense" }
-];
-
-let sales = JSON.parse(localStorage.getItem('skg_sales')) || [
-  { billNo: "INV11102601", date: "2026-10-11", party: "Walk-in Customer", sku: "SKU-004", name: "Fresh Cream Cake 1/2kg", channel: "B2C", qty: 1, rate: 320, subtotal: 320, discount: 0, gstRate: "0", gstAmount: 0, total: 320, mode: "UPI", profit: 190 },
-  { billNo: "INV11102602", date: "2026-10-11", party: "Sharma Paan Corner", sku: "SKU-009", name: "Novelty Toffee Jar (150 Pcs)", channel: "B2B", qty: 2, rate: 155, subtotal: 310, discount: 10, gstRate: "5", gstAmount: 15, total: 315, mode: "Cash", profit: 45 }
-];
-
-let purchases = JSON.parse(localStorage.getItem('skg_purchases')) || [];
-let selfUse = JSON.parse(localStorage.getItem('skg_selfuse')) || [];
-
-function saveState() {
-  localStorage.setItem('skg_items', JSON.stringify(items));
-  localStorage.setItem('skg_capital', JSON.stringify(capitalData));
-  localStorage.setItem('skg_sales', JSON.stringify(sales));
-  localStorage.setItem('skg_purchases', JSON.stringify(purchases));
-  localStorage.setItem('skg_selfuse', JSON.stringify(selfUse));
+function saveAll() {
+  try {
+    localStorage.setItem('skg_items', JSON.stringify(items));
+    localStorage.setItem('skg_sales', JSON.stringify(sales));
+    localStorage.setItem('skg_purchases', JSON.stringify(purchases));
+    localStorage.setItem('skg_opex', JSON.stringify(opex));
+    localStorage.setItem('skg_selfuse', JSON.stringify(selfUse));
+    localStorage.setItem('skg_capital_tx', JSON.stringify(capitalData));
+  } catch(e) {}
 }
 
-function switchTab(tabId, btn) {
-  document.querySelectorAll('.view-panel').forEach(p => p.classList.remove('active'));
-  document.querySelectorAll('nav button').forEach(b => b.classList.remove('active'));
-  document.getElementById(tabId).classList.add('active');
-  btn.classList.add('active');
+function updateRoleView() {
+  const isAdm = currentUserRole === "ADMIN";
+  const badge = document.getElementById('roleBadge');
+  const dLabel = document.getElementById('drawerUserLabel');
   
-  const titles = {
-    posTab: "🛒 POS Billing Counter",
-    inventoryTab: "📦 Real-Time Stock & SKU Master",
-    purchaseTab: "📥 Inward Stock & Purchases",
-    salesLogTab: "🧾 Serial Sales Invoices History",
-    selfuseTab: "☕ Shop Self-Use & Spoilage Tracker",
-    partiesTab: "👥 Party-Wise Ledgers",
-    capitalTab: "💰 Capital, Financier Return & Drawings",
-    reportsTab: "📊 Comprehensive Business Reports",
-    connectTab: "🔗 Google Sheets Web App Connection"
-  };
-  document.getElementById('viewHeading').innerText = titles[tabId];
+  if (badge) {
+    badge.className = isAdm ? "user-badge badge-admin" : "user-badge badge-staff";
+    badge.innerText = isAdm ? "👤 ADMIN" : "👤 STAFF";
+  }
+  if (dLabel) {
+    dLabel.innerText = isAdm ? "ADMIN" : "STAFF USER";
+    dLabel.style.color = isAdm ? "#FDBA74" : "#38BDF8";
+  }
+
+  const capNav = document.getElementById('navCapitalBtn');
+  const repNav = document.getElementById('navReportsBtn');
+  if (capNav) capNav.style.display = isAdm ? "flex" : "none";
+  if (repNav) repNav.style.display = isAdm ? "flex" : "none";
+
+  document.querySelectorAll('.admin-col').forEach(c => c.style.display = isAdm ? "" : "none");
+  document.querySelectorAll('.admin-btn').forEach(b => b.style.display = isAdm ? "inline-block" : "none");
+}
+
+function openLogin() {
+  document.getElementById('loginPin').value = "";
+  document.getElementById('loginRole').value = currentUserRole;
+  updatePinHint();
+  document.getElementById('loginModal').style.display = 'flex';
+}
+function closeLogin() { document.getElementById('loginModal').style.display = 'none'; }
+
+function updatePinHint() {
+  const r = document.getElementById('loginRole').value;
+  document.getElementById('pinHint').innerText = r === "ADMIN" ? "Default Admin PIN: 1234" : "Default Staff PIN: 0000";
+}
+
+function authenticateUser() {
+  const role = document.getElementById('loginRole').value;
+  const pin = document.getElementById('loginPin').value.trim();
+
+  if (role === "ADMIN") {
+    if (pin === adminPin || pin === "1234") {
+      currentUserRole = "ADMIN";
+      localStorage.setItem('skg_role', "ADMIN");
+      alert("✅ Logged in as ADMIN. Full modification & PnL controls active.");
+      closeLogin();
+      updateRoleView();
+      renderAll();
+    } else alert("❌ Incorrect Admin PIN!");
+  } else {
+    if (pin === userPin || pin === "0000" || pin === "") {
+      currentUserRole = "USER";
+      localStorage.setItem('skg_role', "USER");
+      alert("✅ Logged in as STAFF. Billing & entry mode active.");
+      closeLogin();
+      updateRoleView();
+      renderAll();
+    } else alert("❌ Incorrect Staff PIN!");
+  }
+}
+
+function isAdmin() {
+  if (currentUserRole !== "ADMIN") {
+    alert("⛔ Access Denied! Only ADMIN can delete or edit records.");
+    return false;
+  }
+  return true;
+}
+
+function toggleDrawer() {
+  document.getElementById('drawerMenu').classList.toggle('open');
+  document.getElementById('drawerOverlay').classList.toggle('active');
+}
+function closeDrawer() {
+  document.getElementById('drawerMenu').classList.remove('open');
+  document.getElementById('drawerOverlay').classList.remove('active');
+}
+
+function openMobileCart() {
+  document.getElementById('cartBox').classList.add('mobile-open');
+  document.getElementById('cartCloseBtn').style.display = 'block';
+}
+function closeMobileCart() {
+  document.getElementById('cartBox').classList.remove('mobile-open');
+  document.getElementById('cartCloseBtn').style.display = 'none';
+}
+
+function showTab(tabId, btn) {
+  if ((tabId === 'capitalView' || tabId === 'reportsView') && currentUserRole !== 'ADMIN') {
+    alert("⛔ Confidential Admin Section! Please login as Admin.");
+    openLogin();
+    return;
+  }
+  document.querySelectorAll('.view-tab').forEach(t => t.classList.remove('active'));
+  document.querySelectorAll('.drawer-nav button').forEach(b => b.classList.remove('active'));
+  document.getElementById(tabId).classList.add('active');
+  if (btn) btn.classList.add('active');
+  closeDrawer();
   renderAll();
 }
 
-function updateNextBillLabel() {
-  const lbl = document.getElementById('nextBillNoLabel');
-  if (lbl) lbl.innerText = getNextSerialBillNo();
+function getBillSerial() {
+  const now = new Date();
+  const dd = String(now.getDate()).padStart(2, '0');
+  const mm = String(now.getMonth() + 1).padStart(2, '0');
+  const yy = String(now.getFullYear()).slice(-2);
+  const prefix = `INV${dd}${mm}${yy}`;
+  let count = parseInt(localStorage.getItem('skg_ctr_' + prefix)) || 1;
+  return `${prefix}${String(count).padStart(2, '0')}`;
 }
 
-function renderPOS() {
-  updateNextBillLabel();
-  const grid = document.getElementById('productGrid');
-  const query = document.getElementById('searchBox').value.toLowerCase();
-  grid.innerHTML = '';
-  
-  items.filter(item => {
-    const matchesCat = currentCategory === 'ALL' || item.cat === currentCategory;
-    const matchesQuery = item.name.toLowerCase().includes(query) || item.sku.toLowerCase().includes(query);
-    return matchesCat && matchesQuery;
-  }).forEach(item => {
-    const price = currentChannel === 'B2C' ? item.b2c : item.b2b;
-    const isLow = item.stock <= 5;
-    const card = document.createElement('div');
-    card.className = 'product-card';
-    card.onclick = () => addToCart(item);
-    card.innerHTML = `
-      <div>
-        <span class="stock-pill ${isLow ? 'stock-low' : 'stock-good'}">${item.stock} in stock</span>
-        <div class="product-name">${item.name}</div>
-        <div class="product-meta">${item.cat} • ${item.unit}</div>
-      </div>
-      <div class="product-price">₹${price}</div>
-    `;
-    grid.appendChild(card);
-  });
+function incBillSerial() {
+  const now = new Date();
+  const dd = String(now.getDate()).padStart(2, '0');
+  const mm = String(now.getMonth() + 1).padStart(2, '0');
+  const yy = String(now.getFullYear()).slice(-2);
+  const prefix = `INV${dd}${mm}${yy}`;
+  let count = parseInt(localStorage.getItem('skg_ctr_' + prefix)) || 1;
+  localStorage.setItem('skg_ctr_' + prefix, count + 1);
 }
 
-function filterCategory(cat, el) {
+function setCategory(cat, btn) {
   currentCategory = cat;
-  document.querySelectorAll('.chip').forEach(c => c.classList.remove('active'));
-  el.classList.add('active');
-  renderPOS();
+  document.querySelectorAll('.cat-pills button').forEach(b => b.classList.remove('active'));
+  btn.classList.add('active');
+  renderProducts();
 }
-
-function filterProducts() { renderPOS(); }
 
 function setChannel(ch) {
   currentChannel = ch;
-  document.getElementById('b2cBtn').classList.toggle('active', ch === 'B2C');
-  document.getElementById('b2bBtn').classList.toggle('active', ch === 'B2B');
-  renderPOS();
-  calculateCartTotals();
+  document.getElementById('b2cBtn').style.background = ch === 'B2C' ? 'white' : 'transparent';
+  document.getElementById('b2cBtn').style.color = ch === 'B2C' ? 'var(--primary)' : '#64748B';
+  document.getElementById('b2bBtn').style.background = ch === 'B2B' ? 'white' : 'transparent';
+  document.getElementById('b2bBtn').style.color = ch === 'B2B' ? 'var(--primary)' : '#64748B';
+  renderProducts();
+  updateCartMath();
+}
+
+function renderProducts() {
+  const q = document.getElementById('searchInput').value.toLowerCase();
+  const grid = document.getElementById('productGrid');
+  grid.innerHTML = '';
+  document.getElementById('billSerialNo').innerText = getBillSerial();
+
+  items.filter(i => {
+    const mCat = currentCategory === 'ALL' || i.cat === currentCategory;
+    const mQuery = i.name.toLowerCase().includes(q) || i.sku.toLowerCase().includes(q);
+    return mCat && mQuery;
+  }).forEach(i => {
+    const price = currentChannel === 'B2C' ? i.b2c : i.b2b;
+    const isLow = i.stock <= 5;
+    const card = document.createElement('div');
+    card.className = 'p-card';
+    card.onclick = () => addToCart(i);
+    card.innerHTML = `
+      <div>
+        <div class="p-title">${i.name}</div>
+        <div class="p-cat">${i.cat} • ${i.unit}</div>
+      </div>
+      <div class="p-bottom">
+        <span class="p-price">₹${price}</span>
+        <span class="p-stock ${isLow ? 'stock-low' : 'stock-ok'}">${i.stock} in stock</span>
+      </div>
+    `;
+    grid.appendChild(card);
+  });
 }
 
 function addToCart(item) {
@@ -953,300 +881,572 @@ function addToCart(item) {
   renderCart();
 }
 
-function updateQty(sku, delta) {
-  const itemInCart = cart.find(c => c.sku === sku);
-  const stockItem = items.find(i => i.sku === sku);
-  if (itemInCart) {
-    itemInCart.qty += delta;
-    if (itemInCart.qty > stockItem.stock) {
-      itemInCart.qty = stockItem.stock;
-      alert("Stock limit reached!");
-    }
-    if (itemInCart.qty <= 0) {
-      cart = cart.filter(c => c.sku !== sku);
-    }
+function updateCartQty(sku, delta) {
+  const inCart = cart.find(c => c.sku === sku);
+  const stock = items.find(i => i.sku === sku);
+  if (inCart) {
+    inCart.qty += delta;
+    if (inCart.qty > stock.stock) inCart.qty = stock.stock;
+    if (inCart.qty <= 0) cart = cart.filter(c => c.sku !== sku);
   }
   renderCart();
 }
 
 function clearCart() {
   cart = [];
-  document.getElementById('discountInput').value = 0;
-  document.getElementById('cartGstRate').value = "0";
+  document.getElementById('discInput').value = 0;
+  document.getElementById('gstSelect').value = "0";
   renderCart();
 }
 
 function renderCart() {
-  const container = document.getElementById('cartItemsList');
+  const list = document.getElementById('cartItemsList');
+  let count = 0;
+  cart.forEach(c => count += c.qty);
+  document.getElementById('mobItemCount').innerText = count;
+
   if (cart.length === 0) {
-    container.innerHTML = '<p style="text-align:center; color:var(--text-muted); font-size:12px; margin-top:35px;">Cart is empty.<br>Click items to add.</p>';
-    document.getElementById('cartSubtotalVal').innerText = "₹0.00";
-    document.getElementById('cartFinalTotalVal').innerText = "₹0.00";
-    document.getElementById('gstTaxRow').style.display = 'none';
+    list.innerHTML = '<p style="text-align:center; color:var(--text-muted); font-size:12px; margin-top:30px;">Cart is empty.<br>Tap items to add.</p>';
+    document.getElementById('subtotalDisp').innerText = "₹0.00";
+    document.getElementById('finalTotalDisp').innerText = "₹0.00";
+    document.getElementById('mobTotalAmount').innerText = "₹0.00 ➔";
+    document.getElementById('gstRow').style.display = 'none';
     return;
   }
 
-  container.innerHTML = '';
-  cart.forEach(item => {
-    const rate = currentChannel === 'B2C' ? item.b2c : item.b2b;
-    const sub = rate * item.qty;
+  list.innerHTML = '';
+  cart.forEach(c => {
+    const rate = currentChannel === 'B2C' ? c.b2c : c.b2b;
+    const sub = rate * c.qty;
     const row = document.createElement('div');
-    row.className = 'cart-item-row';
+    row.className = 'cart-row';
     row.innerHTML = `
       <div style="flex:1;">
-        <div style="font-weight:600;">${item.name}</div>
-        <div style="font-size:11px; color:var(--text-muted);">₹${rate} x ${item.qty}</div>
+        <b>${c.name}</b>
+        <div style="color:#64748B; font-size:11px;">₹${rate} x ${c.qty}</div>
       </div>
-      <div style="display:flex; align-items:center; gap:5px;">
-        <button class="qty-btn" onclick="updateQty('${item.sku}', -1)">-</button>
-        <span style="font-weight:600;">${item.qty}</span>
-        <button class="qty-btn" onclick="updateQty('${item.sku}', 1)">+</button>
+      <div style="display:flex; align-items:center; gap:4px;">
+        <button class="q-btn" onclick="updateCartQty('${c.sku}', -1)">-</button>
+        <b>${c.qty}</b>
+        <button class="q-btn" onclick="updateCartQty('${c.sku}', 1)">+</button>
       </div>
-      <div style="width:55px; text-align:right; font-weight:700;">₹${sub}</div>
+      <div style="width:50px; text-align:right; font-weight:800;">₹${sub}</div>
     `;
-    container.appendChild(row);
+    list.appendChild(row);
   });
-  calculateCartTotals();
+  updateCartMath();
 }
 
-function calculateCartTotals() {
+function updateCartMath() {
   let subtotal = 0;
-  cart.forEach(item => {
-    const rate = currentChannel === 'B2C' ? item.b2c : item.b2b;
-    subtotal += rate * item.qty;
+  cart.forEach(c => {
+    const rate = currentChannel === 'B2C' ? itemRate = currentChannel === 'B2C' ? c.b2c : c.b2b;
+    subtotal += rate * c.qty;
   });
-  document.getElementById('cartSubtotalVal').innerText = "₹" + subtotal.toFixed(2);
+  document.getElementById('subtotalDisp').innerText = "₹" + subtotal.toFixed(2);
 
-  const discVal = parseFloat(document.getElementById('discountInput').value) || 0;
-  const discType = document.getElementById('discountType').value;
-  let discountAmt = discType === 'PCT' ? (subtotal * discVal / 100) : discVal;
-  discountAmt = Math.min(subtotal, Math.max(0, discountAmt));
+  const discVal = parseFloat(document.getElementById('discInput').value) || 0;
+  const discType = document.getElementById('discType').value;
+  let discAmt = discType === 'PCT' ? (subtotal * discVal / 100) : discVal;
+  discAmt = Math.min(subtotal, Math.max(0, discAmt));
 
-  const afterDiscount = subtotal - discountAmt;
-
-  const gstOption = document.getElementById('cartGstRate').value;
-  let gstPct = 0;
-  if (gstOption.includes("5")) gstPct = 5;
-  else if (gstOption.includes("12")) gstPct = 12;
-  else if (gstOption.includes("18")) gstPct = 18;
-  else if (gstOption.includes("28")) gstPct = 28;
-
-  let gstAmount = (afterDiscount * gstPct) / 100;
-  const finalTotal = afterDiscount + gstAmount;
+  const afterDisc = subtotal - discAmt;
+  const gstPct = parseFloat(document.getElementById('gstSelect').value) || 0;
+  const gstAmt = (afterDisc * gstPct) / 100;
+  const finalTotal = afterDisc + gstAmt;
 
   if (gstPct > 0) {
-    document.getElementById('gstTaxRow').style.display = 'flex';
-    document.getElementById('cartGstAmountVal').innerText = `₹${gstAmount.toFixed(2)} (${gstPct}%)`;
+    document.getElementById('gstRow').style.display = 'flex';
+    document.getElementById('gstAmountDisp').innerText = `₹${gstAmt.toFixed(2)} (${gstPct}%)`;
   } else {
-    document.getElementById('gstTaxRow').style.display = 'none';
+    document.getElementById('gstRow').style.display = 'none';
   }
 
-  document.getElementById('cartFinalTotalVal').innerText = "₹" + finalTotal.toFixed(2);
-  return { subtotal, discountAmt, gstOption, gstPct, gstAmount, finalTotal };
+  document.getElementById('finalTotalDisp').innerText = "₹" + finalTotal.toFixed(2);
+  document.getElementById('mobTotalAmount').innerText = "₹" + finalTotal.toFixed(2) + " ➔";
+  return { subtotal, discAmt, gstPct, gstAmt, finalTotal };
 }
 
-function toggleUpiQrBtn() {
-  const mode = document.getElementById('payMode').value;
-  document.getElementById('dynamicQrBox').style.display = mode === 'UPI' ? 'block' : 'none';
+function toggleUpiBtn() {
+  const m = document.getElementById('paySelect').value;
+  document.getElementById('upiQrBtn').style.display = m === 'UPI' ? 'block' : 'none';
 }
 
-function showDynamicUpiModal() {
-  const totals = calculateCartTotals();
-  if (totals.finalTotal <= 0) { alert("Cart is empty! Add items first."); return; }
-
-  const billNo = getNextSerialBillNo();
-  const amtFormatted = totals.finalTotal.toFixed(2);
-
-  const upiUrl = `upi://pay?pa=${encodeURIComponent(shopUpiId)}&pn=The%20Foodophiles&am=${amtFormatted}&cu=INR&tn=${billNo}`;
-  const qrApiUrl = `https://api.qrserver.com/v1/create-qr-code/?size=250x250&data=${encodeURIComponent(upiUrl)}`;
-
-  document.getElementById('qrAmountDisp').innerText = "₹" + amtFormatted;
-  document.getElementById('qrUpiIdDisp').innerText = shopUpiId;
-  document.getElementById('qrBillRefDisp').innerText = billNo;
-  document.getElementById('dynamicQrImage').src = qrApiUrl;
-  document.getElementById('upiQrModal').style.display = 'flex';
+function openUpiQrModal() {
+  const math = updateCartMath();
+  if (math.finalTotal <= 0) { alert("Cart is empty!"); return; }
+  const billNo = getBillSerial();
+  const amt = math.finalTotal.toFixed(2);
+  const upiUrl = `upi://pay?pa=${encodeURIComponent(shopUpiId)}&pn=The%20Foodophiles&am=${amt}&cu=INR&tn=${billNo}`;
+  document.getElementById('qrAmt').innerText = "₹" + amt;
+  document.getElementById('qrRef').innerText = billNo + " (" + shopUpiId + ")";
+  document.getElementById('qrImg').src = `https://api.qrserver.com/v1/create-qr-code/?size=250x250&data=${encodeURIComponent(upiUrl)}`;
+  document.getElementById('upiModal').style.display = 'flex';
 }
-
-function closeUpiQrModal() {
-  document.getElementById('upiQrModal').style.display = 'none';
-}
+function closeUpiModal() { document.getElementById('upiModal').style.display = 'none'; }
 
 function checkoutBill() {
-  if (cart.length === 0) { alert("Please add items to cart!"); return; }
-
-  const totals = calculateCartTotals();
-  const billNo = getNextSerialBillNo();
+  if (cart.length === 0) { alert("Add items to cart!"); return; }
+  const math = updateCartMath();
+  const billNo = getBillSerial();
   const cust = document.getElementById('custName').value || "Walk-in Customer";
-  const mode = document.getElementById('payMode').value;
-  const todayStr = new Date().toISOString().split('T')[0];
+  const mode = document.getElementById('paySelect').value;
+  const dateStr = new Date().toISOString().split('T')[0];
 
   cart.forEach(c => {
     const inv = items.find(i => i.sku === c.sku);
     const rate = currentChannel === 'B2C' ? inv.b2c : inv.b2b;
-    const sub = rate * c.qty;
-    
-    const itemRatio = totals.subtotal > 0 ? (sub / totals.subtotal) : 0;
-    const itemDiscount = totals.discountAmt * itemRatio;
-    const itemTax = totals.gstAmount * itemRatio;
-    const itemFinalTotal = (sub - itemDiscount) + itemTax;
-    const itemProfit = (sub - itemDiscount) - (inv.cost * c.qty);
+    const itemSub = rate * c.qty;
+    const ratio = math.subtotal > 0 ? (itemSub / math.subtotal) : 0;
+    const itemDisc = math.discAmt * ratio;
+    const itemTax = math.gstAmt * ratio;
+    const itemTotal = (itemSub - itemDisc) + itemTax;
+    const itemProfit = (itemSub - itemDisc) - (inv.cost * c.qty);
 
     inv.stock -= c.qty;
-
     sales.push({
-      billNo: billNo,
-      date: todayStr,
-      party: cust,
-      sku: c.sku,
-      name: c.name,
-      channel: currentChannel,
-      qty: c.qty,
-      rate: rate,
-      subtotal: sub,
-      discount: itemDiscount,
-      gstRate: totals.gstOption,
-      gstAmount: itemTax,
-      total: itemFinalTotal,
-      mode: mode,
-      profit: itemProfit
+      billNo, date: dateStr, party: cust, sku: c.sku, name: c.name,
+      channel: currentChannel, qty: c.qty, rate: rate, subtotal: itemSub,
+      discount: itemDisc, gstRate: math.gstPct, gstAmount: itemTax,
+      total: itemTotal, mode: mode, profit: itemProfit
     });
   });
 
-  incrementSerialBillCounter();
-  saveState();
-  showReceipt(billNo, cust, mode, totals);
+  incBillSerial();
+  saveAll();
+  showReceipt(billNo, cust, mode, math);
   clearCart();
+  closeMobileCart();
   renderAll();
 }
 
-function showReceipt(billNo, cust, mode, totals) {
-  document.getElementById('receiptTaxHeader').innerText = totals.gstPct > 0 ? "TAX INVOICE (GST)" : "RETAIL CASH MEMO";
-  document.getElementById('receiptDetails').innerHTML = `
-    <div><b>Invoice No:</b> ${billNo}</div>
-    <div><b>Date & Time:</b> ${new Date().toLocaleDateString()} ${new Date().toLocaleTimeString()}</div>
+function showReceipt(billNo, cust, mode, math) {
+  document.getElementById('rcptHeader').innerText = math.gstPct > 0 ? "TAX INVOICE (GST)" : "RETAIL CASH MEMO";
+  document.getElementById('rcptMeta').innerHTML = `
+    <div><b>Invoice:</b> ${billNo}</div>
+    <div><b>Date:</b> ${new Date().toLocaleDateString()} ${new Date().toLocaleTimeString()}</div>
     <div><b>Customer:</b> ${cust}</div>
-    <div><b>Payment Mode:</b> ${mode}</div>
+    <div><b>Mode:</b> ${mode}</div>
   `;
-
-  const tbody = document.getElementById('receiptItemsTable');
-  tbody.innerHTML = `<tr><th>Item</th><th style="text-align:center;">Qty</th><th style="text-align:right;">Rate</th><th style="text-align:right;">Total</th></tr>`;
+  const t = document.getElementById('rcptTable');
+  t.innerHTML = `<tr><th>Item</th><th style="text-align:center;">Qty</th><th style="text-align:right;">Rate</th><th style="text-align:right;">Total</th></tr>`;
   sales.filter(s => s.billNo === billNo).forEach(s => {
-    tbody.innerHTML += `<tr><td>${s.name}</td><td style="text-align:center;">${s.qty}</td><td style="text-align:right;">₹${s.rate}</td><td style="text-align:right;">₹${s.subtotal.toFixed(2)}</td></tr>`;
+    t.innerHTML += `<tr><td>${s.name}</td><td style="text-align:center;">${s.qty}</td><td style="text-align:right;">₹${s.rate}</td><td style="text-align:right;">₹${s.subtotal.toFixed(2)}</td></tr>`;
   });
-
-  let mathHtml = `
-    <div style="display:flex; justify-content:space-between;"><span>Subtotal:</span><span>₹${totals.subtotal.toFixed(2)}</span></div>
-  `;
-  if (totals.discountAmt > 0) {
-    mathHtml += `<div style="display:flex; justify-content:space-between; color:red;"><span>Discount:</span><span>-₹${totals.discountAmt.toFixed(2)}</span></div>`;
-  }
-  if (totals.gstPct > 0) {
-    mathHtml += `<div style="display:flex; justify-content:space-between; color:blue;"><span>GST Tax (${totals.gstOption}):</span><span>+₹${totals.gstAmount.toFixed(2)}</span></div>`;
-  }
-  document.getElementById('receiptMathBreakdown').innerHTML = mathHtml;
-  document.getElementById('receiptTotal').innerText = "₹" + totals.finalTotal.toFixed(2);
+  let mHtml = `<div class="calc-row"><span>Subtotal:</span><span>₹${math.subtotal.toFixed(2)}</span></div>`;
+  if (math.discAmt > 0) mHtml += `<div class="calc-row" style="color:red;"><span>Discount:</span><span>-₹${math.discAmt.toFixed(2)}</span></div>`;
+  if (math.gstPct > 0) mHtml += `<div class="calc-row" style="color:blue;"><span>GST (${math.gstPct}%):</span><span>+₹${math.gstAmt.toFixed(2)}</span></div>`;
+  document.getElementById('rcptMath').innerHTML = mHtml;
+  document.getElementById('rcptTotal').innerText = "₹" + math.finalTotal.toFixed(2);
   document.getElementById('receiptModal').style.display = 'flex';
 }
-
 function closeReceipt() { document.getElementById('receiptModal').style.display = 'none'; }
 
-function openAddSkuForm() {
-  document.getElementById('skuModalTitle').innerText = "+ Register New SKU Item";
-  document.getElementById('editSkuIndex').value = "-1";
-  document.getElementById('modalSku').value = "SKU-0" + (items.length + 1);
-  document.getElementById('modalName').value = "";
-  document.getElementById('modalCat').value = "";
-  document.getElementById('modalUnit').value = "Pouch";
-  document.getElementById('modalCost').value = "";
-  document.getElementById('modalB2b').value = "";
-  document.getElementById('modalB2c').value = "";
-  document.getElementById('modalStock').value = "0";
-  document.getElementById('skuModal').style.display = 'flex';
-}
-
-function openEditSkuForm(idx) {
-  if (!verifyOwnerAccess()) return;
-  const item = items[idx];
-  document.getElementById('skuModalTitle').innerText = `✏️ Modify SKU: ${item.sku}`;
-  document.getElementById('editSkuIndex').value = idx;
-  document.getElementById('modalSku').value = item.sku;
-  document.getElementById('modalName').value = item.name;
-  document.getElementById('modalCat').value = item.cat;
-  document.getElementById('modalUnit').value = item.unit;
-  document.getElementById('modalCost').value = item.cost;
-  document.getElementById('modalB2b').value = item.b2b;
-  document.getElementById('modalB2c').value = item.b2c;
-  document.getElementById('modalStock').value = item.stock;
-  document.getElementById('skuModal').style.display = 'flex';
-}
-
-function closeSkuModal() {
-  document.getElementById('skuModal').style.display = 'none';
-}
-
-function saveSkuModal() {
-  const idx = parseInt(document.getElementById('editSkuIndex').value);
-  const sku = document.getElementById('modalSku').value.trim();
-  const name = document.getElementById('modalName').value.trim();
-  const cat = document.getElementById('modalCat').value.trim();
-  const unit = document.getElementById('modalUnit').value.trim();
-  const cost = parseFloat(document.getElementById('modalCost').value) || 0;
-  const b2b = parseFloat(document.getElementById('modalB2b').value) || 0;
-  const b2c = parseFloat(document.getElementById('modalB2c').value) || 0;
-  const stock = parseInt(document.getElementById('modalStock').value) || 0;
-
-  if (!sku || !name) { alert("Please enter both SKU Code and Name!"); return; }
-
+function openSkuModal(idx) {
+  if (!isAdmin()) return;
+  document.getElementById('editSkuIdx').value = idx;
   if (idx >= 0) {
-    items[idx] = { sku, name, cat, unit, cost, b2b, b2c, stock };
-    alert(`✅ SKU ${sku} updated successfully!`);
+    const item = items[idx];
+    document.getElementById('skuModalTitle').innerText = `Modify SKU: ${item.sku}`;
+    document.getElementById('mSku').value = item.sku;
+    document.getElementById('mName').value = item.name;
+    document.getElementById('mCat').value = item.cat;
+    document.getElementById('mUnit').value = item.unit;
+    document.getElementById('mCost').value = item.cost;
+    document.getElementById('mB2b').value = item.b2b;
+    document.getElementById('mB2c').value = item.b2c;
+    document.getElementById('mStock').value = item.stock;
   } else {
-    items.push({ sku, name, cat, unit, cost, b2b, b2c, stock });
-    alert(`✅ New SKU ${name} added to inventory!`);
+    document.getElementById('skuModalTitle').innerText = "Register New SKU";
+    document.getElementById('mSku').value = "SKU-0" + (items.length + 1);
+    document.getElementById('mName').value = "";
+    document.getElementById('mCat').value = "Dry Fruits";
+    document.getElementById('mUnit').value = "Pouch";
+    document.getElementById('mCost').value = "";
+    document.getElementById('mB2b').value = "";
+    document.getElementById('mB2c').value = "";
+    document.getElementById('mStock').value = "0";
   }
+  document.getElementById('skuModal').style.display = 'flex';
+}
+function closeSkuModal() { document.getElementById('skuModal').style.display = 'none'; }
 
-  saveState();
+function saveSku() {
+  const idx = parseInt(document.getElementById('editSkuIdx').value);
+  const sku = document.getElementById('mSku').value.trim();
+  const name = document.getElementById('mName').value.trim();
+  const cat = document.getElementById('mCat').value.trim();
+  const unit = document.getElementById('mUnit').value.trim();
+  const cost = parseFloat(document.getElementById('mCost').value) || 0;
+  const b2b = parseFloat(document.getElementById('mB2b').value) || 0;
+  const b2c = parseFloat(document.getElementById('mB2c').value) || 0;
+  const stock = parseInt(document.getElementById('mStock').value) || 0;
+
+  if (!sku || !name) { alert("Enter SKU and Name!"); return; }
+
+  if (idx >= 0) items[idx] = { sku, name, cat, unit, cost, b2b, b2c, stock };
+  else items.push({ sku, name, cat, unit, cost, b2b, b2c, stock });
+
+  saveAll();
   closeSkuModal();
   renderAll();
+  alert("SKU saved!");
 }
 
-function renderInventoryTable() {
-  const tbody = document.getElementById('inventoryTableBody');
+function deleteSku(idx) {
+  if (!isAdmin()) return;
+  if (confirm(`Delete ${items[idx].name} permanently?`)) {
+    items.splice(idx, 1);
+    saveAll();
+    renderAll();
+  }
+}
+
+function renderInventory() {
+  const tbody = document.getElementById('inventoryTable');
   tbody.innerHTML = '';
   items.forEach((i, idx) => {
     const isLow = i.stock <= 5;
     tbody.innerHTML += `
       <tr>
-        <td><b>${i.sku}</b></td>
-        <td>${i.name}</td>
-        <td>${i.cat}</td>
-        <td>₹${i.cost}</td>
-        <td>₹${i.b2b}</td>
-        <td>₹${i.b2c}</td>
+        <td><b>${i.sku}</b></td><td>${i.name}</td><td>${i.cat}</td>
+        <td>₹${i.cost}</td><td>₹${i.b2b}</td><td>₹${i.b2c}</td>
         <td><b>${i.stock} ${i.unit}</b></td>
-        <td><span class="stock-pill ${isLow ? 'stock-low' : 'stock-good'}">${isLow ? 'LOW STOCK' : 'OK'}</span></td>
-        <td>
-          <button class="btn-action btn-edit" onclick="openEditSkuForm(${idx})">Edit</button>
-          <button class="btn-action btn-del" onclick="deleteProduct(${idx})">Delete</button>
+        <td><span class="p-stock ${isLow ? 'stock-low' : 'stock-ok'}">${isLow ? 'LOW' : 'OK'}</span></td>
+        <td class="admin-col">
+          <button class="btn-action btn-edit" onclick="openSkuModal(${idx})">Edit</button>
+          <button class="btn-action btn-del" onclick="deleteSku(${idx})">Delete</button>
         </td>
       </tr>
     `;
   });
 }
 
-function deleteProduct(idx) {
-  if (!verifyOwnerAccess()) return;
-  if (confirm(`Delete "${items[idx].name}" from inventory permanent?`)) {
-    items.splice(idx, 1);
-    saveState();
+function addPurchase() {
+  const sku = document.getElementById('purSku').value;
+  const vendor = document.getElementById('purVendor').value || "Khari Baoli Trader";
+  const qty = parseInt(document.getElementById('purQty').value) || 0;
+  const rate = parseFloat(document.getElementById('purRate').value) || 0;
+  const mode = document.getElementById('purMode').value;
+  if (qty <= 0) { alert("Enter valid quantity!"); return; }
+
+  const item = items.find(i => i.sku === sku);
+  item.stock += qty;
+  purchases.push({
+    id: "PUR-" + Math.floor(1000 + Math.random() * 9000),
+    date: new Date().toISOString().split('T')[0],
+    sku, name: item.name, vendor, qty, rate, total: qty * rate, mode
+  });
+  saveAll();
+  renderAll();
+  alert("Inward Stock recorded!");
+}
+
+function deletePurchase(idx) {
+  if (!isAdmin()) return;
+  const p = purchases[idx];
+  if (confirm(`Rollback ${p.qty} units of ${p.name}? Stock will be deducted.`)) {
+    const item = items.find(i => i.sku === p.sku);
+    if (item) item.stock = Math.max(0, item.stock - p.qty);
+    purchases.splice(idx, 1);
+    saveAll();
     renderAll();
-    alert("SKU removed!");
   }
 }
 
+function renderPurchases() {
+  const tbody = document.getElementById('purchasesTable');
+  tbody.innerHTML = '';
+  purchases.forEach((p, idx) => {
+    tbody.innerHTML += `
+      <tr>
+        <td>${p.id}</td><td>${p.date}</td><td>${p.name}</td><td>${p.vendor}</td>
+        <td>+${p.qty}</td><td>₹${p.rate}</td><td><b>₹${p.total}</b></td>
+        <td class="admin-col"><button class="btn-action btn-del" onclick="deletePurchase(${idx})">Delete</button></td>
+      </tr>
+    `;
+  });
+}
+
+function cancelSale(idx) {
+  if (!isAdmin()) return;
+  const s = sales[idx];
+  if (confirm(`Cancel invoice ${s.billNo}? ${s.qty} units will be returned to stock.`)) {
+    const item = items.find(i => i.sku === s.sku);
+    if (item) item.stock += s.qty;
+    sales.splice(idx, 1);
+    saveAll();
+    renderAll();
+  }
+}
+
+function renderSales() {
+  const tbody = document.getElementById('salesTable');
+  tbody.innerHTML = '';
+  sales.forEach((s, idx) => {
+    tbody.innerHTML += `
+      <tr>
+        <td><b>${s.billNo}</b></td><td>${s.date}</td><td>${s.party}</td><td>${s.name}</td>
+        <td>${s.channel}</td><td>${s.qty}</td><td>₹${s.rate}</td><td>₹${(s.gstAmount||0).toFixed(2)}</td>
+        <td><b>₹${s.total.toFixed(2)}</b></td><td>${s.mode}</td>
+        <td class="admin-col"><button class="btn-action btn-del" onclick="cancelSale(${idx})">Cancel & Restore</button></td>
+      </tr>
+    `;
+  });
+}
+
+function addOpex() {
+  const cat = document.getElementById('opCat').value;
+  const amt = parseFloat(document.getElementById('opAmt').value) || 0;
+  const mode = document.getElementById('opMode').value;
+  const notes = document.getElementById('opNotes').value;
+  if (amt <= 0) { alert("Enter valid expense amount!"); return; }
+
+  opex.push({
+    id: "OPX-0" + (opex.length + 1),
+    date: new Date().toISOString().split('T')[0],
+    cat, amount: amt, mode, notes
+  });
+  saveAll();
+  document.getElementById('opAmt').value = "";
+  document.getElementById('opNotes').value = "";
+  renderAll();
+  alert("OPEX Expense recorded!");
+}
+
+function deleteOpex(idx) {
+  if (!isAdmin()) return;
+  if (confirm("Delete this expense entry?")) {
+    opex.splice(idx, 1);
+    saveAll();
+    renderAll();
+  }
+}
+
+function renderOpex() {
+  const tbody = document.getElementById('opexTable');
+  tbody.innerHTML = '';
+  let sum = 0;
+  opex.forEach((o, idx) => {
+    sum += o.amount;
+    tbody.innerHTML += `
+      <tr>
+        <td>${o.id}</td><td>${o.date}</td><td>${o.cat}</td><td style="color:#DC2626; font-weight:800;">₹${o.amount.toFixed(2)}</td>
+        <td>${o.mode}</td><td>${o.notes}</td>
+        <td class="admin-col"><button class="btn-action btn-del" onclick="deleteOpex(${idx})">Delete</button></td>
+      </tr>
+    `;
+  });
+  document.getElementById('opexTotalBanner').innerText = "₹" + sum.toLocaleString('en-IN', {minimumFractionDigits:2});
+}
+
+function addSelfUse() {
+  const sku = document.getElementById('suSku').value;
+  const qty = parseInt(document.getElementById('suQty').value) || 0;
+  const reason = document.getElementById('suReason').value;
+  const notes = document.getElementById('suNotes').value;
+  if (qty <= 0) { alert("Enter valid quantity!"); return; }
+
+  const item = items.find(i => i.sku === sku);
+  if (item.stock < qty) { alert("Not enough stock!"); return; }
+  item.stock -= qty;
+
+  selfUse.push({
+    id: "LOG-" + Math.floor(10 + Math.random() * 90),
+    date: new Date().toISOString().split('T')[0],
+    sku, name: item.name, qty, loss: qty * item.cost, reason, notes
+  });
+  saveAll();
+  renderAll();
+  alert("Spoilage logged & stock deducted!");
+}
+
+function deleteSelfUse(idx) {
+  if (!isAdmin()) return;
+  const s = selfUse[idx];
+  if (confirm(`Remove log? ${s.qty} units will be returned to stock.`)) {
+    const item = items.find(i => i.sku === s.sku);
+    if (item) item.stock += s.qty;
+    selfUse.splice(idx, 1);
+    saveAll();
+    renderAll();
+  }
+}
+
+function renderSelfUse() {
+  const tbody = document.getElementById('selfUseTable');
+  tbody.innerHTML = '';
+  selfUse.forEach((s, idx) => {
+    tbody.innerHTML += `
+      <tr>
+        <td>${s.id}</td><td>${s.date}</td><td>${s.name}</td><td>${s.qty}</td>
+        <td style="color:#DC2626; font-weight:700;">₹${s.loss}</td><td>${s.reason}</td><td>${s.notes}</td>
+        <td class="admin-col"><button class="btn-action btn-del" onclick="deleteSelfUse(${idx})">Delete</button></td>
+      </tr>
+    `;
+  });
+}
+
+function renderParties() {
+  const tbody = document.getElementById('partiesTable');
+  tbody.innerHTML = '';
+  const map = {};
+  sales.forEach(s => {
+    if (!map[s.party]) map[s.party] = { type: s.channel === 'B2B' ? 'Customer (B2B)' : 'Retail Customer', total: 0 };
+    map[s.party].total += s.total;
+  });
+  for (const [name, p] of Object.entries(map)) {
+    tbody.innerHTML += `
+      <tr><td><b>${name}</b></td><td>${p.type}</td><td>₹${p.total.toFixed(2)}</td><td>₹${p.total.toFixed(2)}</td><td style="color:var(--success); font-weight:800;">₹0.00 (Cleared)</td></tr>
+    `;
+  }
+}
+
+function editCapital() {
+  if (!isAdmin()) return;
+  const c = prompt("Enter revised Initial Capital in ₹:", initialCapital);
+  if (c && !isNaN(c) && parseFloat(c) > 0) {
+    initialCapital = parseFloat(c);
+    localStorage.setItem('skg_capital_val', initialCapital);
+    if (capitalData.length > 0 && capitalData[0].type.includes("Initial")) {
+      capitalData[0].amount = initialCapital;
+      capitalData[0].balance = initialCapital;
+    }
+    saveAll();
+    renderAll();
+  }
+}
+
+function addCapital() {
+  if (!isAdmin()) return;
+  const type = document.getElementById('capType').value;
+  const amt = parseFloat(document.getElementById('capAmt').value) || 0;
+  const notes = document.getElementById('capNotes').value;
+  if (amt <= 0) { alert("Enter amount!"); return; }
+
+  const last = capitalData.length > 0 ? capitalData[capitalData.length - 1].balance : initialCapital;
+  let newBal = type.includes("Infusion") ? (last + amt) : (last - amt);
+
+  capitalData.push({
+    id: "CAP-0" + (capitalData.length + 1),
+    date: new Date().toISOString().split('T')[0],
+    type, amount: amt, balance: newBal, notes
+  });
+  saveAll();
+  renderAll();
+}
+
+function deleteCapital(idx) {
+  if (!isAdmin()) return;
+  if (confirm("Delete entry?")) {
+    capitalData.splice(idx, 1);
+    saveAll();
+    renderAll();
+  }
+}
+
+function renderCapital() {
+  const tbody = document.getElementById('capitalTable');
+  tbody.innerHTML = '';
+  let interest = 0; let drawings = 0;
+  capitalData.forEach((c, idx) => {
+    if (c.type.includes("Interest")) interest += c.amount;
+    if (c.type.includes("Drawings")) drawings += c.amount;
+    tbody.innerHTML += `
+      <tr>
+        <td>${c.id}</td><td>${c.date}</td><td>${c.type}</td><td>₹${c.amount.toLocaleString('en-IN')}</td>
+        <td><b>₹${c.balance.toLocaleString('en-IN')}</b></td><td>${c.notes}</td>
+        <td>${idx > 0 ? `<button class="btn-action btn-del" onclick="deleteCapital(${idx})">Delete</button>` : '-'}</td>
+      </tr>
+    `;
+  });
+  const current = capitalData.length > 0 ? capitalData[capitalData.length - 1].balance : initialCapital;
+  document.getElementById('capInitDisp').innerText = "₹" + initialCapital.toLocaleString('en-IN');
+  document.getElementById('capInterestDisp').innerText = "₹" + interest.toLocaleString('en-IN');
+  document.getElementById('capDrawingsDisp').innerText = "₹" + drawings.toLocaleString('en-IN');
+  document.getElementById('capNetDisp').innerText = "₹" + current.toLocaleString('en-IN');
+}
+
+function renderReports() {
+  const filter = document.getElementById('repFilter').value;
+  const today = new Date().toISOString().split('T')[0];
+  const thisMonth = today.substring(0, 7);
+  const thisYear = today.substring(0, 4);
+
+  const fSales = sales.filter(s => {
+    if (filter === 'TODAY') return s.date === today;
+    if (filter === 'MONTH') return s.date && s.date.startsWith(thisMonth);
+    if (filter === 'YEAR') return s.date && s.date.startsWith(thisYear);
+    return true;
+  });
+  const fOpex = opex.filter(o => {
+    if (filter === 'TODAY') return o.date === today;
+    if (filter === 'MONTH') return o.date && o.date.startsWith(thisMonth);
+    if (filter === 'YEAR') return o.date && o.date.startsWith(thisYear);
+    return true;
+  });
+  const fSelfUse = selfUse.filter(u => {
+    if (filter === 'TODAY') return u.date === today;
+    if (filter === 'MONTH') return u.date && u.date.startsWith(thisMonth);
+    if (filter === 'YEAR') return u.date && u.date.startsWith(thisYear);
+    return true;
+  });
+
+  let totRev = 0; let totProfit = 0; let totCogs = 0;
+  const pMap = {};
+
+  fSales.forEach(s => {
+    totRev += s.total;
+    totProfit += (s.profit || 0);
+    totCogs += (s.total - (s.profit || 0) - (s.gstAmount || 0));
+
+    if (!pMap[s.sku]) pMap[s.sku] = { name: s.name, qty: 0, rev: 0, profit: 0 };
+    pMap[s.sku].qty += s.qty;
+    pMap[s.sku].rev += s.total;
+    pMap[s.sku].profit += (s.profit || 0);
+  });
+
+  const totOpex = fOpex.reduce((a, b) => a + b.amount, 0);
+  const totSpoilage = fSelfUse.reduce((a, b) => a + b.loss, 0);
+  const interest = capitalData.filter(c => c.type.includes("Interest")).reduce((a, b) => a + b.amount, 0);
+  const intCharge = filter === 'ALL' ? interest : 0;
+
+  const netSurplus = totProfit - totOpex - totSpoilage - intCharge;
+
+  document.getElementById('pnlRev').innerText = "₹" + totRev.toLocaleString('en-IN', {minimumFractionDigits:2});
+  document.getElementById('pnlCogs').innerText = "- ₹" + Math.max(0, totCogs).toLocaleString('en-IN', {minimumFractionDigits:2});
+  document.getElementById('pnlGross').innerText = "₹" + totProfit.toLocaleString('en-IN', {minimumFractionDigits:2});
+
+  const oMap = {};
+  fOpex.forEach(o => oMap[o.cat] = (oMap[o.cat] || 0) + o.amount);
+  let oHtml = '';
+  for (const [k, v] of Object.entries(oMap)) oHtml += `<div>• ${k}: <b>₹${v.toLocaleString('en-IN', {minimumFractionDigits:2})}</b></div>`;
+  document.getElementById('pnlOpexList').innerHTML = oHtml || "<div><i>No OPEX logged for this range</i></div>";
+
+  document.getElementById('pnlOpexTotal').innerText = "- ₹" + totOpex.toLocaleString('en-IN', {minimumFractionDigits:2});
+  document.getElementById('pnlSpoilage').innerText = "- ₹" + totSpoilage.toLocaleString('en-IN', {minimumFractionDigits:2});
+  document.getElementById('pnlInterest').innerText = "- ₹" + intCharge.toLocaleString('en-IN', {minimumFractionDigits:2});
+
+  const nDisp = document.getElementById('pnlNetProfit');
+  nDisp.innerText = "₹" + netSurplus.toLocaleString('en-IN', {minimumFractionDigits:2});
+  nDisp.style.color = netSurplus >= 0 ? "var(--success)" : "var(--danger)";
+
+  const pBody = document.getElementById('repProductTable');
+  pBody.innerHTML = '';
+  Object.values(pMap).sort((a,b) => b.rev - a.rev).forEach(p => {
+    const m = p.rev > 0 ? ((p.profit / p.rev) * 100).toFixed(1) : 0;
+    pBody.innerHTML += `
+      <tr>
+        <td><b>${p.name}</b></td><td>${p.qty}</td><td>₹${p.rev.toFixed(2)}</td>
+        <td style="color:var(--success); font-weight:800;">₹${p.profit.toFixed(2)}</td><td>${m}%</td>
+      </tr>
+    `;
+  });
+}
+
 function populateDropdowns() {
-  const pSel = document.getElementById('purItemSelect');
-  const sSel = document.getElementById('selfItemSelect');
+  const pSel = document.getElementById('purSku');
+  const sSel = document.getElementById('suSku');
   pSel.innerHTML = ''; sSel.innerHTML = '';
   items.forEach(i => {
     pSel.innerHTML += `<option value="${i.sku}">${i.name} (${i.sku})</option>`;
@@ -1254,492 +1454,17 @@ function populateDropdowns() {
   });
 }
 
-function savePurchase() {
-  const sku = document.getElementById('purItemSelect').value;
-  const vendor = document.getElementById('purVendor').value || "Khari Baoli Trader";
-  const qty = parseInt(document.getElementById('purQty').value) || 0;
-  const rate = parseFloat(document.getElementById('purRate').value) || 0;
-  const mode = document.getElementById('purPayMode').value;
-
-  if (qty <= 0) { alert("Enter valid quantity!"); return; }
-
-  const item = items.find(i => i.sku === sku);
-  item.stock += qty;
-  
-  purchases.push({
-    id: "PUR-" + Math.floor(1000 + Math.random() * 9000),
-    date: new Date().toISOString().split('T')[0],
-    sku: sku,
-    name: item.name,
-    vendor: vendor,
-    qty: qty,
-    rate: rate,
-    total: qty * rate,
-    mode: mode
-  });
-
-  saveState();
-  renderAll();
-  alert("Inward Stock recorded!");
-}
-
-function renderPurchasesTable() {
-  const tbody = document.getElementById('purchaseTableBody');
-  tbody.innerHTML = '';
-  purchases.forEach((p, idx) => {
-    tbody.innerHTML += `
-      <tr>
-        <td>${p.id}</td>
-        <td>${p.date}</td>
-        <td>${p.name}</td>
-        <td>${p.vendor}</td>
-        <td>+${p.qty}</td>
-        <td>₹${p.rate}</td>
-        <td><b>₹${p.total}</b></td>
-        <td><button class="btn-action btn-del" onclick="deletePurchase(${idx})">Delete</button></td>
-      </tr>
-    `;
-  });
-}
-
-function deletePurchase(idx) {
-  if (!verifyOwnerAccess()) return;
-  const p = purchases[idx];
-  if (confirm(`Rollback purchase of ${p.qty} units of ${p.name}? Stock will be deducted.`)) {
-    const item = items.find(i => i.sku === p.sku);
-    if (item) item.stock = Math.max(0, item.stock - p.qty);
-    purchases.splice(idx, 1);
-    saveState();
-    renderAll();
-    alert("Purchase deleted and stock rolled back!");
-  }
-}
-
-function renderSalesLogTable() {
-  const tbody = document.getElementById('salesLogTableBody');
-  tbody.innerHTML = '';
-  sales.forEach((s, idx) => {
-    tbody.innerHTML += `
-      <tr>
-        <td><b>${s.billNo}</b></td>
-        <td>${s.date}</td>
-        <td>${s.party}</td>
-        <td>${s.name}</td>
-        <td><span class="stock-pill stock-good">${s.channel}</span></td>
-        <td>${s.qty}</td>
-        <td>₹${s.rate}</td>
-        <td style="color:#1E40AF;">₹${(s.gstAmount || 0).toFixed(2)} (${s.gstRate || '0'})</td>
-        <td><b>₹${s.total.toFixed(2)}</b></td>
-        <td>${s.mode}</td>
-        <td><button class="btn-action btn-del" onclick="deleteSaleInvoice(${idx})">Cancel & Restore</button></td>
-      </tr>
-    `;
-  });
-}
-
-function deleteSaleInvoice(idx) {
-  if (!verifyOwnerAccess()) return;
-  const s = sales[idx];
-  if (confirm(`Cancel Bill ${s.billNo} for ${s.name}? ${s.qty} units will be returned to inventory.`)) {
-    const item = items.find(i => i.sku === s.sku);
-    if (item) item.stock += s.qty;
-    sales.splice(idx, 1);
-    saveState();
-    renderAll();
-    alert("Bill cancelled and stock restored!");
-  }
-}
-
-function saveSelfUse() {
-  const sku = document.getElementById('selfItemSelect').value;
-  const qty = parseInt(document.getElementById('selfQty').value) || 0;
-  const reason = document.getElementById('selfReason').value;
-  const remarks = document.getElementById('selfRemarks').value;
-
-  if (qty <= 0) { alert("Enter valid quantity!"); return; }
-  const item = items.find(i => i.sku === sku);
-  if (item.stock < qty) { alert("Not enough stock!"); return; }
-
-  item.stock -= qty;
-  selfUse.push({
-    id: "LOG-" + Math.floor(10 + Math.random() * 90),
-    date: new Date().toISOString().split('T')[0],
-    sku: sku,
-    name: item.name,
-    qty: qty,
-    loss: qty * item.cost,
-    reason: reason,
-    remarks: remarks
-  });
-
-  saveState();
-  renderAll();
-  alert("Self-use/spoilage logged!");
-}
-
-function renderSelfUseTable() {
-  const tbody = document.getElementById('selfUseTableBody');
-  tbody.innerHTML = '';
-  selfUse.forEach((s, idx) => {
-    tbody.innerHTML += `
-      <tr>
-        <td>${s.id}</td>
-        <td>${s.date}</td>
-        <td>${s.name}</td>
-        <td>${s.qty}</td>
-        <td>₹${s.loss}</td>
-        <td><span style="color:var(--danger); font-weight:600;">${s.reason}</span></td>
-        <td>${s.remarks}</td>
-        <td><button class="btn-action btn-del" onclick="deleteSelfUse(${idx})">Delete</button></td>
-      </tr>
-    `;
-  });
-}
-
-function deleteSelfUse(idx) {
-  if (!verifyOwnerAccess()) return;
-  const s = selfUse[idx];
-  if (confirm(`Delete self-use log of ${s.name}? Stock will be added back.`)) {
-    const item = items.find(i => i.sku === s.sku);
-    if (item) item.stock += s.qty;
-    selfUse.splice(idx, 1);
-    saveState();
-    renderAll();
-    alert("Self-use removed and stock restored!");
-  }
-}
-
-function renderPartiesTable() {
-  const tbody = document.getElementById('partyTableBody');
-  tbody.innerHTML = '';
-  const partyMap = {};
-  
-  sales.forEach(s => {
-    if (!partyMap[s.party]) partyMap[s.party] = { type: s.channel === 'B2B' ? 'Customer (B2B)' : 'Retail Customer', billed: 0, paid: 0 };
-    partyMap[s.party].billed += s.total;
-    partyMap[s.party].paid += s.total;
-  });
-
-  purchases.forEach(p => {
-    if (!partyMap[p.vendor]) partyMap[p.vendor] = { type: 'Vendor / Supplier', billed: 0, paid: 0 };
-    partyMap[p.vendor].billed += p.total;
-    partyMap[p.vendor].paid += p.total;
-  });
-
-  for (const [name, p] of Object.entries(partyMap)) {
-    tbody.innerHTML += `
-      <tr>
-        <td><b>${name}</b></td>
-        <td>${p.type}</td>
-        <td>₹${p.billed.toFixed(2)}</td>
-        <td>₹${p.paid.toFixed(2)}</td>
-        <td style="color:var(--success); font-weight:700;">₹0.00 (Cleared)</td>
-      </tr>
-    `;
-  }
-}
-
-function saveCapitalTx() {
-  const type = document.getElementById('capType').value;
-  const amt = parseFloat(document.getElementById('capAmt').value) || 0;
-  const notes = document.getElementById('capNotes').value;
-
-  if (amt <= 0) { alert("Enter valid amount!"); return; }
-
-  const lastBal = capitalData.length > 0 ? capitalData[capitalData.length - 1].balance : initialCapitalValue;
-  let newBal = lastBal;
-  if (type.includes("Infusion")) newBal += amt;
-  else newBal -= amt;
-
-  capitalData.push({
-    id: "CAP-0" + (capitalData.length + 1),
-    date: new Date().toISOString().split('T')[0],
-    type: type,
-    amount: amt,
-    balance: newBal,
-    notes: notes
-  });
-
-  saveState();
-  renderAll();
-  alert("Capital record logged!");
-}
-
-function renderCapital() {
-  const tbody = document.getElementById('capitalTableBody');
-  tbody.innerHTML = '';
-  let totalInterest = 0;
-  let totalDrawings = 0;
-
-  capitalData.forEach((c, idx) => {
-    if (c.type.includes("Interest")) totalInterest += c.amount;
-    if (c.type.includes("Drawing")) totalDrawings += c.amount;
-    tbody.innerHTML += `
-      <tr>
-        <td><b>${c.id}</b></td>
-        <td>${c.date}</td>
-        <td>${c.type}</td>
-        <td>₹${c.amount.toLocaleString('en-IN')}</td>
-        <td><b>₹${c.balance.toLocaleString('en-IN')}</b></td>
-        <td>${c.notes}</td>
-        <td>${idx > 0 ? `<button class="btn-action btn-del" onclick="deleteCapitalEntry(${idx})">Delete</button>` : '-'}</td>
-      </tr>
-    `;
-  });
-
-  const currentBal = capitalData.length > 0 ? capitalData[capitalData.length - 1].balance : initialCapitalValue;
-  document.getElementById('dispInitCapital').innerText = "₹" + initialCapitalValue.toLocaleString('en-IN');
-  document.getElementById('dispInterestPaid').innerText = "₹" + totalInterest.toLocaleString('en-IN');
-  document.getElementById('dispDrawings').innerText = "₹" + totalDrawings.toLocaleString('en-IN');
-  document.getElementById('dispNetCapital').innerText = "₹" + currentBal.toLocaleString('en-IN');
-}
-
-function deleteCapitalEntry(idx) {
-  if (!verifyOwnerAccess()) return;
-  if (confirm("Remove this capital/drawing entry?")) {
-    capitalData.splice(idx, 1);
-    saveState();
-    renderAll();
-    alert("Capital entry removed!");
-  }
-}
-
-function switchReportSubTab(subId, btn) {
-  document.querySelectorAll('.report-sub-view').forEach(v => v.style.display = 'none');
-  document.querySelectorAll('#reportsTab .chip').forEach(c => c.classList.remove('active'));
-  document.getElementById(subId).style.display = 'block';
-  btn.classList.add('active');
-}
-
-function generateReports() {
-  const filter = document.getElementById('reportDateFilter') ? document.getElementById('reportDateFilter').value : 'ALL';
-  const todayStr = new Date().toISOString().split('T')[0];
-  const thisMonthStr = todayStr.substring(0, 7);
-  const thisYearStr = todayStr.substring(0, 4);
-
-  const filteredSales = sales.filter(s => {
-    if (filter === 'TODAY') return s.date === todayStr;
-    if (filter === 'MONTH') return s.date && s.date.startsWith(thisMonthStr);
-    if (filter === 'YEAR') return s.date && s.date.startsWith(thisYearStr);
-    return true;
-  });
-
-  const filteredSelfUse = selfUse.filter(u => {
-    if (filter === 'TODAY') return u.date === todayStr;
-    if (filter === 'MONTH') return u.date && u.date.startsWith(thisMonthStr);
-    if (filter === 'YEAR') return u.date && u.date.startsWith(thisYearStr);
-    return true;
-  });
-
-  let totalRev = 0;
-  let totalProfit = 0;
-  let totalGstTax = 0;
-  let uniqueBills = new Set();
-  const prodMap = {};
-  const gstSlabMap = {};
-  const payMap = { Cash: { count: 0, amt: 0 }, UPI: { count: 0, amt: 0 } };
-  const partyMap = {};
-  const dateMap = {};
-
-  filteredSales.forEach(s => {
-    totalRev += s.total;
-    totalProfit += (s.profit || 0);
-    totalGstTax += (s.gstAmount || 0);
-    uniqueBills.add(s.billNo);
-
-    if (!prodMap[s.sku]) prodMap[s.sku] = { name: s.name, qty: 0, rev: 0, profit: 0 };
-    prodMap[s.sku].qty += s.qty;
-    prodMap[s.sku].rev += s.total;
-    prodMap[s.sku].profit += (s.profit || 0);
-
-    const slabKey = s.gstRate || "0";
-    if (!gstSlabMap[slabKey]) gstSlabMap[slabKey] = { invoices: new Set(), taxable: 0, cgst: 0, sgst: 0, igst: 0, totalGst: 0 };
-    gstSlabMap[slabKey].invoices.add(s.billNo);
-    const taxableItemVal = (s.subtotal || s.total) - (s.discount || 0);
-    gstSlabMap[slabKey].taxable += taxableItemVal;
-    const gstVal = s.gstAmount || 0;
-    gstSlabMap[slabKey].totalGst += gstVal;
-
-    if (slabKey.includes("IGST")) {
-      gstSlabMap[slabKey].igst += gstVal;
-    } else {
-      gstSlabMap[slabKey].cgst += (gstVal / 2);
-      gstSlabMap[slabKey].sgst += (gstVal / 2);
-    }
-
-    const mode = s.mode || 'Cash';
-    if (!payMap[mode]) payMap[mode] = { count: 0, amt: 0 };
-    payMap[mode].amt += s.total;
-    payMap[mode].count += 1;
-
-    if (!partyMap[s.party]) partyMap[s.party] = { channel: s.channel, bills: new Set(), total: 0, profit: 0 };
-    partyMap[s.party].bills.add(s.billNo);
-    partyMap[s.party].total += s.total;
-    partyMap[s.party].profit += (s.profit || 0);
-
-    const d = s.date || todayStr;
-    if (!dateMap[d]) dateMap[d] = { bills: new Set(), total: 0, gst: 0, profit: 0, cash: 0, upi: 0 };
-    dateMap[d].bills.add(s.billNo);
-    dateMap[d].total += s.total;
-    dateMap[d].gst += (s.gstAmount || 0);
-    dateMap[d].profit += (s.profit || 0);
-    if (mode === 'Cash') dateMap[d].cash += s.total;
-    else dateMap[d].upi += s.total;
-  });
-
-  let totalSpoilage = filteredSelfUse.reduce((acc, u) => acc + (u.loss || 0), 0);
-
-  if(document.getElementById('repTotalRev')) {
-    document.getElementById('repTotalRev').innerText = "₹" + totalRev.toLocaleString('en-IN', {maximumFractionDigits:2});
-    document.getElementById('repTotalProfit').innerText = "₹" + totalProfit.toLocaleString('en-IN', {maximumFractionDigits:2});
-    document.getElementById('repTotalGstTax').innerText = "₹" + totalGstTax.toLocaleString('en-IN', {maximumFractionDigits:2});
-    document.getElementById('repBillsCount').innerText = uniqueBills.size;
-    document.getElementById('repSpoilageLoss').innerText = "₹" + totalSpoilage.toLocaleString('en-IN');
-  }
-
-  const pBody = document.getElementById('repProductTableBody');
-  if (pBody) {
-    pBody.innerHTML = '';
-    const sortedProds = Object.values(prodMap).sort((a,b) => b.rev - a.rev);
-    if (sortedProds.length === 0) {
-      pBody.innerHTML = '<tr><td colspan="5" style="text-align:center; color:#888;">No sales recorded for this period.</td></tr>';
-    } else {
-      sortedProds.forEach(p => {
-        const m = p.rev > 0 ? ((p.profit / p.rev) * 100).toFixed(1) : 0;
-        pBody.innerHTML += `
-          <tr>
-            <td><b>${p.name}</b></td>
-            <td>${p.qty}</td>
-            <td>₹${p.rev.toFixed(2)}</td>
-            <td style="color:var(--success); font-weight:700;">₹${p.profit.toFixed(2)}</td>
-            <td>${m}%</td>
-          </tr>
-        `;
-      });
-    }
-  }
-
-  const gstBody = document.getElementById('repGstTableBody');
-  if (gstBody) {
-    gstBody.innerHTML = '';
-    const slabs = Object.entries(gstSlabMap);
-    if (slabs.length === 0) {
-      gstBody.innerHTML = '<tr><td colspan="7" style="text-align:center; color:#888;">No GST transactions logged.</td></tr>';
-    } else {
-      slabs.forEach(([slab, g]) => {
-        const label = slab === "0" ? "Exempt / 0% Tax" : `GST Rate ${slab}%`;
-        gstBody.innerHTML += `
-          <tr>
-            <td><b>${label}</b></td>
-            <td>${g.invoices.size}</td>
-            <td>₹${g.taxable.toFixed(2)}</td>
-            <td>₹${g.cgst.toFixed(2)}</td>
-            <td>₹${g.sgst.toFixed(2)}</td>
-            <td>₹${g.igst.toFixed(2)}</td>
-            <td style="color:#1E40AF; font-weight:800;">₹${g.totalGst.toFixed(2)}</td>
-          </tr>
-        `;
-      });
-    }
-  }
-
-  const invBody = document.getElementById('repInventoryTableBody');
-  if (invBody) {
-    invBody.innerHTML = '';
-    let totalCostVal = 0;
-    let totalRetailVal = 0;
-    items.forEach(i => {
-      const cVal = i.stock * i.cost;
-      const rVal = i.stock * i.b2c;
-      totalCostVal += cVal;
-      totalRetailVal += rVal;
-      const isLow = i.stock <= 5;
-      invBody.innerHTML += `
-        <tr>
-          <td><b>${i.sku}</b></td>
-          <td>${i.name}</td>
-          <td><b>${i.stock} ${i.unit}</b></td>
-          <td>₹${i.cost}</td>
-          <td>₹${cVal.toLocaleString('en-IN')}</td>
-          <td style="color:var(--success); font-weight:600;">₹${rVal.toLocaleString('en-IN')}</td>
-          <td><span class="stock-pill ${isLow ? 'stock-low' : 'stock-good'}">${isLow ? 'REORDER' : 'OK'}</span></td>
-        </tr>
-      `;
-    });
-    document.getElementById('valTotalCost').innerText = "₹" + totalCostVal.toLocaleString('en-IN');
-    document.getElementById('valTotalRetail').innerText = "₹" + totalRetailVal.toLocaleString('en-IN');
-  }
-
-  const payBody = document.getElementById('repPaymentTableBody');
-  if (payBody) {
-    payBody.innerHTML = '';
-    for (const [m, data] of Object.entries(payMap)) {
-      const share = totalRev > 0 ? ((data.amt / totalRev) * 100).toFixed(1) : 0;
-      payBody.innerHTML += `
-        <tr>
-          <td><b>${m}</b></td>
-          <td>${data.count} items</td>
-          <td>₹${data.amt.toFixed(2)}</td>
-          <td><b>${share}%</b></td>
-        </tr>
-      `;
-    }
-  }
-
-  const partyBody = document.getElementById('repPartyTableBody');
-  if (partyBody) {
-    partyBody.innerHTML = '';
-    const sortedParties = Object.entries(partyMap).sort((a,b) => b[1].total - a[1].total);
-    if (sortedParties.length === 0) {
-      partyBody.innerHTML = '<tr><td colspan="5" style="text-align:center; color:#888;">No party transactions found.</td></tr>';
-    } else {
-      sortedParties.forEach(([name, p]) => {
-        partyBody.innerHTML += `
-          <tr>
-            <td><b>${name}</b></td>
-            <td><span class="stock-pill stock-good">${p.channel}</span></td>
-            <td>${p.bills.size}</td>
-            <td>₹${p.total.toFixed(2)}</td>
-            <td style="color:var(--success); font-weight:700;">₹${p.profit.toFixed(2)}</td>
-          </tr>
-        `;
-      });
-    }
-  }
-
-  const dateBody = document.getElementById('repDateTableBody');
-  if (dateBody) {
-    dateBody.innerHTML = '';
-    const sortedDates = Object.entries(dateMap).sort((a,b) => b[0].localeCompare(a[0]));
-    if (sortedDates.length === 0) {
-      dateBody.innerHTML = '<tr><td colspan="7" style="text-align:center; color:#888;">No date records found.</td></tr>';
-    } else {
-      sortedDates.forEach(([dt, d]) => {
-        dateBody.innerHTML += `
-          <tr>
-            <td><b>${dt}</b></td>
-            <td>${d.bills.size}</td>
-            <td>₹${d.total.toFixed(2)}</td>
-            <td style="color:#1E40AF;">₹${d.gst.toFixed(2)}</td>
-            <td style="color:var(--success); font-weight:700;">₹${d.profit.toFixed(2)}</td>
-            <td>₹${d.cash.toFixed(2)}</td>
-            <td>₹${d.upi.toFixed(2)}</td>
-          </tr>
-        `;
-      });
-    }
-  }
-}
-
 function renderAll() {
-  renderPOS();
-  renderSalesLogTable();
-  generateReports();
-  renderInventoryTable();
-  renderPurchasesTable();
-  renderSelfUseTable();
-  renderPartiesTable();
+  updateRoleView();
+  renderProducts();
+  renderInventory();
+  renderPurchases();
+  renderSales();
+  renderOpex();
+  renderSelfUse();
+  renderParties();
   renderCapital();
+  renderReports();
   populateDropdowns();
 }
 
