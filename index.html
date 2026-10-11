@@ -20,6 +20,7 @@
   * { box-sizing: border-box; margin: 0; padding: 0; font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Oxygen, Ubuntu, Cantarell, sans-serif; -webkit-tap-highlight-color: transparent; }
   body { background: var(--bg); color: var(--text); min-height: 100vh; display: flex; flex-direction: column; }
 
+  /* TOP NAVBAR */
   header {
     background: var(--primary); color: white; padding: 10px 14px;
     display: flex; justify-content: space-between; align-items: center;
@@ -41,6 +42,7 @@
   .badge-admin { background: #FEF3C7; color: #92400E; }
   .badge-staff { background: #E0F2FE; color: #075985; }
 
+  /* DRAWER MENU */
   .drawer-overlay {
     display: none; position: fixed; inset: 0; background: rgba(0,0,0,0.5); z-index: 1100;
   }
@@ -60,10 +62,12 @@
   .drawer-nav button:hover { background: rgba(255,255,255,0.1); color: white; }
   .drawer-nav button.active { background: var(--accent); color: white; }
 
+  /* MAIN LAYOUT */
   .app-container { flex: 1; padding: 12px; max-width: 1300px; width: 100%; margin: 0 auto; display: flex; flex-direction: column; }
   .view-tab { display: none; }
   .view-tab.active { display: block; }
 
+  /* POS GRID */
   .pos-grid-layout { display: grid; grid-template-columns: 1fr 380px; gap: 14px; }
   @media (max-width: 880px) {
     .pos-grid-layout { grid-template-columns: 1fr; }
@@ -100,6 +104,7 @@
   .stock-ok { background: #DCFCE7; color: #166534; }
   .stock-low { background: #FEE2E2; color: #991B1B; }
 
+  /* CART PANEL */
   .pos-cart-box {
     background: white; border-radius: 10px; padding: 14px; border: 1px solid var(--border);
     display: flex; flex-direction: column; justify-content: space-between; min-height: 520px;
@@ -116,6 +121,7 @@
   }
   .btn-pay:active { background: #15803D; }
 
+  /* MOBILE FLOATING BAR */
   .mobile-bottom-bar {
     display: none; position: fixed; bottom: 0; left: 0; right: 0; background: var(--primary);
     color: white; padding: 12px 18px; justify-content: space-between; align-items: center;
@@ -126,6 +132,7 @@
     .app-container { padding-bottom: 75px; }
   }
 
+  /* TABLES & CARDS */
   .card-box { background: white; border-radius: 10px; padding: 14px; border: 1px solid var(--border); box-shadow: 0 1px 3px rgba(0,0,0,0.05); }
   .scroll-table { width: 100%; overflow-x: auto; -webkit-overflow-scrolling: touch; margin-top: 10px; }
   table { width: 100%; border-collapse: collapse; font-size: 12.5px; min-width: 600px; }
@@ -142,6 +149,7 @@
     font-size: 13px; font-weight: 700; cursor: pointer;
   }
 
+  /* MODALS */
   .modal-screen {
     display: none; position: fixed; inset: 0; background: rgba(0,0,0,0.6);
     justify-content: center; align-items: center; z-index: 2000; padding: 14px;
@@ -157,6 +165,7 @@
 </head>
 <body>
 
+<!-- TOP NAVBAR -->
 <header>
   <div class="nav-left">
     <button class="menu-btn" onclick="toggleDrawer()">☰</button>
@@ -170,6 +179,7 @@
   </div>
 </header>
 
+<!-- DRAWER OVERLAY & SIDEBAR -->
 <div class="drawer-overlay" id="drawerOverlay" onclick="closeDrawer()"></div>
 <div class="drawer" id="drawerMenu">
   <div>
@@ -195,12 +205,14 @@
   </div>
 </div>
 
+<!-- MAIN VIEWPORT -->
 <div class="app-container">
 
   <!-- 1. POS VIEW -->
   <div id="posView" class="view-tab active">
     <div class="pos-grid-layout">
       
+      <!-- Products Left -->
       <div class="pos-product-box">
         <div class="search-row">
           <input type="text" id="searchInput" placeholder="🔍 Search Item, Category, SKU..." oninput="renderProducts()">
@@ -217,6 +229,7 @@
         <div class="product-cards" id="productGrid"></div>
       </div>
 
+      <!-- Cart Right -->
       <div class="pos-cart-box" id="cartBox">
         <div>
           <div class="cart-head">
@@ -287,6 +300,7 @@
 
     </div>
 
+    <!-- Mobile Floating Bottom Bar -->
     <div class="mobile-bottom-bar" onclick="openMobileCart()">
       <span style="font-weight:700; font-size:13px;">🛒 View Cart (<span id="mobItemCount">0</span> items)</span>
       <span style="font-weight:800; font-size:15px;" id="mobTotalAmount">₹0.00 ➔</span>
@@ -940,7 +954,7 @@ function renderCart() {
 function updateCartMath() {
   let subtotal = 0;
   cart.forEach(c => {
-    const rate = currentChannel === 'B2C' ? itemRate = currentChannel === 'B2C' ? c.b2c : c.b2b;
+    const rate = currentChannel === 'B2C' ? c.b2c : c.b2b;
     subtotal += rate * c.qty;
   });
   document.getElementById('subtotalDisp').innerText = "₹" + subtotal.toFixed(2);
