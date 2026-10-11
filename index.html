@@ -622,7 +622,7 @@ function doPost(e) {
 
 <script>
 // ADMIN SECURITY PIN
-let adminPin = localStorage.getItem('skg_admin_pin') || "1234";
+let adminPin = localStorage.getItem('skg_admin_pin') || "1308";
 
 function verifyOwnerAccess() {
   const entered = prompt("🔐 Enter Owner / Admin PIN to authorize deletion/modification:");
@@ -666,9 +666,9 @@ let cart = [];
 let currentChannel = 'B2C';
 let currentCategory = 'ALL';
 let capitalData = JSON.parse(localStorage.getItem('skg_capital')) || [
-  { id: "CAP-01", date: "2026-11-20", type: "Initial Capital Invested", amount: 1500000, balance: 1500000, notes: "Asset-Backed Investment" },
-  { id: "CAP-02", date: "2026-12-05", type: "Monthly Interest (1.5%)", amount: 22500, balance: 1477500, notes: "Financier/Asset Return Paid" },
-  { id: "CAP-03", date: "2026-12-10", type: "Personal Drawing", amount: 15000, balance: 1462500, notes: "Owner Household Expense" }
+  { id: "CAP-01", date: "2026-11-20", type: "Initial Capital Invested", amount: 300000, balance: 300000, notes: "Asset-Backed Investment" },
+  { id: "CAP-02", date: "2026-12-05", type: "Monthly Interest (1.5%)", amount: 4500, balance: 304500, notes: "Financier/Asset Return Paid" },
+  { id: "CAP-03", date: "2026-12-10", type: "Personal Drawing", amount: 1500, balance: 303000, notes: "Owner Household Expense" }
 ];
 
 let initialSalesSeed = [
