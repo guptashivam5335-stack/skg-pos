@@ -131,6 +131,12 @@
   .receipt-center { text-align: center; margin-bottom: 10px; }
   .receipt-divider { border-bottom: 1px dashed #333; margin: 8px 0; }
   .print-actions { margin-top: 15px; display: flex; gap: 10px; }
+
+  @media print {
+    aside, header, .filter-chips, .search-bar, .channel-toggle, .btn-checkout, .btn-primary, button, select { display: none !important; }
+    body, main, .content-area { height: auto !important; overflow: visible !important; background: white !important; }
+    .table-card { border: none !important; box-shadow: none !important; padding: 0 !important; }
+  }
 </style>
 </head>
 <body>
@@ -148,6 +154,7 @@
       <button onclick="switchTab('selfuseTab', this)">☕ Self-Use & Spoilage</button>
       <button onclick="switchTab('partiesTab', this)">👥 Party Ledgers (Khata)</button>
       <button onclick="switchTab('capitalTab', this)">💰 Capital & Drawings</button>
+      <button onclick="switchTab('reportsTab', this)">📊 Business Reports</button>
       <button onclick="switchTab('connectTab', this)">🔗 Google Sheet Sync</button>
     </nav>
   </div>
@@ -171,7 +178,6 @@
     <!-- 1. POS TAB -->
     <div id="posTab" class="view-panel active">
       <div class="pos-container">
-        
         <div class="pos-products">
           <div class="search-bar">
             <input type="text" id="searchBox" placeholder="🔍 Search Item Name, Category, or SKU..." oninput="filterProducts()">
@@ -224,7 +230,6 @@
             <button class="btn-checkout" onclick="checkoutBill()">Generate Bill & Print (Receipt)</button>
           </div>
         </div>
-
       </div>
     </div>
 
@@ -274,30 +279,11 @@
       <div class="table-card">
         <h3 style="font-size:16px; margin-bottom:12px;">📥 Inward Stock / Purchase Entry (Khari Baoli & Sadar)</h3>
         <div class="form-grid">
-          <div class="form-group">
-            <label>Select Item</label>
-            <select id="purItemSelect"></select>
-          </div>
-          <div class="form-group">
-            <label>Vendor / Supplier</label>
-            <input type="text" id="purVendor" placeholder="e.g. Khari Baoli Trader / Sadar Stockist">
-          </div>
-          <div class="form-group">
-            <label>Quantity Inward</label>
-            <input type="number" id="purQty" placeholder="50">
-          </div>
-          <div class="form-group">
-            <label>Purchase Rate / Unit</label>
-            <input type="number" id="purRate" placeholder="158">
-          </div>
-          <div class="form-group">
-            <label>Payment Mode</label>
-            <select id="purPayMode">
-              <option value="Cash">Cash</option>
-              <option value="Bank/NEFT">Bank Transfer</option>
-              <option value="UPI">UPI</option>
-            </select>
-          </div>
+          <div class="form-group"><label>Select Item</label><select id="purItemSelect"></select></div>
+          <div class="form-group"><label>Vendor / Supplier</label><input type="text" id="purVendor" placeholder="e.g. Khari Baoli Trader"></div>
+          <div class="form-group"><label>Quantity Inward</label><input type="number" id="purQty" placeholder="50"></div>
+          <div class="form-group"><label>Purchase Rate / Unit</label><input type="number" id="purRate" placeholder="158"></div>
+          <div class="form-group"><label>Payment Mode</label><select id="purPayMode"><option value="Cash">Cash</option><option value="Bank/NEFT">Bank Transfer</option><option value="UPI">UPI</option></select></div>
         </div>
         <button class="btn-primary" onclick="savePurchase()">Record Purchase & Add Stock</button>
 
@@ -323,14 +309,8 @@
       <div class="table-card">
         <h3 style="font-size:16px; margin-bottom:12px;">☕ Shop Self-Use, Tea Snacks & Spoilage / Damage Log</h3>
         <div class="form-grid">
-          <div class="form-group">
-            <label>Select Item</label>
-            <select id="selfItemSelect"></select>
-          </div>
-          <div class="form-group">
-            <label>Quantity</label>
-            <input type="number" id="selfQty" placeholder="1">
-          </div>
+          <div class="form-group"><label>Select Item</label><select id="selfItemSelect"></select></div>
+          <div class="form-group"><label>Quantity</label><input type="number" id="selfQty" placeholder="1"></div>
           <div class="form-group">
             <label>Reason Category</label>
             <select id="selfReason">
@@ -340,10 +320,7 @@
               <option value="Owner Household Consumption">Owner Household Consumption</option>
             </select>
           </div>
-          <div class="form-group">
-            <label>Remarks</label>
-            <input type="text" id="selfRemarks" placeholder="Staff snacks / showcase defect">
-          </div>
+          <div class="form-group"><label>Remarks</label><input type="text" id="selfRemarks" placeholder="Staff snacks / showcase defect"></div>
         </div>
         <button class="btn-primary" onclick="saveSelfUse()">Log Entry & Deduct Stock</button>
 
@@ -417,14 +394,8 @@
               <option value="Additional Capital Infusion">Additional Capital Infusion (+)</option>
             </select>
           </div>
-          <div class="form-group">
-            <label>Amount (₹)</label>
-            <input type="number" id="capAmt" placeholder="22500">
-          </div>
-          <div class="form-group">
-            <label>Channel / Notes</label>
-            <input type="text" id="capNotes" placeholder="Paid to financier bank / household expenses">
-          </div>
+          <div class="form-group"><label>Amount (₹)</label><input type="number" id="capAmt" placeholder="22500"></div>
+          <div class="form-group"><label>Channel / Notes</label><input type="text" id="capNotes" placeholder="Paid to financier bank / household expenses"></div>
         </div>
         <button class="btn-primary" onclick="saveCapitalTx()">Save Capital Entry</button>
 
@@ -444,7 +415,125 @@
       </div>
     </div>
 
-    <!-- 7. GOOGLE SHEET CONNECT TAB -->
+    <!-- 7. COMPREHENSIVE REPORTS TAB -->
+    <div id="reportsTab" class="view-panel">
+      <div class="table-card">
+        <div style="display:flex; justify-content:space-between; align-items:center; flex-wrap:wrap; gap:10px; margin-bottom:16px;">
+          <div>
+            <h3 style="font-size:17px; font-weight:700;">📊 Business Analytics & Reports Hub</h3>
+            <p style="font-size:12px; color:var(--text-muted); margin-top:2px;">Real-time performance across Days, Months, Products, Parties & Payment modes.</p>
+          </div>
+          <div style="display:flex; gap:8px; align-items:center;">
+            <select id="reportDateFilter" onchange="generateReports()" style="border:1px solid var(--border); border-radius:6px; padding:7px 12px; font-size:13px; font-weight:600; outline:none; background:#FFF;">
+              <option value="ALL">All Time Record</option>
+              <option value="TODAY">Today (Daily Close)</option>
+              <option value="MONTH">This Month (Monthly)</option>
+              <option value="YEAR">This Year (Yearly)</option>
+            </select>
+            <button class="btn-primary" onclick="window.print()" style="background:#475569;">🖨️ Print / Export PDF</button>
+          </div>
+        </div>
+
+        <!-- KPI SUMMARY CARDS -->
+        <div style="display:grid; grid-template-columns: repeat(auto-fit, minmax(180px, 1fr)); gap:12px; margin-bottom:20px;">
+          <div style="background:#F0FDF4; border:1px solid #BBF7D0; padding:12px 16px; border-radius:8px;">
+            <div style="font-size:11px; font-weight:700; color:#166534;">TOTAL SALES REVENUE</div>
+            <div style="font-size:20px; font-weight:800; color:#15803D; margin-top:4px;" id="repTotalRev">₹0</div>
+          </div>
+          <div style="background:#EFF6FF; border:1px solid #BFDBFE; padding:12px 16px; border-radius:8px;">
+            <div style="font-size:11px; font-weight:700; color:#1E40AF;">NET GROSS PROFIT</div>
+            <div style="font-size:20px; font-weight:800; color:#1D4ED8; margin-top:4px;" id="repTotalProfit">₹0</div>
+          </div>
+          <div style="background:#FFFBEB; border:1px solid #FDE68A; padding:12px 16px; border-radius:8px;">
+            <div style="font-size:11px; font-weight:700; color:#92400E;">BLENDED PROFIT MARGIN</div>
+            <div style="font-size:20px; font-weight:800; color:#B45309; margin-top:4px;" id="repMarginPct">0%</div>
+          </div>
+          <div style="background:#F1F5F9; border:1px solid #E2E8F0; padding:12px 16px; border-radius:8px;">
+            <div style="font-size:11px; font-weight:700; color:#475569;">TOTAL BILLS GENERATED</div>
+            <div style="font-size:20px; font-weight:800; color:#334155; margin-top:4px;" id="repBillsCount">0</div>
+          </div>
+          <div style="background:#FEF2F2; border:1px solid #FECACA; padding:12px 16px; border-radius:8px;">
+            <div style="font-size:11px; font-weight:700; color:#991B1B;">SPOILAGE / SELF-USE LOSS</div>
+            <div style="font-size:20px; font-weight:800; color:#DC2626; margin-top:4px;" id="repSpoilageLoss">₹0</div>
+          </div>
+        </div>
+
+        <!-- REPORT SECTIONS TABS -->
+        <div style="display:flex; gap:6px; margin-bottom:14px; border-bottom:1px solid var(--border); padding-bottom:6px; overflow-x:auto;">
+          <button class="chip active" onclick="switchReportSubTab('subProduct', this)">📦 Product-Wise Performance</button>
+          <button class="chip" onclick="switchReportSubTab('subPayment', this)">💳 Payment Mode (Cash vs UPI)</button>
+          <button class="chip" onclick="switchReportSubTab('subParty', this)">👥 Party / Customer Breakdown</button>
+          <button class="chip" onclick="switchReportSubTab('subDailyMonthly', this)">📅 Date-Wise / Timeline Summary</button>
+        </div>
+
+        <div id="subProduct" class="report-sub-view">
+          <h4 style="font-size:14px; margin-bottom:8px;">Product-Wise Sales & Profit Contribution</h4>
+          <table>
+            <thead>
+              <tr>
+                <th>Product / SKU</th>
+                <th>Units Sold</th>
+                <th>Total Turnover (₹)</th>
+                <th>Net Profit Earned (₹)</th>
+                <th>Profit Margin (%)</th>
+              </tr>
+            </thead>
+            <tbody id="repProductTableBody"></tbody>
+          </table>
+        </div>
+
+        <div id="subPayment" class="report-sub-view" style="display:none;">
+          <h4 style="font-size:14px; margin-bottom:8px;">Payment Mode Collection (Drawer vs Bank UPI)</h4>
+          <table>
+            <thead>
+              <tr>
+                <th>Payment Mode</th>
+                <th>Total Bills Handled</th>
+                <th>Total Amount Collected (₹)</th>
+                <th>Collection Share (%)</th>
+              </tr>
+            </thead>
+            <tbody id="repPaymentTableBody"></tbody>
+          </table>
+        </div>
+
+        <div id="subParty" class="report-sub-view" style="display:none;">
+          <h4 style="font-size:14px; margin-bottom:8px;">Party & Client Volume Ranking</h4>
+          <table>
+            <thead>
+              <tr>
+                <th>Party / Customer Name</th>
+                <th>Channel Type</th>
+                <th>Orders / Bills Count</th>
+                <th>Total Billed Amount (₹)</th>
+                <th>Total Profit Realized (₹)</th>
+              </tr>
+            </thead>
+            <tbody id="repPartyTableBody"></tbody>
+          </table>
+        </div>
+
+        <div id="subDailyMonthly" class="report-sub-view" style="display:none;">
+          <h4 style="font-size:14px; margin-bottom:8px;">Date-Wise Sales & Cash Intake Register</h4>
+          <table>
+            <thead>
+              <tr>
+                <th>Date</th>
+                <th>Bills Count</th>
+                <th>Gross Turnover (₹)</th>
+                <th>Net Profit (₹)</th>
+                <th>Daily Cash (₹)</th>
+                <th>Daily UPI (₹)</th>
+              </tr>
+            </thead>
+            <tbody id="repDateTableBody"></tbody>
+          </table>
+        </div>
+
+      </div>
+    </div>
+
+    <!-- 8. GOOGLE SHEET CONNECT TAB -->
     <div id="connectTab" class="view-panel">
       <div class="table-card">
         <h3 style="font-size:16px; margin-bottom:8px;">🔗 How to Connect this POS Directly to Your Google Sheet (Free)</h3>
@@ -545,6 +634,7 @@ function switchTab(tabId, btn) {
     selfuseTab: "☕ Shop Self-Use & Spoilage Tracker",
     partiesTab: "👥 Party-Wise Ledgers",
     capitalTab: "💰 Capital, Drawings & Return Tracker",
+    reportsTab: "📊 Comprehensive Business Reports",
     connectTab: "🔗 Google Sheets Web App Connection"
   };
   document.getElementById('viewHeading').innerText = titles[tabId];
@@ -944,8 +1034,167 @@ function renderCapital() {
   document.getElementById('dispNetCapital').innerText = "₹" + currentBal.toLocaleString('en-IN');
 }
 
+// REPORTS LOGIC
+function switchReportSubTab(subId, btn) {
+  document.querySelectorAll('.report-sub-view').forEach(v => v.style.display = 'none');
+  document.querySelectorAll('#reportsTab .chip').forEach(c => c.classList.remove('active'));
+  document.getElementById(subId).style.display = 'block';
+  btn.classList.add('active');
+}
+
+function generateReports() {
+  const filter = document.getElementById('reportDateFilter') ? document.getElementById('reportDateFilter').value : 'ALL';
+  const todayStr = new Date().toISOString().split('T')[0];
+  const thisMonthStr = todayStr.substring(0, 7);
+  const thisYearStr = todayStr.substring(0, 4);
+
+  const filteredSales = sales.filter(s => {
+    if (filter === 'TODAY') return s.date === todayStr;
+    if (filter === 'MONTH') return s.date && s.date.startsWith(thisMonthStr);
+    if (filter === 'YEAR') return s.date && s.date.startsWith(thisYearStr);
+    return true;
+  });
+
+  const filteredSelfUse = selfUse.filter(u => {
+    if (filter === 'TODAY') return u.date === todayStr;
+    if (filter === 'MONTH') return u.date && u.date.startsWith(thisMonthStr);
+    if (filter === 'YEAR') return u.date && u.date.startsWith(thisYearStr);
+    return true;
+  });
+
+  let totalRev = 0;
+  let totalProfit = 0;
+  let uniqueBills = new Set();
+  const prodMap = {};
+  const payMap = { Cash: { count: 0, amt: 0 }, UPI: { count: 0, amt: 0 } };
+  const partyMap = {};
+  const dateMap = {};
+
+  filteredSales.forEach(s => {
+    totalRev += s.total;
+    totalProfit += (s.profit || 0);
+    uniqueBills.add(s.billNo);
+
+    if (!prodMap[s.sku]) prodMap[s.sku] = { name: s.name, qty: 0, rev: 0, profit: 0 };
+    prodMap[s.sku].qty += s.qty;
+    prodMap[s.sku].rev += s.total;
+    prodMap[s.sku].profit += (s.profit || 0);
+
+    const mode = s.mode || 'Cash';
+    if (!payMap[mode]) payMap[mode] = { count: 0, amt: 0 };
+    payMap[mode].amt += s.total;
+    payMap[mode].count += 1;
+
+    if (!partyMap[s.party]) partyMap[s.party] = { channel: s.channel, bills: new Set(), total: 0, profit: 0 };
+    partyMap[s.party].bills.add(s.billNo);
+    partyMap[s.party].total += s.total;
+    partyMap[s.party].profit += (s.profit || 0);
+
+    const d = s.date || todayStr;
+    if (!dateMap[d]) dateMap[d] = { bills: new Set(), total: 0, profit: 0, cash: 0, upi: 0 };
+    dateMap[d].bills.add(s.billNo);
+    dateMap[d].total += s.total;
+    dateMap[d].profit += (s.profit || 0);
+    if (mode === 'Cash') dateMap[d].cash += s.total;
+    else dateMap[d].upi += s.total;
+  });
+
+  let totalSpoilage = filteredSelfUse.reduce((acc, u) => acc + (u.loss || 0), 0);
+
+  if(document.getElementById('repTotalRev')) {
+    document.getElementById('repTotalRev').innerText = "₹" + totalRev.toLocaleString('en-IN');
+    document.getElementById('repTotalProfit').innerText = "₹" + totalProfit.toLocaleString('en-IN');
+    const margin = totalRev > 0 ? ((totalProfit / totalRev) * 100).toFixed(1) : 0;
+    document.getElementById('repMarginPct').innerText = margin + "%";
+    document.getElementById('repBillsCount').innerText = uniqueBills.size;
+    document.getElementById('repSpoilageLoss').innerText = "₹" + totalSpoilage.toLocaleString('en-IN');
+  }
+
+  const pBody = document.getElementById('repProductTableBody');
+  if (pBody) {
+    pBody.innerHTML = '';
+    const sortedProds = Object.values(prodMap).sort((a,b) => b.rev - a.rev);
+    if (sortedProds.length === 0) {
+      pBody.innerHTML = '<tr><td colspan="5" style="text-align:center; color:#888;">No sales recorded for this period.</td></tr>';
+    } else {
+      sortedProds.forEach(p => {
+        const m = p.rev > 0 ? ((p.profit / p.rev) * 100).toFixed(1) : 0;
+        pBody.innerHTML += `
+          <tr>
+            <td><b>${p.name}</b></td>
+            <td>${p.qty}</td>
+            <td>₹${p.rev.toLocaleString('en-IN')}</td>
+            <td style="color:var(--success); font-weight:700;">₹${p.profit.toLocaleString('en-IN')}</td>
+            <td>${m}%</td>
+          </tr>
+        `;
+      });
+    }
+  }
+
+  const payBody = document.getElementById('repPaymentTableBody');
+  if (payBody) {
+    payBody.innerHTML = '';
+    for (const [m, data] of Object.entries(payMap)) {
+      const share = totalRev > 0 ? ((data.amt / totalRev) * 100).toFixed(1) : 0;
+      payBody.innerHTML += `
+        <tr>
+          <td><b>${m}</b></td>
+          <td>${data.count} items</td>
+          <td>₹${data.amt.toLocaleString('en-IN')}</td>
+          <td><b>${share}%</b></td>
+        </tr>
+      `;
+    }
+  }
+
+  const partyBody = document.getElementById('repPartyTableBody');
+  if (partyBody) {
+    partyBody.innerHTML = '';
+    const sortedParties = Object.entries(partyMap).sort((a,b) => b[1].total - a[1].total);
+    if (sortedParties.length === 0) {
+      partyBody.innerHTML = '<tr><td colspan="5" style="text-align:center; color:#888;">No party transactions found.</td></tr>';
+    } else {
+      sortedParties.forEach(([name, p]) => {
+        partyBody.innerHTML += `
+          <tr>
+            <td><b>${name}</b></td>
+            <td><span class="stock-pill stock-good">${p.channel}</span></td>
+            <td>${p.bills.size}</td>
+            <td>₹${p.total.toLocaleString('en-IN')}</td>
+            <td style="color:var(--success); font-weight:700;">₹${p.profit.toLocaleString('en-IN')}</td>
+          </tr>
+        `;
+      });
+    }
+  }
+
+  const dateBody = document.getElementById('repDateTableBody');
+  if (dateBody) {
+    dateBody.innerHTML = '';
+    const sortedDates = Object.entries(dateMap).sort((a,b) => b[0].localeCompare(a[0]));
+    if (sortedDates.length === 0) {
+      dateBody.innerHTML = '<tr><td colspan="6" style="text-align:center; color:#888;">No date records found.</td></tr>';
+    } else {
+      sortedDates.forEach(([dt, d]) => {
+        dateBody.innerHTML += `
+          <tr>
+            <td><b>${dt}</b></td>
+            <td>${d.bills.size}</td>
+            <td>₹${d.total.toLocaleString('en-IN')}</td>
+            <td style="color:var(--success); font-weight:700;">₹${d.profit.toLocaleString('en-IN')}</td>
+            <td>₹${d.cash.toLocaleString('en-IN')}</td>
+            <td>₹${d.upi.toLocaleString('en-IN')}</td>
+          </tr>
+        `;
+      });
+    }
+  }
+}
+
 function renderAll() {
   renderPOS();
+  generateReports();
   renderInventoryTable();
   renderPurchasesTable();
   renderSelfUseTable();
