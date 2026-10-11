@@ -3,8 +3,8 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>SKG Trading Co. | The Foodophiles POS & ERP</title>
-<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+<title>SKG Trading Co. | The Foodophiles POS & ERP v4.0</title>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
 <style>
   :root {
     --primary: #1B365D;
@@ -22,124 +22,129 @@
   body { background: var(--bg); color: var(--text); display: flex; height: 100vh; overflow: hidden; }
 
   aside {
-    width: 250px; background: var(--primary); color: white; display: flex;
-    flex-direction: column; justify-content: space-between; padding: 20px 10px;
+    width: 255px; background: var(--primary); color: white; display: flex;
+    flex-direction: column; justify-content: space-between; padding: 18px 10px;
     box-shadow: 2px 0 10px rgba(0,0,0,0.1); flex-shrink: 0;
   }
-  .brand { padding: 0 10px 20px; border-bottom: 1px solid rgba(255,255,255,0.1); }
-  .brand h1 { font-size: 17px; font-weight: 700; color: #FFF; letter-spacing: 0.5px; }
-  .brand span { font-size: 12px; color: #F39C12; font-weight: 600; display: block; margin-top: 2px; }
+  .brand { padding: 0 10px 16px; border-bottom: 1px solid rgba(255,255,255,0.12); }
+  .brand h1 { font-size: 16px; font-weight: 800; color: #FFF; letter-spacing: 0.5px; }
+  .brand span { font-size: 11.5px; color: #F39C12; font-weight: 600; display: block; margin-top: 2px; }
   
-  nav { margin-top: 15px; display: flex; flex-direction: column; gap: 5px; }
+  nav { margin-top: 14px; display: flex; flex-direction: column; gap: 4px; }
   nav button {
     background: transparent; border: none; color: #CBD5E1; text-align: left;
-    padding: 10px 14px; border-radius: 8px; font-size: 13px; font-weight: 500;
-    cursor: pointer; display: flex; align-items: center; gap: 10px; transition: all 0.2s;
+    padding: 9.5px 12px; border-radius: 8px; font-size: 12.5px; font-weight: 500;
+    cursor: pointer; display: flex; align-items: center; gap: 8px; transition: all 0.2s;
   }
   nav button:hover { background: var(--primary-light); color: #FFF; }
-  nav button.active { background: var(--accent); color: white; font-weight: 600; }
+  nav button.active { background: var(--accent); color: white; font-weight: 700; }
   
-  .sidebar-footer { font-size: 11px; color: #94A3B8; padding: 10px; text-align: center; border-top: 1px solid rgba(255,255,255,0.1); }
+  .sidebar-footer { font-size: 10.5px; color: #94A3B8; padding: 10px; text-align: center; border-top: 1px solid rgba(255,255,255,0.12); }
 
   main { flex: 1; display: flex; flex-direction: column; overflow: hidden; }
   header {
-    background: white; padding: 12px 24px; border-bottom: 1px solid var(--border);
+    background: white; padding: 11px 22px; border-bottom: 1px solid var(--border);
     display: flex; justify-content: space-between; align-items: center;
   }
-  .header-title h2 { font-size: 18px; font-weight: 700; color: var(--primary); }
-  .admin-badge {
-    background: #FEF3C7; color: #B45309; font-size: 12px; font-weight: 600;
-    padding: 6px 12px; border-radius: 20px; border: 1px solid #FDE68A; display: flex; align-items: center; gap: 6px; cursor: pointer;
+  .header-title h2 { font-size: 17px; font-weight: 700; color: var(--primary); }
+  .header-actions { display: flex; gap: 10px; align-items: center; }
+  .badge-btn {
+    font-size: 11.5px; font-weight: 600; padding: 5px 12px; border-radius: 20px;
+    cursor: pointer; border: 1px solid transparent; display: flex; align-items: center; gap: 5px;
   }
+  .badge-admin { background: #FEF3C7; color: #B45309; border-color: #FDE68A; }
+  .badge-upi { background: #E0F2FE; color: #0369A1; border-color: #BAE6FD; }
 
-  .content-area { flex: 1; padding: 18px; overflow-y: auto; }
+  .content-area { flex: 1; padding: 16px; overflow-y: auto; }
   .view-panel { display: none; }
   .view-panel.active { display: block; min-height: 100%; }
 
-  .pos-container { display: grid; grid-template-columns: 1fr 380px; gap: 18px; height: 100%; }
-  .pos-products { background: white; border-radius: 10px; padding: 16px; border: 1px solid var(--border); overflow-y: auto; }
-  .pos-cart { background: white; border-radius: 10px; padding: 16px; border: 1px solid var(--border); display: flex; flex-direction: column; justify-content: space-between; }
+  .pos-container { display: grid; grid-template-columns: 1fr 390px; gap: 16px; height: 100%; }
+  .pos-products { background: white; border-radius: 10px; padding: 14px; border: 1px solid var(--border); overflow-y: auto; }
+  .pos-cart { background: white; border-radius: 10px; padding: 14px; border: 1px solid var(--border); display: flex; flex-direction: column; justify-content: space-between; overflow-y: auto; }
   
-  .search-bar { display: flex; gap: 10px; margin-bottom: 14px; }
+  .search-bar { display: flex; gap: 8px; margin-bottom: 12px; }
   .search-bar input {
-    flex: 1; padding: 10px 14px; border: 1px solid var(--border); border-radius: 8px; font-size: 14px; outline: none;
+    flex: 1; padding: 9px 12px; border: 1px solid var(--border); border-radius: 8px; font-size: 13.5px; outline: none;
   }
-  .filter-chips { display: flex; gap: 8px; margin-bottom: 14px; overflow-x: auto; padding-bottom: 4px; }
+  .filter-chips { display: flex; gap: 6px; margin-bottom: 12px; overflow-x: auto; padding-bottom: 4px; }
   .chip {
-    padding: 6px 14px; border-radius: 20px; font-size: 12px; background: #EEF2F6;
+    padding: 5px 12px; border-radius: 20px; font-size: 11.5px; background: #EEF2F6;
     cursor: pointer; border: 1px solid transparent; white-space: nowrap; font-weight: 500;
   }
   .chip.active { background: var(--primary); color: white; }
 
-  .product-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(170px, 1fr)); gap: 12px; }
+  .product-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(160px, 1fr)); gap: 10px; }
   .product-card {
-    border: 1px solid var(--border); border-radius: 8px; padding: 12px; cursor: pointer;
+    border: 1px solid var(--border); border-radius: 8px; padding: 10px; cursor: pointer;
     background: #FAFAFA; transition: 0.15s; display: flex; flex-direction: column; justify-content: space-between;
   }
   .product-card:hover { border-color: var(--accent); transform: translateY(-2px); box-shadow: 0 4px 10px rgba(0,0,0,0.05); }
-  .product-name { font-weight: 600; font-size: 13px; color: var(--text); margin-bottom: 6px; }
-  .product-meta { font-size: 11px; color: var(--text-muted); margin-bottom: 8px; }
-  .product-price { font-size: 14px; font-weight: 700; color: var(--primary); }
-  .stock-pill { font-size: 10px; padding: 2px 6px; border-radius: 4px; float: right; font-weight: 600; }
+  .product-name { font-weight: 600; font-size: 12.5px; color: var(--text); margin-bottom: 4px; }
+  .product-meta { font-size: 11px; color: var(--text-muted); margin-bottom: 6px; }
+  .product-price { font-size: 13.5px; font-weight: 700; color: var(--primary); }
+  .stock-pill { font-size: 9.5px; padding: 2px 5px; border-radius: 4px; float: right; font-weight: 700; }
   .stock-good { background: #E8F5E9; color: #2E7D32; }
   .stock-low { background: #FFEBEE; color: #C62828; }
 
-  .cart-header { display: flex; justify-content: space-between; align-items: center; border-bottom: 1px solid var(--border); padding-bottom: 10px; }
-  .channel-toggle { display: flex; gap: 6px; margin: 10px 0; background: #EEF2F6; padding: 4px; border-radius: 8px; }
+  .cart-header { display: flex; justify-content: space-between; align-items: center; border-bottom: 1px solid var(--border); padding-bottom: 8px; }
+  .channel-toggle { display: flex; gap: 4px; margin: 8px 0; background: #EEF2F6; padding: 3px; border-radius: 6px; }
   .channel-toggle button {
-    flex: 1; border: none; padding: 7px; border-radius: 6px; font-size: 12px; font-weight: 600; cursor: pointer;
+    flex: 1; border: none; padding: 6px; border-radius: 5px; font-size: 11.5px; font-weight: 600; cursor: pointer;
   }
   .channel-toggle button.active { background: white; color: var(--primary); box-shadow: 0 2px 4px rgba(0,0,0,0.06); }
   
-  .cart-items { flex: 1; overflow-y: auto; margin: 10px 0; padding-right: 4px; display: flex; flex-direction: column; gap: 8px; max-height: 280px; }
-  .cart-item-row { display: flex; justify-content: space-between; align-items: center; background: #F8FAFC; padding: 8px; border-radius: 6px; font-size: 12.5px; }
-  .qty-btn { width: 22px; height: 22px; border: 1px solid var(--border); background: white; border-radius: 4px; cursor: pointer; font-weight: bold; }
+  .cart-items { flex: 1; overflow-y: auto; margin: 8px 0; padding-right: 2px; display: flex; flex-direction: column; gap: 6px; max-height: 190px; }
+  .cart-item-row { display: flex; justify-content: space-between; align-items: center; background: #F8FAFC; padding: 6px 8px; border-radius: 6px; font-size: 12px; }
+  .qty-btn { width: 20px; height: 20px; border: 1px solid var(--border); background: white; border-radius: 4px; cursor: pointer; font-weight: bold; }
   
-  .cart-summary { border-top: 1px solid var(--border); padding-top: 12px; }
-  .summary-row { display: flex; justify-content: space-between; margin-bottom: 6px; font-size: 13px; }
-  .summary-total { font-size: 17px; font-weight: 700; color: var(--primary); margin: 8px 0; }
+  .cart-summary { border-top: 1px solid var(--border); padding-top: 8px; }
+  .summary-row { display: flex; justify-content: space-between; align-items: center; margin-bottom: 5px; font-size: 12px; }
+  .summary-total { font-size: 16px; font-weight: 800; color: var(--primary); margin: 6px 0; }
   
   .btn-checkout {
-    width: 100%; background: var(--success); color: white; border: none; padding: 13px;
-    border-radius: 8px; font-weight: 700; font-size: 15px; cursor: pointer; transition: 0.2s;
+    width: 100%; background: var(--success); color: white; border: none; padding: 11px;
+    border-radius: 8px; font-weight: 700; font-size: 14px; cursor: pointer; transition: 0.2s;
   }
   .btn-checkout:hover { background: #219653; }
 
-  .table-card { background: white; border-radius: 10px; padding: 18px; border: 1px solid var(--border); box-shadow: 0 1px 3px rgba(0,0,0,0.02); }
-  table { width: 100%; border-collapse: collapse; font-size: 13px; margin-top: 14px; }
-  th, td { padding: 10px 12px; text-align: left; border-bottom: 1px solid var(--border); }
-  th { background: #F8FAFC; color: var(--text-muted); font-weight: 600; font-size: 12px; }
+  .table-card { background: white; border-radius: 10px; padding: 16px; border: 1px solid var(--border); box-shadow: 0 1px 3px rgba(0,0,0,0.02); }
+  table { width: 100%; border-collapse: collapse; font-size: 12.5px; margin-top: 12px; }
+  th, td { padding: 9px 10px; text-align: left; border-bottom: 1px solid var(--border); }
+  th { background: #F8FAFC; color: var(--text-muted); font-weight: 600; font-size: 11.5px; }
   
-  .btn-del {
-    background: #FEE2E2; color: #DC2626; border: 1px solid #FCA5A5;
-    padding: 3px 8px; border-radius: 4px; font-size: 11px; font-weight: 700; cursor: pointer;
-  }
-  .btn-del:hover { background: #DC2626; color: white; }
+  .btn-action { padding: 3px 8px; border-radius: 4px; font-size: 11px; font-weight: 600; cursor: pointer; border: 1px solid transparent; }
+  .btn-edit { background: #E0F2FE; color: #0284C7; border-color: #BAE6FD; margin-right: 4px; }
+  .btn-del { background: #FEE2E2; color: #DC2626; border-color: #FCA5A5; }
 
-  .form-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(180px, 1fr)); gap: 12px; margin-bottom: 15px; }
-  .form-group label { display: block; font-size: 12px; font-weight: 600; margin-bottom: 4px; color: var(--text-muted); }
+  .form-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(170px, 1fr)); gap: 10px; margin-bottom: 14px; }
+  .form-group label { display: block; font-size: 11.5px; font-weight: 600; margin-bottom: 3px; color: var(--text-muted); }
   .form-group input, .form-group select {
-    width: 100%; padding: 8px 10px; border: 1px solid var(--border); border-radius: 6px; font-size: 13px; outline: none;
+    width: 100%; padding: 7px 9px; border: 1px solid var(--border); border-radius: 6px; font-size: 12.5px; outline: none;
   }
   .btn-primary {
-    background: var(--primary); color: white; border: none; padding: 9px 18px; border-radius: 6px;
-    font-size: 13px; font-weight: 600; cursor: pointer;
+    background: var(--primary); color: white; border: none; padding: 8px 16px; border-radius: 6px;
+    font-size: 12.5px; font-weight: 600; cursor: pointer;
   }
   .btn-primary:hover { background: var(--primary-light); }
 
-  #receiptModal {
-    display: none; position: fixed; inset: 0; background: rgba(0,0,0,0.5);
+  /* MODALS */
+  .modal-overlay {
+    display: none; position: fixed; inset: 0; background: rgba(0,0,0,0.55);
     justify-content: center; align-items: center; z-index: 1000;
   }
-  .receipt-box {
-    background: white; width: 320px; padding: 20px; border-radius: 8px; font-family: monospace; font-size: 12px;
+  .modal-box {
+    background: white; width: 330px; padding: 18px; border-radius: 10px; box-shadow: 0 10px 25px rgba(0,0,0,0.2);
   }
-  .receipt-center { text-align: center; margin-bottom: 10px; }
-  .receipt-divider { border-bottom: 1px dashed #333; margin: 8px 0; }
-  .print-actions { margin-top: 15px; display: flex; gap: 10px; }
+  .receipt-box {
+    background: white; width: 320px; padding: 18px; border-radius: 8px; font-family: monospace; font-size: 11px; max-height: 90vh; overflow-y: auto;
+  }
+  .receipt-center { text-align: center; margin-bottom: 8px; }
+  .receipt-divider { border-bottom: 1px dashed #333; margin: 6px 0; }
+  .print-actions { margin-top: 14px; display: flex; gap: 8px; }
 
   @media print {
-    aside, header, .filter-chips, .search-bar, .channel-toggle, .btn-checkout, .btn-primary, .btn-del, button, select { display: none !important; }
+    aside, header, .filter-chips, .search-bar, .channel-toggle, .btn-checkout, .btn-primary, .btn-action, button, select, input { display: none !important; }
     body, main, .content-area { height: auto !important; overflow: visible !important; background: white !important; }
     .table-card { border: none !important; box-shadow: none !important; padding: 0 !important; }
   }
@@ -166,7 +171,7 @@
     </nav>
   </div>
   <div class="sidebar-footer">
-    100% Free Indigenous POS v3.0<br>Owner PIN Protected • Deletions Enabled
+    v4.0 Enhanced ERP & POS<br>Serial Bills • GST • Dynamic UPI QR
   </div>
 </aside>
 
@@ -175,8 +180,9 @@
     <div class="header-title">
       <h2 id="viewHeading">🛒 POS Billing Counter</h2>
     </div>
-    <div style="display:flex; gap:12px; align-items:center;">
-      <span class="admin-badge" onclick="changeAdminPin()">🔒 Owner PIN: <b id="pinMask">Active</b> (Change)</span>
+    <div class="header-actions">
+      <span class="badge-btn badge-upi" onclick="configureShopUPI()">📱 Shop UPI: <b id="dispShopUpi">skgtrading@upi</b></span>
+      <span class="badge-btn badge-admin" onclick="changeAdminPin()">🔒 Owner PIN: Active</span>
     </div>
   </header>
 
@@ -185,6 +191,8 @@
     <!-- 1. POS TAB -->
     <div id="posTab" class="view-panel active">
       <div class="pos-container">
+        
+        <!-- Products Left -->
         <div class="pos-products">
           <div class="search-bar">
             <input type="text" id="searchBox" placeholder="🔍 Search Item Name, Category, or SKU..." oninput="filterProducts()">
@@ -201,11 +209,12 @@
           <div class="product-grid" id="productGrid"></div>
         </div>
 
+        <!-- Cart Right -->
         <div class="pos-cart">
           <div>
             <div class="cart-header">
-              <h3 style="font-size:15px; font-weight:700;">Current Bill</h3>
-              <button onclick="clearCart()" style="border:none; background:transparent; color:var(--danger); cursor:pointer; font-size:12px; font-weight:600;">Clear</button>
+              <h3 style="font-size:14.5px; font-weight:700;">Current Bill (<span id="nextBillNoLabel">INV...</span>)</h3>
+              <button onclick="clearCart()" style="border:none; background:transparent; color:var(--danger); cursor:pointer; font-size:11.5px; font-weight:600;">Clear</button>
             </div>
             
             <div class="channel-toggle">
@@ -213,30 +222,73 @@
               <button id="b2bBtn" onclick="setChannel('B2B')">B2B Wholesale</button>
             </div>
 
-            <div style="margin: 8px 0;">
-              <input type="text" id="custName" placeholder="Customer / Shop Name (e.g. Walk-in)" value="Walk-in Customer" style="width:100%; padding:6px 10px; border:1px solid var(--border); border-radius:6px; font-size:12px;">
+            <div style="margin: 6px 0;">
+              <input type="text" id="custName" placeholder="Customer Name (e.g. Walk-in / Sharma Paan)" value="Walk-in Customer" style="width:100%; padding:5px 8px; border:1px solid var(--border); border-radius:5px; font-size:12px;">
             </div>
 
             <div class="cart-items" id="cartItemsList">
-              <p style="text-align:center; color:var(--text-muted); font-size:12px; margin-top:40px;">Cart is empty.<br>Click items on the left to add.</p>
+              <p style="text-align:center; color:var(--text-muted); font-size:12px; margin-top:35px;">Cart is empty.<br>Click items to add.</p>
             </div>
           </div>
 
           <div class="cart-summary">
             <div class="summary-row">
+              <span style="color:var(--text-muted);">Items Subtotal:</span>
+              <span id="cartSubtotalVal" style="font-weight:600;">₹0.00</span>
+            </div>
+
+            <div class="summary-row">
+              <span style="color:var(--text-muted);">Discount:</span>
+              <div style="display:flex; gap:4px; align-items:center;">
+                <input type="number" id="discountInput" value="0" min="0" oninput="calculateCartTotals()" style="width:60px; padding:2px 4px; border:1px solid var(--border); border-radius:4px; font-size:11.5px; text-align:right;">
+                <select id="discountType" onchange="calculateCartTotals()" style="border:1px solid var(--border); border-radius:4px; font-size:11px; padding:2px;">
+                  <option value="FLAT">₹ (Flat)</option>
+                  <option value="PCT">% (Pct)</option>
+                </select>
+              </div>
+            </div>
+
+            <div class="summary-row">
+              <span style="color:var(--text-muted);">GST Tax Rate:</span>
+              <select id="cartGstRate" onchange="calculateCartTotals()" style="border:1px solid var(--border); border-radius:4px; font-size:11.5px; padding:2px 4px;">
+                <option value="0">Exempted / Nil (0%)</option>
+                <option value="5">GST 5% (2.5% C + 2.5% S)</option>
+                <option value="12">GST 12% (6% C + 6% S)</option>
+                <option value="18">GST 18% (9% C + 9% S)</option>
+                <option value="28">GST 28% (14% C + 14% S)</option>
+                <option value="5_IGST">IGST 5% (Inter-State)</option>
+                <option value="12_IGST">IGST 12% (Inter-State)</option>
+                <option value="18_IGST">IGST 18% (Inter-State)</option>
+              </select>
+            </div>
+            <div class="summary-row" id="gstTaxRow" style="display:none; color:#1E40AF; font-size:11px;">
+              <span>GST Tax Amount:</span>
+              <span id="cartGstAmountVal">₹0.00</span>
+            </div>
+
+            <div class="summary-row" style="margin-top:4px;">
               <span>Payment Mode:</span>
-              <select id="payMode" style="border:1px solid var(--border); border-radius:4px; padding:3px 6px; font-size:12px;">
-                <option value="UPI">UPI / QR Code</option>
+              <select id="payMode" onchange="toggleUpiQrBtn()" style="border:1px solid var(--border); border-radius:4px; padding:2px 5px; font-size:11.5px;">
+                <option value="UPI">UPI / QR Payment</option>
                 <option value="Cash">Cash Counter</option>
               </select>
             </div>
-            <div class="summary-row summary-total">
-              <span>Total Bill:</span>
-              <span id="cartTotalVal">₹0.00</span>
+
+            <div id="dynamicQrBox" style="margin: 6px 0;">
+              <button onclick="showDynamicUpiModal()" style="width:100%; background:#0284C7; color:white; border:none; padding:6px; border-radius:6px; font-size:12px; font-weight:600; cursor:pointer;">
+                📲 Show Exact Amount UPI QR Code
+              </button>
             </div>
-            <button class="btn-checkout" onclick="checkoutBill()">Generate Bill & Print (Receipt)</button>
+
+            <div class="summary-row summary-total">
+              <span>Final Total:</span>
+              <span id="cartFinalTotalVal">₹0.00</span>
+            </div>
+            
+            <button class="btn-checkout" onclick="checkoutBill()">Generate Bill & Print Receipt</button>
           </div>
         </div>
+
       </div>
     </div>
 
@@ -244,23 +296,11 @@
     <div id="inventoryTab" class="view-panel">
       <div class="table-card">
         <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:12px;">
-          <h3 style="font-size:16px;">📦 Real-Time Stock Master</h3>
-          <button class="btn-primary" onclick="toggleAddProductForm()">+ Add New SKU</button>
-        </div>
-
-        <div id="newProductForm" style="display:none; background:#F8FAFC; padding:14px; border-radius:8px; border:1px solid var(--border); margin-bottom:14px;">
-          <h4 style="font-size:13px; margin-bottom:10px;">Register New Item</h4>
-          <div class="form-grid">
-            <div class="form-group"><label>Item ID / SKU</label><input type="text" id="newSku" placeholder="SKU-011"></div>
-            <div class="form-group"><label>Item Name</label><input type="text" id="newName" placeholder="e.g. Masala Kaju 200g"></div>
-            <div class="form-group"><label>Category</label><input type="text" id="newCat" placeholder="Dry Fruits"></div>
-            <div class="form-group"><label>Unit</label><input type="text" id="newUnit" placeholder="Pouch / Pcs"></div>
-            <div class="form-group"><label>Purchase Rate (Cost)</label><input type="number" id="newCost" placeholder="120"></div>
-            <div class="form-group"><label>B2B Wholesale Rate</label><input type="number" id="newB2b" placeholder="140"></div>
-            <div class="form-group"><label>B2C Retail MRP</label><input type="number" id="newB2c" placeholder="180"></div>
-            <div class="form-group"><label>Opening Stock</label><input type="number" id="newStock" placeholder="50"></div>
+          <div>
+            <h3 style="font-size:16px; font-weight:700;">📦 Real-Time Stock & SKU Master</h3>
+            <p style="font-size:12px; color:var(--text-muted);">Manage purchase cost, wholesale rate, retail MRP, and edit SKU parameters anytime.</p>
           </div>
-          <button class="btn-primary" onclick="saveNewProduct()">Save to Inventory</button>
+          <button class="btn-primary" onclick="openAddSkuForm()">+ Register New SKU</button>
         </div>
 
         <table>
@@ -274,7 +314,7 @@
               <th>Retail MRP</th>
               <th>Current Stock</th>
               <th>Status</th>
-              <th>Action</th>
+              <th>Actions</th>
             </tr>
           </thead>
           <tbody id="inventoryTableBody"></tbody>
@@ -316,8 +356,8 @@
     <!-- 4. SALES INVOICES HISTORY TAB -->
     <div id="salesLogTab" class="view-panel">
       <div class="table-card">
-        <h3 style="font-size:16px; margin-bottom:12px;">🧾 Sales Invoices History (Counter Bills)</h3>
-        <p style="font-size:12px; color:var(--text-muted); margin-bottom:14px;">Galti se galat bill ban gaya ho toh Owner PIN daalkar bill delete karein. Stock automatic restore ho jayega.</p>
+        <h3 style="font-size:16px; margin-bottom:12px;">🧾 Serial Sales Invoices History</h3>
+        <p style="font-size:12px; color:var(--text-muted); margin-bottom:14px;">Formatted serially as <b>INV(DDMMYY)XX</b>. Owner PIN allows cancellation & stock auto-restoration.</p>
         <table>
           <thead>
             <tr>
@@ -327,8 +367,9 @@
               <th>Item</th>
               <th>Channel</th>
               <th>Qty</th>
-              <th>Rate</th>
-              <th>Total Amount</th>
+              <th>Net Rate</th>
+              <th>GST Tax</th>
+              <th>Final Bill</th>
               <th>Payment</th>
               <th>Action</th>
             </tr>
@@ -398,24 +439,30 @@
     <!-- 7. CAPITAL & DRAWINGS TAB -->
     <div id="capitalTab" class="view-panel">
       <div class="table-card">
-        <h3 style="font-size:16px; margin-bottom:12px;">💰 Capital, Financier Return (Interest) & Personal Drawings</h3>
+        <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:12px;">
+          <div>
+            <h3 style="font-size:16px; font-weight:700;">💰 Capital, Financier Return & Drawings</h3>
+            <p style="font-size:12px; color:var(--text-muted);">Initial capital is 100% editable whenever finalized.</p>
+          </div>
+          <button class="btn-primary" onclick="editInitialCapital()">✏️ Edit Initial Capital</button>
+        </div>
         
-        <div style="display:grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap:14px; margin-bottom:18px;">
-          <div style="background:#EEF2F6; padding:14px; border-radius:8px;">
-            <div style="font-size:11px; color:var(--text-muted); font-weight:600;">INITIAL CAPITAL INVESTED</div>
-            <div style="font-size:20px; font-weight:700; color:var(--primary); margin-top:4px;">₹15,00,000</div>
+        <div style="display:grid; grid-template-columns: repeat(auto-fit, minmax(180px, 1fr)); gap:12px; margin-bottom:18px;">
+          <div style="background:#EEF2F6; padding:12px 14px; border-radius:8px;">
+            <div style="font-size:11px; color:var(--text-muted); font-weight:700;">INITIAL CAPITAL INVESTED</div>
+            <div style="font-size:19px; font-weight:800; color:var(--primary); margin-top:3px;" id="dispInitCapital">₹15,00,000</div>
           </div>
-          <div style="background:#FEF3C7; padding:14px; border-radius:8px;">
-            <div style="font-size:11px; color:#B45309; font-weight:600;">TOTAL INTEREST / RETURN PAID</div>
-            <div style="font-size:20px; font-weight:700; color:#B45309; margin-top:4px;" id="dispInterestPaid">₹22,500</div>
+          <div style="background:#FEF3C7; padding:12px 14px; border-radius:8px;">
+            <div style="font-size:11px; color:#B45309; font-weight:700;">TOTAL INTEREST / RETURN PAID</div>
+            <div style="font-size:19px; font-weight:800; color:#B45309; margin-top:3px;" id="dispInterestPaid">₹22,500</div>
           </div>
-          <div style="background:#E0F2FE; padding:14px; border-radius:8px;">
-            <div style="font-size:11px; color:#0369A1; font-weight:600;">TOTAL PERSONAL DRAWINGS</div>
-            <div style="font-size:20px; font-weight:700; color:#0369A1; margin-top:4px;" id="dispDrawings">₹15,000</div>
+          <div style="background:#E0F2FE; padding:12px 14px; border-radius:8px;">
+            <div style="font-size:11px; color:#0369A1; font-weight:700;">TOTAL PERSONAL DRAWINGS</div>
+            <div style="font-size:19px; font-weight:800; color:#0369A1; margin-top:3px;" id="dispDrawings">₹15,000</div>
           </div>
-          <div style="background:#DCFCE7; padding:14px; border-radius:8px;">
-            <div style="font-size:11px; color:#15803D; font-weight:600;">NET CAPITAL EQUITY BALANCE</div>
-            <div style="font-size:20px; font-weight:700; color:#15803D; margin-top:4px;" id="dispNetCapital">₹14,62,500</div>
+          <div style="background:#DCFCE7; padding:12px 14px; border-radius:8px;">
+            <div style="font-size:11px; color:#15803D; font-weight:700;">NET CAPITAL EQUITY BALANCE</div>
+            <div style="font-size:19px; font-weight:800; color:#15803D; margin-top:3px;" id="dispNetCapital">₹14,62,500</div>
           </div>
         </div>
 
@@ -424,7 +471,7 @@
           <div class="form-group">
             <label>Transaction Type</label>
             <select id="capType">
-              <option value="Monthly Interest Paid (1.5%)">Monthly Interest / Cost of Capital (1.5%)</option>
+              <option value="Monthly Interest Paid (Cost of Capital)">Monthly Interest / Cost of Capital Paid</option>
               <option value="Personal Drawing (Household)">Personal Drawing (Household Withdrawal)</option>
               <option value="Additional Capital Infusion">Additional Capital Infusion (+)</option>
             </select>
@@ -454,13 +501,13 @@
     <!-- 8. COMPREHENSIVE REPORTS TAB -->
     <div id="reportsTab" class="view-panel">
       <div class="table-card">
-        <div style="display:flex; justify-content:space-between; align-items:center; flex-wrap:wrap; gap:10px; margin-bottom:16px;">
+        <div style="display:flex; justify-content:space-between; align-items:center; flex-wrap:wrap; gap:10px; margin-bottom:14px;">
           <div>
-            <h3 style="font-size:17px; font-weight:700;">📊 Business Analytics & Reports Hub</h3>
-            <p style="font-size:12px; color:var(--text-muted); margin-top:2px;">Real-time performance across Days, Months, Products, Parties & Payment modes.</p>
+            <h3 style="font-size:17px; font-weight:800;">📊 Comprehensive Business Analytics & Audit Hub</h3>
+            <p style="font-size:12px; color:var(--text-muted); margin-top:2px;">Sales, GST Tax Returns, Inventory Valuation & Payment Registers.</p>
           </div>
           <div style="display:flex; gap:8px; align-items:center;">
-            <select id="reportDateFilter" onchange="generateReports()" style="border:1px solid var(--border); border-radius:6px; padding:7px 12px; font-size:13px; font-weight:600; outline:none; background:#FFF;">
+            <select id="reportDateFilter" onchange="generateReports()" style="border:1px solid var(--border); border-radius:6px; padding:6px 12px; font-size:12.5px; font-weight:600; outline:none; background:#FFF;">
               <option value="ALL">All Time Record</option>
               <option value="TODAY">Today (Daily Close)</option>
               <option value="MONTH">This Month (Monthly)</option>
@@ -470,38 +517,40 @@
           </div>
         </div>
 
-        <div style="display:grid; grid-template-columns: repeat(auto-fit, minmax(180px, 1fr)); gap:12px; margin-bottom:20px;">
-          <div style="background:#F0FDF4; border:1px solid #BBF7D0; padding:12px 16px; border-radius:8px;">
-            <div style="font-size:11px; font-weight:700; color:#166534;">TOTAL SALES REVENUE</div>
-            <div style="font-size:20px; font-weight:800; color:#15803D; margin-top:4px;" id="repTotalRev">₹0</div>
+        <div style="display:grid; grid-template-columns: repeat(auto-fit, minmax(160px, 1fr)); gap:10px; margin-bottom:18px;">
+          <div style="background:#F0FDF4; border:1px solid #BBF7D0; padding:10px 14px; border-radius:8px;">
+            <div style="font-size:10.5px; font-weight:700; color:#166534;">TOTAL SALES REVENUE</div>
+            <div style="font-size:18px; font-weight:800; color:#15803D; margin-top:3px;" id="repTotalRev">₹0</div>
           </div>
-          <div style="background:#EFF6FF; border:1px solid #BFDBFE; padding:12px 16px; border-radius:8px;">
-            <div style="font-size:11px; font-weight:700; color:#1E40AF;">NET GROSS PROFIT</div>
-            <div style="font-size:20px; font-weight:800; color:#1D4ED8; margin-top:4px;" id="repTotalProfit">₹0</div>
+          <div style="background:#EFF6FF; border:1px solid #BFDBFE; padding:10px 14px; border-radius:8px;">
+            <div style="font-size:10.5px; font-weight:700; color:#1E40AF;">NET GROSS PROFIT</div>
+            <div style="font-size:18px; font-weight:800; color:#1D4ED8; margin-top:3px;" id="repTotalProfit">₹0</div>
           </div>
-          <div style="background:#FFFBEB; border:1px solid #FDE68A; padding:12px 16px; border-radius:8px;">
-            <div style="font-size:11px; font-weight:700; color:#92400E;">BLENDED PROFIT MARGIN</div>
-            <div style="font-size:20px; font-weight:800; color:#B45309; margin-top:4px;" id="repMarginPct">0%</div>
+          <div style="background:#FFFBEB; border:1px solid #FDE68A; padding:10px 14px; border-radius:8px;">
+            <div style="font-size:10.5px; font-weight:700; color:#92400E;">GST TAX COLLECTED</div>
+            <div style="font-size:18px; font-weight:800; color:#B45309; margin-top:3px;" id="repTotalGstTax">₹0</div>
           </div>
-          <div style="background:#F1F5F9; border:1px solid #E2E8F0; padding:12px 16px; border-radius:8px;">
-            <div style="font-size:11px; font-weight:700; color:#475569;">TOTAL BILLS GENERATED</div>
-            <div style="font-size:20px; font-weight:800; color:#334155; margin-top:4px;" id="repBillsCount">0</div>
+          <div style="background:#F1F5F9; border:1px solid #E2E8F0; padding:10px 14px; border-radius:8px;">
+            <div style="font-size:10.5px; font-weight:700; color:#475569;">TOTAL BILLS</div>
+            <div style="font-size:18px; font-weight:800; color:#334155; margin-top:3px;" id="repBillsCount">0</div>
           </div>
-          <div style="background:#FEF2F2; border:1px solid #FECACA; padding:12px 16px; border-radius:8px;">
-            <div style="font-size:11px; font-weight:700; color:#991B1B;">SPOILAGE / SELF-USE LOSS</div>
-            <div style="font-size:20px; font-weight:800; color:#DC2626; margin-top:4px;" id="repSpoilageLoss">₹0</div>
+          <div style="background:#FEF2F2; border:1px solid #FECACA; padding:10px 14px; border-radius:8px;">
+            <div style="font-size:10.5px; font-weight:700; color:#991B1B;">SPOILAGE LOSS</div>
+            <div style="font-size:18px; font-weight:800; color:#DC2626; margin-top:3px;" id="repSpoilageLoss">₹0</div>
           </div>
         </div>
 
         <div style="display:flex; gap:6px; margin-bottom:14px; border-bottom:1px solid var(--border); padding-bottom:6px; overflow-x:auto;">
-          <button class="chip active" onclick="switchReportSubTab('subProduct', this)">📦 Product-Wise Performance</button>
+          <button class="chip active" onclick="switchReportSubTab('subProduct', this)">📦 Product Sales & Margin</button>
+          <button class="chip" onclick="switchReportSubTab('subGst', this)">🏛️ GST Tax Return Report</button>
+          <button class="chip" onclick="switchReportSubTab('subInvValuation', this)">📋 Inventory Valuation & Stock</button>
           <button class="chip" onclick="switchReportSubTab('subPayment', this)">💳 Payment Mode (Cash vs UPI)</button>
           <button class="chip" onclick="switchReportSubTab('subParty', this)">👥 Party / Customer Breakdown</button>
-          <button class="chip" onclick="switchReportSubTab('subDailyMonthly', this)">📅 Date-Wise / Timeline Summary</button>
+          <button class="chip" onclick="switchReportSubTab('subDailyMonthly', this)">📅 Date-Wise Register</button>
         </div>
 
         <div id="subProduct" class="report-sub-view">
-          <h4 style="font-size:14px; margin-bottom:8px;">Product-Wise Sales & Profit Contribution</h4>
+          <h4 style="font-size:13.5px; margin-bottom:6px;">Product-Wise Sales & Profit Contribution</h4>
           <table>
             <thead>
               <tr>
@@ -516,14 +565,54 @@
           </table>
         </div>
 
+        <div id="subGst" class="report-sub-view" style="display:none;">
+          <h4 style="font-size:13.5px; margin-bottom:6px;">GST Tax Filing & Slab-Wise Collection Summary</h4>
+          <table>
+            <thead>
+              <tr>
+                <th>Tax Slab Category</th>
+                <th>Invoices Handled</th>
+                <th>Taxable Value (₹)</th>
+                <th>CGST (₹)</th>
+                <th>SGST (₹)</th>
+                <th>IGST (₹)</th>
+                <th>Total GST Collected (₹)</th>
+              </tr>
+            </thead>
+            <tbody id="repGstTableBody"></tbody>
+          </table>
+        </div>
+
+        <div id="subInvValuation" class="report-sub-view" style="display:none;">
+          <h4 style="font-size:13.5px; margin-bottom:6px;">Live Inventory Stock Holding & Asset Valuation</h4>
+          <div style="display:flex; gap:16px; margin-bottom:10px; font-size:12px; font-weight:600;">
+            <div>Total Inventory Holding Cost: <span id="valTotalCost" style="color:var(--primary); font-size:14px; font-weight:800;">₹0</span></div>
+            <div>Expected Retail Realization: <span id="valTotalRetail" style="color:var(--success); font-size:14px; font-weight:800;">₹0</span></div>
+          </div>
+          <table>
+            <thead>
+              <tr>
+                <th>SKU</th>
+                <th>Item Name</th>
+                <th>Stock Quantity</th>
+                <th>Cost / Unit</th>
+                <th>Total Cost Value (₹)</th>
+                <th>Retail Realization (₹)</th>
+                <th>Status</th>
+              </tr>
+            </thead>
+            <tbody id="repInventoryTableBody"></tbody>
+          </table>
+        </div>
+
         <div id="subPayment" class="report-sub-view" style="display:none;">
-          <h4 style="font-size:14px; margin-bottom:8px;">Payment Mode Collection (Drawer vs Bank UPI)</h4>
+          <h4 style="font-size:13.5px; margin-bottom:6px;">Payment Mode Breakdown (Drawer Cash vs Bank UPI)</h4>
           <table>
             <thead>
               <tr>
                 <th>Payment Mode</th>
-                <th>Total Bills Handled</th>
-                <th>Total Amount Collected (₹)</th>
+                <th>Bills Count</th>
+                <th>Total Collection (₹)</th>
                 <th>Collection Share (%)</th>
               </tr>
             </thead>
@@ -532,13 +621,13 @@
         </div>
 
         <div id="subParty" class="report-sub-view" style="display:none;">
-          <h4 style="font-size:14px; margin-bottom:8px;">Party & Client Volume Ranking</h4>
+          <h4 style="font-size:13.5px; margin-bottom:6px;">Party & Client Volume Ranking</h4>
           <table>
             <thead>
               <tr>
                 <th>Party / Customer Name</th>
                 <th>Channel Type</th>
-                <th>Orders / Bills Count</th>
+                <th>Orders Count</th>
                 <th>Total Billed Amount (₹)</th>
                 <th>Total Profit Realized (₹)</th>
               </tr>
@@ -548,13 +637,14 @@
         </div>
 
         <div id="subDailyMonthly" class="report-sub-view" style="display:none;">
-          <h4 style="font-size:14px; margin-bottom:8px;">Date-Wise Sales & Cash Intake Register</h4>
+          <h4 style="font-size:13.5px; margin-bottom:6px;">Date-Wise Sales & Cash Intake Register</h4>
           <table>
             <thead>
               <tr>
                 <th>Date</th>
                 <th>Bills Count</th>
                 <th>Gross Turnover (₹)</th>
+                <th>GST Collected (₹)</th>
                 <th>Net Profit (₹)</th>
                 <th>Daily Cash (₹)</th>
                 <th>Daily UPI (₹)</th>
@@ -593,25 +683,71 @@ function doPost(e) {
   </div>
 </main>
 
-<div id="receiptModal">
+<!-- MODAL: ADD / EDIT SKU -->
+<div id="skuModal" class="modal-overlay">
+  <div class="modal-box" style="width: 420px;">
+    <h3 id="skuModalTitle" style="font-size:15px; margin-bottom:12px;">Add / Edit SKU Item</h3>
+    <input type="hidden" id="editSkuIndex" value="-1">
+    <div class="form-grid">
+      <div class="form-group"><label>Item ID / SKU</label><input type="text" id="modalSku" placeholder="SKU-011"></div>
+      <div class="form-group"><label>Item Name</label><input type="text" id="modalName" placeholder="e.g. Masala Kaju 200g"></div>
+      <div class="form-group"><label>Category</label><input type="text" id="modalCat" placeholder="Dry Fruits"></div>
+      <div class="form-group"><label>Unit</label><input type="text" id="modalUnit" placeholder="Pouch / Pcs"></div>
+      <div class="form-group"><label>Purchase Cost Price (₹)</label><input type="number" id="modalCost" placeholder="120"></div>
+      <div class="form-group"><label>B2B Wholesale Rate (₹)</label><input type="number" id="modalB2b" placeholder="140"></div>
+      <div class="form-group"><label>B2C Retail MRP (₹)</label><input type="number" id="modalB2c" placeholder="180"></div>
+      <div class="form-group"><label>Physical Stock</label><input type="number" id="modalStock" placeholder="50"></div>
+    </div>
+    <div style="display:flex; justify-content:flex-end; gap:8px; margin-top:12px;">
+      <button onclick="closeSkuModal()" style="padding:7px 12px; border:1px solid #CCC; background:#F8FAFC; border-radius:6px; cursor:pointer;">Cancel</button>
+      <button class="btn-primary" onclick="saveSkuModal()">Save SKU</button>
+    </div>
+  </div>
+</div>
+
+<!-- MODAL: DYNAMIC UPI QR POPUP -->
+<div id="upiQrModal" class="modal-overlay">
+  <div class="modal-box" style="text-align: center;">
+    <h3 style="font-size:15px; font-weight:700; color:var(--primary); margin-bottom:4px;">Pay via UPI (Exact Amount)</h3>
+    <p style="font-size:11.5px; color:var(--text-muted); margin-bottom:12px;">Customer cannot change or pay less/more.</p>
+    
+    <div style="font-size:24px; font-weight:800; color:var(--success); margin-bottom:12px;" id="qrAmountDisp">₹0.00</div>
+    
+    <div style="background:#FFF; padding:10px; display:inline-block; border:1px solid #E2E8F0; border-radius:8px; margin-bottom:10px;">
+      <img id="dynamicQrImage" src="" alt="UPI QR Code" style="width:190px; height:190px; display:block;">
+    </div>
+    
+    <div style="font-size:11px; color:#555; margin-bottom:14px;">
+      UPI ID: <b id="qrUpiIdDisp">skgtrading@upi</b><br>
+      Bill Reference: <span id="qrBillRefDisp" style="font-weight:600;"></span>
+    </div>
+    
+    <button onclick="closeUpiQrModal()" class="btn-primary" style="width:100%;">Done / Close QR</button>
+  </div>
+</div>
+
+<!-- MODAL: PRINTABLE RECEIPT -->
+<div id="receiptModal" class="modal-overlay">
   <div class="receipt-box" id="printableReceipt">
     <div class="receipt-center">
       <h3 style="font-size:14px; margin-bottom:2px;">SKG TRADING CO.</h3>
-      <div style="font-size:11px;">THE FOODOPHILES - WAZIRABAD</div>
-      <div style="font-size:10px; color:#555;">GST/Retail Cash Memo</div>
+      <div style="font-size:11px; font-weight:bold;">THE FOODOPHILES - WAZIRABAD</div>
+      <div style="font-size:10px; color:#555;" id="receiptTaxHeader">GST / Retail Cash Memo</div>
     </div>
     <div class="receipt-divider"></div>
-    <div id="receiptDetails" style="font-size:11px;"></div>
+    <div id="receiptDetails" style="font-size:10.5px; line-height:1.5;"></div>
     <div class="receipt-divider"></div>
-    <table style="width:100%; font-size:11px; margin:0;" id="receiptItemsTable"></table>
+    <table style="width:100%; font-size:10.5px; margin:0;" id="receiptItemsTable"></table>
     <div class="receipt-divider"></div>
-    <div style="display:flex; justify-content:space-between; font-weight:bold; font-size:12px;">
+    <div id="receiptMathBreakdown" style="font-size:10.5px; line-height:1.6;"></div>
+    <div class="receipt-divider"></div>
+    <div style="display:flex; justify-content:space-between; font-weight:bold; font-size:12.5px;">
       <span>TOTAL PAID:</span>
       <span id="receiptTotal"></span>
     </div>
-    <div class="receipt-center" style="margin-top:12px; font-size:10px;">
-      *** Thank you! Visit Again ***<br>
-      Quality Sweets, Cakes & Dry Fruits
+    <div class="receipt-center" style="margin-top:10px; font-size:10px; line-height:1.4;">
+      *** Thank you for visiting The Foodophiles! ***<br>
+      Quality Sweets, Cakes, Dry Fruits & Bakes
     </div>
     <div class="print-actions">
       <button onclick="window.print()" class="btn-primary" style="flex:1;">Print Receipt</button>
@@ -621,11 +757,14 @@ function doPost(e) {
 </div>
 
 <script>
-// ADMIN SECURITY PIN
-let adminPin = localStorage.getItem('skg_admin_pin') || "1308";
+let adminPin = localStorage.getItem('skg_admin_pin') || "1234";
+let shopUpiId = localStorage.getItem('skg_shop_upi') || "skgtrading@upi";
+let initialCapitalValue = parseFloat(localStorage.getItem('skg_initial_capital')) || 1500000;
+
+document.getElementById('dispShopUpi').innerText = shopUpiId;
 
 function verifyOwnerAccess() {
-  const entered = prompt("🔐 Enter Owner / Admin PIN to authorize deletion/modification:");
+  const entered = prompt("🔐 Enter Owner / Admin PIN to authorize:");
   if (entered === adminPin) return true;
   if (entered !== null) alert("❌ Wrong Owner PIN! Access Denied.");
   return false;
@@ -639,15 +778,58 @@ function changeAdminPin() {
       adminPin = newP;
       localStorage.setItem('skg_admin_pin', newP);
       alert("✅ Owner PIN updated successfully!");
-    } else {
-      alert("PIN must be at least 4 digits.");
-    }
-  } else if (current !== null) {
-    alert("❌ Current PIN incorrect!");
+    } else alert("PIN must be at least 4 digits.");
+  } else if (current !== null) alert("❌ Current PIN incorrect!");
+}
+
+function configureShopUPI() {
+  const current = shopUpiId;
+  const newUpi = prompt("Enter your shop UPI ID for instant QR payments (e.g. yourname@okicici, mobile@paytm):", current);
+  if (newUpi && newUpi.trim().length > 3) {
+    shopUpiId = newUpi.trim();
+    localStorage.setItem('skg_shop_upi', shopUpiId);
+    document.getElementById('dispShopUpi').innerText = shopUpiId;
+    alert("✅ Shop UPI ID saved as: " + shopUpiId);
   }
 }
 
-// INITIAL SEED DATA
+function editInitialCapital() {
+  if (!verifyOwnerAccess()) return;
+  const newCap = prompt("Enter Final / Revised Initial Capital amount in ₹ (e.g. 1500000 or 1200000):", initialCapitalValue);
+  if (newCap && !isNaN(newCap) && parseFloat(newCap) > 0) {
+    initialCapitalValue = parseFloat(newCap);
+    localStorage.setItem('skg_initial_capital', initialCapitalValue);
+    if (capitalData.length > 0 && capitalData[0].type.includes("Initial")) {
+      capitalData[0].amount = initialCapitalValue;
+      capitalData[0].balance = initialCapitalValue;
+    }
+    saveState();
+    renderAll();
+    alert("✅ Initial Capital updated to ₹" + initialCapitalValue.toLocaleString('en-IN'));
+  }
+}
+
+function getTodayBillPrefix() {
+  const now = new Date();
+  const dd = String(now.getDate()).padStart(2, '0');
+  const mm = String(now.getMonth() + 1).padStart(2, '0');
+  const yy = String(now.getFullYear()).slice(-2);
+  return `INV${dd}${mm}${yy}`;
+}
+
+function getNextSerialBillNo() {
+  const prefix = getTodayBillPrefix();
+  let dailyCounter = parseInt(localStorage.getItem('skg_counter_' + prefix)) || 1;
+  const serialNo = String(dailyCounter).padStart(2, '0');
+  return `${prefix}${serialNo}`;
+}
+
+function incrementSerialBillCounter() {
+  const prefix = getTodayBillPrefix();
+  let dailyCounter = parseInt(localStorage.getItem('skg_counter_' + prefix)) || 1;
+  localStorage.setItem('skg_counter_' + prefix, dailyCounter + 1);
+}
+
 const defaultItems = [
   { sku: "SKU-001", name: "California Almonds 250g", cat: "Dry Fruits", unit: "Pouch", cost: 158, b2b: 175, b2c: 210, stock: 50 },
   { sku: "SKU-002", name: "Cashews W320 Grade 250g", cat: "Dry Fruits", unit: "Pouch", cost: 173, b2b: 190, b2c: 230, stock: 40 },
@@ -665,20 +847,18 @@ let items = JSON.parse(localStorage.getItem('skg_items')) || defaultItems;
 let cart = [];
 let currentChannel = 'B2C';
 let currentCategory = 'ALL';
+
 let capitalData = JSON.parse(localStorage.getItem('skg_capital')) || [
-  { id: "CAP-01", date: "2026-11-20", type: "Initial Capital Invested", amount: 300000, balance: 300000, notes: "Asset-Backed Investment" },
-  { id: "CAP-02", date: "2026-12-05", type: "Monthly Interest (1.5%)", amount: 4500, balance: 304500, notes: "Financier/Asset Return Paid" },
-  { id: "CAP-03", date: "2026-12-10", type: "Personal Drawing", amount: 1500, balance: 303000, notes: "Owner Household Expense" }
+  { id: "CAP-01", date: "2026-11-20", type: "Initial Capital Invested", amount: initialCapitalValue, balance: initialCapitalValue, notes: "Asset-Backed Investment" },
+  { id: "CAP-02", date: "2026-12-05", type: "Monthly Interest Paid", amount: 22500, balance: initialCapitalValue - 22500, notes: "Financier/Asset Return Paid" },
+  { id: "CAP-03", date: "2026-12-10", type: "Personal Drawing", amount: 15000, balance: initialCapitalValue - 37500, notes: "Owner Household Expense" }
 ];
 
-let initialSalesSeed = [
-  { billNo: "INV-1001", date: new Date().toISOString().split('T')[0], party: "Walk-in Customer", sku: "SKU-004", name: "Fresh Cream Cake 1/2kg", channel: "B2C", qty: 1, rate: 320, total: 320, mode: "UPI", profit: 190 },
-  { billNo: "INV-1002", date: new Date().toISOString().split('T')[0], party: "Sharma Paan Corner", sku: "SKU-009", name: "Novelty Toffee Jar (150 Pcs)", channel: "B2B", qty: 2, rate: 155, total: 310, mode: "Cash", profit: 50 },
-  { billNo: "INV-1003", date: new Date().toISOString().split('T')[0], party: "Verma Tea Stall", sku: "SKU-006", name: "Suji Rusk 500g Pack", channel: "B2B", qty: 10, rate: 28, total: 280, mode: "Cash", profit: 40 },
-  { billNo: "INV-1004", date: new Date().toISOString().split('T')[0], party: "Gupta Ji", sku: "SKU-001", name: "California Almonds 250g", channel: "B2C", qty: 2, rate: 210, total: 420, mode: "UPI", profit: 104 }
+let sales = JSON.parse(localStorage.getItem('skg_sales')) || [
+  { billNo: "INV11102601", date: "2026-10-11", party: "Walk-in Customer", sku: "SKU-004", name: "Fresh Cream Cake 1/2kg", channel: "B2C", qty: 1, rate: 320, subtotal: 320, discount: 0, gstRate: "0", gstAmount: 0, total: 320, mode: "UPI", profit: 190 },
+  { billNo: "INV11102602", date: "2026-10-11", party: "Sharma Paan Corner", sku: "SKU-009", name: "Novelty Toffee Jar (150 Pcs)", channel: "B2B", qty: 2, rate: 155, subtotal: 310, discount: 10, gstRate: "5", gstAmount: 15, total: 315, mode: "Cash", profit: 45 }
 ];
 
-let sales = JSON.parse(localStorage.getItem('skg_sales')) || initialSalesSeed;
 let purchases = JSON.parse(localStorage.getItem('skg_purchases')) || [];
 let selfUse = JSON.parse(localStorage.getItem('skg_selfuse')) || [];
 
@@ -698,12 +878,12 @@ function switchTab(tabId, btn) {
   
   const titles = {
     posTab: "🛒 POS Billing Counter",
-    inventoryTab: "📦 Real-Time Inventory Master",
+    inventoryTab: "📦 Real-Time Stock & SKU Master",
     purchaseTab: "📥 Inward Stock & Purchases",
-    salesLogTab: "🧾 Sales Invoices History",
+    salesLogTab: "🧾 Serial Sales Invoices History",
     selfuseTab: "☕ Shop Self-Use & Spoilage Tracker",
     partiesTab: "👥 Party-Wise Ledgers",
-    capitalTab: "💰 Capital, Drawings & Return Tracker",
+    capitalTab: "💰 Capital, Financier Return & Drawings",
     reportsTab: "📊 Comprehensive Business Reports",
     connectTab: "🔗 Google Sheets Web App Connection"
   };
@@ -711,7 +891,13 @@ function switchTab(tabId, btn) {
   renderAll();
 }
 
+function updateNextBillLabel() {
+  const lbl = document.getElementById('nextBillNoLabel');
+  if (lbl) lbl.innerText = getNextSerialBillNo();
+}
+
 function renderPOS() {
+  updateNextBillLabel();
   const grid = document.getElementById('productGrid');
   const query = document.getElementById('searchBox').value.toLowerCase();
   grid.innerHTML = '';
@@ -752,7 +938,7 @@ function setChannel(ch) {
   document.getElementById('b2cBtn').classList.toggle('active', ch === 'B2C');
   document.getElementById('b2bBtn').classList.toggle('active', ch === 'B2B');
   renderPOS();
-  renderCart();
+  calculateCartTotals();
 }
 
 function addToCart(item) {
@@ -785,23 +971,25 @@ function updateQty(sku, delta) {
 
 function clearCart() {
   cart = [];
+  document.getElementById('discountInput').value = 0;
+  document.getElementById('cartGstRate').value = "0";
   renderCart();
 }
 
 function renderCart() {
   const container = document.getElementById('cartItemsList');
   if (cart.length === 0) {
-    container.innerHTML = '<p style="text-align:center; color:var(--text-muted); font-size:12px; margin-top:40px;">Cart is empty.<br>Click items on the left to add.</p>';
-    document.getElementById('cartTotalVal').innerText = "₹0.00";
+    container.innerHTML = '<p style="text-align:center; color:var(--text-muted); font-size:12px; margin-top:35px;">Cart is empty.<br>Click items to add.</p>';
+    document.getElementById('cartSubtotalVal').innerText = "₹0.00";
+    document.getElementById('cartFinalTotalVal').innerText = "₹0.00";
+    document.getElementById('gstTaxRow').style.display = 'none';
     return;
   }
 
   container.innerHTML = '';
-  let total = 0;
   cart.forEach(item => {
     const rate = currentChannel === 'B2C' ? item.b2c : item.b2b;
     const sub = rate * item.qty;
-    total += sub;
     const row = document.createElement('div');
     row.className = 'cart-item-row';
     row.innerHTML = `
@@ -809,72 +997,218 @@ function renderCart() {
         <div style="font-weight:600;">${item.name}</div>
         <div style="font-size:11px; color:var(--text-muted);">₹${rate} x ${item.qty}</div>
       </div>
-      <div style="display:flex; align-items:center; gap:6px;">
+      <div style="display:flex; align-items:center; gap:5px;">
         <button class="qty-btn" onclick="updateQty('${item.sku}', -1)">-</button>
         <span style="font-weight:600;">${item.qty}</span>
         <button class="qty-btn" onclick="updateQty('${item.sku}', 1)">+</button>
       </div>
-      <div style="width:60px; text-align:right; font-weight:700;">₹${sub}</div>
+      <div style="width:55px; text-align:right; font-weight:700;">₹${sub}</div>
     `;
     container.appendChild(row);
   });
-  document.getElementById('cartTotalVal').innerText = "₹" + total.toFixed(2);
+  calculateCartTotals();
+}
+
+function calculateCartTotals() {
+  let subtotal = 0;
+  cart.forEach(item => {
+    const rate = currentChannel === 'B2C' ? item.b2c : item.b2b;
+    subtotal += rate * item.qty;
+  });
+  document.getElementById('cartSubtotalVal').innerText = "₹" + subtotal.toFixed(2);
+
+  const discVal = parseFloat(document.getElementById('discountInput').value) || 0;
+  const discType = document.getElementById('discountType').value;
+  let discountAmt = discType === 'PCT' ? (subtotal * discVal / 100) : discVal;
+  discountAmt = Math.min(subtotal, Math.max(0, discountAmt));
+
+  const afterDiscount = subtotal - discountAmt;
+
+  const gstOption = document.getElementById('cartGstRate').value;
+  let gstPct = 0;
+  if (gstOption.includes("5")) gstPct = 5;
+  else if (gstOption.includes("12")) gstPct = 12;
+  else if (gstOption.includes("18")) gstPct = 18;
+  else if (gstOption.includes("28")) gstPct = 28;
+
+  let gstAmount = (afterDiscount * gstPct) / 100;
+  const finalTotal = afterDiscount + gstAmount;
+
+  if (gstPct > 0) {
+    document.getElementById('gstTaxRow').style.display = 'flex';
+    document.getElementById('cartGstAmountVal').innerText = `₹${gstAmount.toFixed(2)} (${gstPct}%)`;
+  } else {
+    document.getElementById('gstTaxRow').style.display = 'none';
+  }
+
+  document.getElementById('cartFinalTotalVal').innerText = "₹" + finalTotal.toFixed(2);
+  return { subtotal, discountAmt, gstOption, gstPct, gstAmount, finalTotal };
+}
+
+function toggleUpiQrBtn() {
+  const mode = document.getElementById('payMode').value;
+  document.getElementById('dynamicQrBox').style.display = mode === 'UPI' ? 'block' : 'none';
+}
+
+function showDynamicUpiModal() {
+  const totals = calculateCartTotals();
+  if (totals.finalTotal <= 0) { alert("Cart is empty! Add items first."); return; }
+
+  const billNo = getNextSerialBillNo();
+  const amtFormatted = totals.finalTotal.toFixed(2);
+
+  const upiUrl = `upi://pay?pa=${encodeURIComponent(shopUpiId)}&pn=The%20Foodophiles&am=${amtFormatted}&cu=INR&tn=${billNo}`;
+  const qrApiUrl = `https://api.qrserver.com/v1/create-qr-code/?size=250x250&data=${encodeURIComponent(upiUrl)}`;
+
+  document.getElementById('qrAmountDisp').innerText = "₹" + amtFormatted;
+  document.getElementById('qrUpiIdDisp').innerText = shopUpiId;
+  document.getElementById('qrBillRefDisp').innerText = billNo;
+  document.getElementById('dynamicQrImage').src = qrApiUrl;
+  document.getElementById('upiQrModal').style.display = 'flex';
+}
+
+function closeUpiQrModal() {
+  document.getElementById('upiQrModal').style.display = 'none';
 }
 
 function checkoutBill() {
   if (cart.length === 0) { alert("Please add items to cart!"); return; }
 
-  const billNo = "INV-" + Math.floor(1000 + Math.random() * 9000);
+  const totals = calculateCartTotals();
+  const billNo = getNextSerialBillNo();
   const cust = document.getElementById('custName').value || "Walk-in Customer";
   const mode = document.getElementById('payMode').value;
-  let totalBill = 0;
+  const todayStr = new Date().toISOString().split('T')[0];
 
   cart.forEach(c => {
     const inv = items.find(i => i.sku === c.sku);
     const rate = currentChannel === 'B2C' ? inv.b2c : inv.b2b;
     const sub = rate * c.qty;
-    const profit = (rate - inv.cost) * c.qty;
-    totalBill += sub;
+    
+    const itemRatio = totals.subtotal > 0 ? (sub / totals.subtotal) : 0;
+    const itemDiscount = totals.discountAmt * itemRatio;
+    const itemTax = totals.gstAmount * itemRatio;
+    const itemFinalTotal = (sub - itemDiscount) + itemTax;
+    const itemProfit = (sub - itemDiscount) - (inv.cost * c.qty);
+
     inv.stock -= c.qty;
 
     sales.push({
       billNo: billNo,
-      date: new Date().toISOString().split('T')[0],
+      date: todayStr,
       party: cust,
       sku: c.sku,
       name: c.name,
       channel: currentChannel,
       qty: c.qty,
       rate: rate,
-      total: sub,
+      subtotal: sub,
+      discount: itemDiscount,
+      gstRate: totals.gstOption,
+      gstAmount: itemTax,
+      total: itemFinalTotal,
       mode: mode,
-      profit: profit
+      profit: itemProfit
     });
   });
 
+  incrementSerialBillCounter();
   saveState();
-  showReceipt(billNo, cust, mode, totalBill);
-  cart = [];
+  showReceipt(billNo, cust, mode, totals);
+  clearCart();
   renderAll();
 }
 
-function showReceipt(billNo, cust, mode, total) {
+function showReceipt(billNo, cust, mode, totals) {
+  document.getElementById('receiptTaxHeader').innerText = totals.gstPct > 0 ? "TAX INVOICE (GST)" : "RETAIL CASH MEMO";
   document.getElementById('receiptDetails').innerHTML = `
-    <div><b>Bill No:</b> ${billNo}</div>
-    <div><b>Date:</b> ${new Date().toLocaleDateString()} ${new Date().toLocaleTimeString()}</div>
+    <div><b>Invoice No:</b> ${billNo}</div>
+    <div><b>Date & Time:</b> ${new Date().toLocaleDateString()} ${new Date().toLocaleTimeString()}</div>
     <div><b>Customer:</b> ${cust}</div>
     <div><b>Payment Mode:</b> ${mode}</div>
   `;
+
   const tbody = document.getElementById('receiptItemsTable');
-  tbody.innerHTML = `<tr><th>Item</th><th style="text-align:center;">Qty</th><th style="text-align:right;">Total</th></tr>`;
+  tbody.innerHTML = `<tr><th>Item</th><th style="text-align:center;">Qty</th><th style="text-align:right;">Rate</th><th style="text-align:right;">Total</th></tr>`;
   sales.filter(s => s.billNo === billNo).forEach(s => {
-    tbody.innerHTML += `<tr><td>${s.name}</td><td style="text-align:center;">${s.qty}</td><td style="text-align:right;">₹${s.total}</td></tr>`;
+    tbody.innerHTML += `<tr><td>${s.name}</td><td style="text-align:center;">${s.qty}</td><td style="text-align:right;">₹${s.rate}</td><td style="text-align:right;">₹${s.subtotal.toFixed(2)}</td></tr>`;
   });
-  document.getElementById('receiptTotal').innerText = "₹" + total.toFixed(2);
+
+  let mathHtml = `
+    <div style="display:flex; justify-content:space-between;"><span>Subtotal:</span><span>₹${totals.subtotal.toFixed(2)}</span></div>
+  `;
+  if (totals.discountAmt > 0) {
+    mathHtml += `<div style="display:flex; justify-content:space-between; color:red;"><span>Discount:</span><span>-₹${totals.discountAmt.toFixed(2)}</span></div>`;
+  }
+  if (totals.gstPct > 0) {
+    mathHtml += `<div style="display:flex; justify-content:space-between; color:blue;"><span>GST Tax (${totals.gstOption}):</span><span>+₹${totals.gstAmount.toFixed(2)}</span></div>`;
+  }
+  document.getElementById('receiptMathBreakdown').innerHTML = mathHtml;
+  document.getElementById('receiptTotal').innerText = "₹" + totals.finalTotal.toFixed(2);
   document.getElementById('receiptModal').style.display = 'flex';
 }
 
 function closeReceipt() { document.getElementById('receiptModal').style.display = 'none'; }
+
+function openAddSkuForm() {
+  document.getElementById('skuModalTitle').innerText = "+ Register New SKU Item";
+  document.getElementById('editSkuIndex').value = "-1";
+  document.getElementById('modalSku').value = "SKU-0" + (items.length + 1);
+  document.getElementById('modalName').value = "";
+  document.getElementById('modalCat').value = "";
+  document.getElementById('modalUnit').value = "Pouch";
+  document.getElementById('modalCost').value = "";
+  document.getElementById('modalB2b').value = "";
+  document.getElementById('modalB2c').value = "";
+  document.getElementById('modalStock').value = "0";
+  document.getElementById('skuModal').style.display = 'flex';
+}
+
+function openEditSkuForm(idx) {
+  if (!verifyOwnerAccess()) return;
+  const item = items[idx];
+  document.getElementById('skuModalTitle').innerText = `✏️ Modify SKU: ${item.sku}`;
+  document.getElementById('editSkuIndex').value = idx;
+  document.getElementById('modalSku').value = item.sku;
+  document.getElementById('modalName').value = item.name;
+  document.getElementById('modalCat').value = item.cat;
+  document.getElementById('modalUnit').value = item.unit;
+  document.getElementById('modalCost').value = item.cost;
+  document.getElementById('modalB2b').value = item.b2b;
+  document.getElementById('modalB2c').value = item.b2c;
+  document.getElementById('modalStock').value = item.stock;
+  document.getElementById('skuModal').style.display = 'flex';
+}
+
+function closeSkuModal() {
+  document.getElementById('skuModal').style.display = 'none';
+}
+
+function saveSkuModal() {
+  const idx = parseInt(document.getElementById('editSkuIndex').value);
+  const sku = document.getElementById('modalSku').value.trim();
+  const name = document.getElementById('modalName').value.trim();
+  const cat = document.getElementById('modalCat').value.trim();
+  const unit = document.getElementById('modalUnit').value.trim();
+  const cost = parseFloat(document.getElementById('modalCost').value) || 0;
+  const b2b = parseFloat(document.getElementById('modalB2b').value) || 0;
+  const b2c = parseFloat(document.getElementById('modalB2c').value) || 0;
+  const stock = parseInt(document.getElementById('modalStock').value) || 0;
+
+  if (!sku || !name) { alert("Please enter both SKU Code and Name!"); return; }
+
+  if (idx >= 0) {
+    items[idx] = { sku, name, cat, unit, cost, b2b, b2c, stock };
+    alert(`✅ SKU ${sku} updated successfully!`);
+  } else {
+    items.push({ sku, name, cat, unit, cost, b2b, b2c, stock });
+    alert(`✅ New SKU ${name} added to inventory!`);
+  }
+
+  saveState();
+  closeSkuModal();
+  renderAll();
+}
 
 function renderInventoryTable() {
   const tbody = document.getElementById('inventoryTableBody');
@@ -891,7 +1225,10 @@ function renderInventoryTable() {
         <td>₹${i.b2c}</td>
         <td><b>${i.stock} ${i.unit}</b></td>
         <td><span class="stock-pill ${isLow ? 'stock-low' : 'stock-good'}">${isLow ? 'LOW STOCK' : 'OK'}</span></td>
-        <td><button class="btn-del" onclick="deleteProduct(${idx})">Delete</button></td>
+        <td>
+          <button class="btn-action btn-edit" onclick="openEditSkuForm(${idx})">Edit</button>
+          <button class="btn-action btn-del" onclick="deleteProduct(${idx})">Delete</button>
+        </td>
       </tr>
     `;
   });
@@ -899,35 +1236,12 @@ function renderInventoryTable() {
 
 function deleteProduct(idx) {
   if (!verifyOwnerAccess()) return;
-  if (confirm(`Are you sure you want to delete "${items[idx].name}" from inventory?`)) {
+  if (confirm(`Delete "${items[idx].name}" from inventory permanent?`)) {
     items.splice(idx, 1);
     saveState();
     renderAll();
-    alert("Item deleted successfully!");
+    alert("SKU removed!");
   }
-}
-
-function toggleAddProductForm() {
-  const f = document.getElementById('newProductForm');
-  f.style.display = f.style.display === 'none' ? 'block' : 'none';
-}
-
-function saveNewProduct() {
-  const sku = document.getElementById('newSku').value;
-  const name = document.getElementById('newName').value;
-  const cat = document.getElementById('newCat').value;
-  const unit = document.getElementById('newUnit').value;
-  const cost = parseFloat(document.getElementById('newCost').value) || 0;
-  const b2b = parseFloat(document.getElementById('newB2b').value) || 0;
-  const b2c = parseFloat(document.getElementById('newB2c').value) || 0;
-  const stock = parseInt(document.getElementById('newStock').value) || 0;
-
-  if (!sku || !name) { alert("Please enter SKU and Item Name!"); return; }
-
-  items.push({ sku, name, cat, unit, cost, b2b, b2c, stock });
-  saveState();
-  toggleAddProductForm();
-  renderAll();
 }
 
 function populateDropdowns() {
@@ -982,7 +1296,7 @@ function renderPurchasesTable() {
         <td>+${p.qty}</td>
         <td>₹${p.rate}</td>
         <td><b>₹${p.total}</b></td>
-        <td><button class="btn-del" onclick="deletePurchase(${idx})">Delete</button></td>
+        <td><button class="btn-action btn-del" onclick="deletePurchase(${idx})">Delete</button></td>
       </tr>
     `;
   });
@@ -1014,9 +1328,10 @@ function renderSalesLogTable() {
         <td><span class="stock-pill stock-good">${s.channel}</span></td>
         <td>${s.qty}</td>
         <td>₹${s.rate}</td>
-        <td><b>₹${s.total}</b></td>
+        <td style="color:#1E40AF;">₹${(s.gstAmount || 0).toFixed(2)} (${s.gstRate || '0'})</td>
+        <td><b>₹${s.total.toFixed(2)}</b></td>
         <td>${s.mode}</td>
-        <td><button class="btn-del" onclick="deleteSaleInvoice(${idx})">Cancel & Restore Stock</button></td>
+        <td><button class="btn-action btn-del" onclick="deleteSaleInvoice(${idx})">Cancel & Restore</button></td>
       </tr>
     `;
   });
@@ -1031,7 +1346,7 @@ function deleteSaleInvoice(idx) {
     sales.splice(idx, 1);
     saveState();
     renderAll();
-    alert("Bill deleted and stock restored!");
+    alert("Bill cancelled and stock restored!");
   }
 }
 
@@ -1075,7 +1390,7 @@ function renderSelfUseTable() {
         <td>₹${s.loss}</td>
         <td><span style="color:var(--danger); font-weight:600;">${s.reason}</span></td>
         <td>${s.remarks}</td>
-        <td><button class="btn-del" onclick="deleteSelfUse(${idx})">Delete</button></td>
+        <td><button class="btn-action btn-del" onclick="deleteSelfUse(${idx})">Delete</button></td>
       </tr>
     `;
   });
@@ -1090,7 +1405,7 @@ function deleteSelfUse(idx) {
     selfUse.splice(idx, 1);
     saveState();
     renderAll();
-    alert("Self-use entry removed and stock restored!");
+    alert("Self-use removed and stock restored!");
   }
 }
 
@@ -1131,7 +1446,7 @@ function saveCapitalTx() {
 
   if (amt <= 0) { alert("Enter valid amount!"); return; }
 
-  const lastBal = capitalData.length > 0 ? capitalData[capitalData.length - 1].balance : 1500000;
+  const lastBal = capitalData.length > 0 ? capitalData[capitalData.length - 1].balance : initialCapitalValue;
   let newBal = lastBal;
   if (type.includes("Infusion")) newBal += amt;
   else newBal -= amt;
@@ -1164,15 +1479,16 @@ function renderCapital() {
         <td><b>${c.id}</b></td>
         <td>${c.date}</td>
         <td>${c.type}</td>
-        <td>₹${c.amount}</td>
-        <td><b>₹${c.balance}</b></td>
+        <td>₹${c.amount.toLocaleString('en-IN')}</td>
+        <td><b>₹${c.balance.toLocaleString('en-IN')}</b></td>
         <td>${c.notes}</td>
-        <td>${idx > 0 ? `<button class="btn-del" onclick="deleteCapitalEntry(${idx})">Delete</button>` : '-'}</td>
+        <td>${idx > 0 ? `<button class="btn-action btn-del" onclick="deleteCapitalEntry(${idx})">Delete</button>` : '-'}</td>
       </tr>
     `;
   });
 
-  const currentBal = capitalData.length > 0 ? capitalData[capitalData.length - 1].balance : 1500000;
+  const currentBal = capitalData.length > 0 ? capitalData[capitalData.length - 1].balance : initialCapitalValue;
+  document.getElementById('dispInitCapital').innerText = "₹" + initialCapitalValue.toLocaleString('en-IN');
   document.getElementById('dispInterestPaid').innerText = "₹" + totalInterest.toLocaleString('en-IN');
   document.getElementById('dispDrawings').innerText = "₹" + totalDrawings.toLocaleString('en-IN');
   document.getElementById('dispNetCapital').innerText = "₹" + currentBal.toLocaleString('en-IN');
@@ -1217,8 +1533,10 @@ function generateReports() {
 
   let totalRev = 0;
   let totalProfit = 0;
+  let totalGstTax = 0;
   let uniqueBills = new Set();
   const prodMap = {};
+  const gstSlabMap = {};
   const payMap = { Cash: { count: 0, amt: 0 }, UPI: { count: 0, amt: 0 } };
   const partyMap = {};
   const dateMap = {};
@@ -1226,33 +1544,44 @@ function generateReports() {
   filteredSales.forEach(s => {
     totalRev += s.total;
     totalProfit += (s.profit || 0);
+    totalGstTax += (s.gstAmount || 0);
     uniqueBills.add(s.billNo);
 
-    if (!prodMap[s.sku]) {
-      prodMap[s.sku] = { name: s.name, qty: 0, rev: 0, profit: 0 };
-    }
+    if (!prodMap[s.sku]) prodMap[s.sku] = { name: s.name, qty: 0, rev: 0, profit: 0 };
     prodMap[s.sku].qty += s.qty;
     prodMap[s.sku].rev += s.total;
     prodMap[s.sku].profit += (s.profit || 0);
+
+    const slabKey = s.gstRate || "0";
+    if (!gstSlabMap[slabKey]) gstSlabMap[slabKey] = { invoices: new Set(), taxable: 0, cgst: 0, sgst: 0, igst: 0, totalGst: 0 };
+    gstSlabMap[slabKey].invoices.add(s.billNo);
+    const taxableItemVal = (s.subtotal || s.total) - (s.discount || 0);
+    gstSlabMap[slabKey].taxable += taxableItemVal;
+    const gstVal = s.gstAmount || 0;
+    gstSlabMap[slabKey].totalGst += gstVal;
+
+    if (slabKey.includes("IGST")) {
+      gstSlabMap[slabKey].igst += gstVal;
+    } else {
+      gstSlabMap[slabKey].cgst += (gstVal / 2);
+      gstSlabMap[slabKey].sgst += (gstVal / 2);
+    }
 
     const mode = s.mode || 'Cash';
     if (!payMap[mode]) payMap[mode] = { count: 0, amt: 0 };
     payMap[mode].amt += s.total;
     payMap[mode].count += 1;
 
-    if (!partyMap[s.party]) {
-      partyMap[s.party] = { channel: s.channel, bills: new Set(), total: 0, profit: 0 };
-    }
+    if (!partyMap[s.party]) partyMap[s.party] = { channel: s.channel, bills: new Set(), total: 0, profit: 0 };
     partyMap[s.party].bills.add(s.billNo);
     partyMap[s.party].total += s.total;
     partyMap[s.party].profit += (s.profit || 0);
 
     const d = s.date || todayStr;
-    if (!dateMap[d]) {
-      dateMap[d] = { bills: new Set(), total: 0, profit: 0, cash: 0, upi: 0 };
-    }
+    if (!dateMap[d]) dateMap[d] = { bills: new Set(), total: 0, gst: 0, profit: 0, cash: 0, upi: 0 };
     dateMap[d].bills.add(s.billNo);
     dateMap[d].total += s.total;
+    dateMap[d].gst += (s.gstAmount || 0);
     dateMap[d].profit += (s.profit || 0);
     if (mode === 'Cash') dateMap[d].cash += s.total;
     else dateMap[d].upi += s.total;
@@ -1261,10 +1590,9 @@ function generateReports() {
   let totalSpoilage = filteredSelfUse.reduce((acc, u) => acc + (u.loss || 0), 0);
 
   if(document.getElementById('repTotalRev')) {
-    document.getElementById('repTotalRev').innerText = "₹" + totalRev.toLocaleString('en-IN');
-    document.getElementById('repTotalProfit').innerText = "₹" + totalProfit.toLocaleString('en-IN');
-    const margin = totalRev > 0 ? ((totalProfit / totalRev) * 100).toFixed(1) : 0;
-    document.getElementById('repMarginPct').innerText = margin + "%";
+    document.getElementById('repTotalRev').innerText = "₹" + totalRev.toLocaleString('en-IN', {maximumFractionDigits:2});
+    document.getElementById('repTotalProfit').innerText = "₹" + totalProfit.toLocaleString('en-IN', {maximumFractionDigits:2});
+    document.getElementById('repTotalGstTax').innerText = "₹" + totalGstTax.toLocaleString('en-IN', {maximumFractionDigits:2});
     document.getElementById('repBillsCount').innerText = uniqueBills.size;
     document.getElementById('repSpoilageLoss').innerText = "₹" + totalSpoilage.toLocaleString('en-IN');
   }
@@ -1282,13 +1610,64 @@ function generateReports() {
           <tr>
             <td><b>${p.name}</b></td>
             <td>${p.qty}</td>
-            <td>₹${p.rev.toLocaleString('en-IN')}</td>
-            <td style="color:var(--success); font-weight:700;">₹${p.profit.toLocaleString('en-IN')}</td>
+            <td>₹${p.rev.toFixed(2)}</td>
+            <td style="color:var(--success); font-weight:700;">₹${p.profit.toFixed(2)}</td>
             <td>${m}%</td>
           </tr>
         `;
       });
     }
+  }
+
+  const gstBody = document.getElementById('repGstTableBody');
+  if (gstBody) {
+    gstBody.innerHTML = '';
+    const slabs = Object.entries(gstSlabMap);
+    if (slabs.length === 0) {
+      gstBody.innerHTML = '<tr><td colspan="7" style="text-align:center; color:#888;">No GST transactions logged.</td></tr>';
+    } else {
+      slabs.forEach(([slab, g]) => {
+        const label = slab === "0" ? "Exempt / 0% Tax" : `GST Rate ${slab}%`;
+        gstBody.innerHTML += `
+          <tr>
+            <td><b>${label}</b></td>
+            <td>${g.invoices.size}</td>
+            <td>₹${g.taxable.toFixed(2)}</td>
+            <td>₹${g.cgst.toFixed(2)}</td>
+            <td>₹${g.sgst.toFixed(2)}</td>
+            <td>₹${g.igst.toFixed(2)}</td>
+            <td style="color:#1E40AF; font-weight:800;">₹${g.totalGst.toFixed(2)}</td>
+          </tr>
+        `;
+      });
+    }
+  }
+
+  const invBody = document.getElementById('repInventoryTableBody');
+  if (invBody) {
+    invBody.innerHTML = '';
+    let totalCostVal = 0;
+    let totalRetailVal = 0;
+    items.forEach(i => {
+      const cVal = i.stock * i.cost;
+      const rVal = i.stock * i.b2c;
+      totalCostVal += cVal;
+      totalRetailVal += rVal;
+      const isLow = i.stock <= 5;
+      invBody.innerHTML += `
+        <tr>
+          <td><b>${i.sku}</b></td>
+          <td>${i.name}</td>
+          <td><b>${i.stock} ${i.unit}</b></td>
+          <td>₹${i.cost}</td>
+          <td>₹${cVal.toLocaleString('en-IN')}</td>
+          <td style="color:var(--success); font-weight:600;">₹${rVal.toLocaleString('en-IN')}</td>
+          <td><span class="stock-pill ${isLow ? 'stock-low' : 'stock-good'}">${isLow ? 'REORDER' : 'OK'}</span></td>
+        </tr>
+      `;
+    });
+    document.getElementById('valTotalCost').innerText = "₹" + totalCostVal.toLocaleString('en-IN');
+    document.getElementById('valTotalRetail').innerText = "₹" + totalRetailVal.toLocaleString('en-IN');
   }
 
   const payBody = document.getElementById('repPaymentTableBody');
@@ -1300,7 +1679,7 @@ function generateReports() {
         <tr>
           <td><b>${m}</b></td>
           <td>${data.count} items</td>
-          <td>₹${data.amt.toLocaleString('en-IN')}</td>
+          <td>₹${data.amt.toFixed(2)}</td>
           <td><b>${share}%</b></td>
         </tr>
       `;
@@ -1320,8 +1699,8 @@ function generateReports() {
             <td><b>${name}</b></td>
             <td><span class="stock-pill stock-good">${p.channel}</span></td>
             <td>${p.bills.size}</td>
-            <td>₹${p.total.toLocaleString('en-IN')}</td>
-            <td style="color:var(--success); font-weight:700;">₹${p.profit.toLocaleString('en-IN')}</td>
+            <td>₹${p.total.toFixed(2)}</td>
+            <td style="color:var(--success); font-weight:700;">₹${p.profit.toFixed(2)}</td>
           </tr>
         `;
       });
@@ -1333,17 +1712,18 @@ function generateReports() {
     dateBody.innerHTML = '';
     const sortedDates = Object.entries(dateMap).sort((a,b) => b[0].localeCompare(a[0]));
     if (sortedDates.length === 0) {
-      dateBody.innerHTML = '<tr><td colspan="6" style="text-align:center; color:#888;">No date records found.</td></tr>';
+      dateBody.innerHTML = '<tr><td colspan="7" style="text-align:center; color:#888;">No date records found.</td></tr>';
     } else {
       sortedDates.forEach(([dt, d]) => {
         dateBody.innerHTML += `
           <tr>
             <td><b>${dt}</b></td>
             <td>${d.bills.size}</td>
-            <td>₹${d.total.toLocaleString('en-IN')}</td>
-            <td style="color:var(--success); font-weight:700;">₹${d.profit.toLocaleString('en-IN')}</td>
-            <td>₹${d.cash.toLocaleString('en-IN')}</td>
-            <td>₹${d.upi.toLocaleString('en-IN')}</td>
+            <td>₹${d.total.toFixed(2)}</td>
+            <td style="color:#1E40AF;">₹${d.gst.toFixed(2)}</td>
+            <td style="color:var(--success); font-weight:700;">₹${d.profit.toFixed(2)}</td>
+            <td>₹${d.cash.toFixed(2)}</td>
+            <td>₹${d.upi.toFixed(2)}</td>
           </tr>
         `;
       });
