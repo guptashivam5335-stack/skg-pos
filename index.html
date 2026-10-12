@@ -342,7 +342,7 @@ button:disabled{opacity:.55;cursor:not-allowed}
 <!-- 7. PARTIES -->
 <div id="partiesView" class="view-tab"><div class="card-box">
   <h3 class="t" style="margin-bottom:8px">👥 Party Accounts & Khata</h3>
-  <p style="font-size:12px;color:var(--muted);margin-bottom:12px">Cash/UPI sales are treated as paid. Only invoices marked Credit add to outstanding balances. Record receipts here to reduce a party's balance.</p>
+  <p style="font-size:12px;color:var(--muted);margin-bottom:12px">Accounting treatment: Cash/UPI/Bank invoices are paid sales. Credit invoices create receivables. Receipts first reduce credit receivables; any excess remains a customer advance (liability), not income, until adjusted against a future invoice. Edit/delete receipt entries below if needed.</p>
   <div class="form-row">
     <div class="f-group"><label>Party / Customer</label><input id="partyPayName" list="partyNameOptions" placeholder="Exact customer name"><datalist id="partyNameOptions"></datalist></div>
     <div class="f-group"><label>Receipt Amount (₹)</label><input id="partyPayAmount" type="number" min="0.01" step="0.01" placeholder="e.g. 2500"></div>
@@ -351,9 +351,9 @@ button:disabled{opacity:.55;cursor:not-allowed}
   </div>
   <button class="btn-submit" onclick="recordPartyPayment()">＋ Record Receipt</button>
   <div class="sync-health">Local data status: <strong id="saveHealth">Ready</strong>. This version still stores data in this browser; it is not cloud-backed or multi-device.</div>
-  <div class="scroll-table"><table><thead><tr><th>Party Name</th><th>Type</th><th>Total Billed</th><th>Paid / Received</th><th>Outstanding</th><th>Account Status</th></tr></thead><tbody id="partiesTable"></tbody></table></div>
-  <h4 style="font-size:13px;margin-top:18px">Recent Receipts</h4>
-  <div class="scroll-table"><table><thead><tr><th>Date</th><th>Party</th><th>Amount</th><th>Method</th><th>Reference</th></tr></thead><tbody id="partyPaymentsTable"></tbody></table></div>
+  <div class="scroll-table"><table><thead><tr><th>Party Name</th><th>Type</th><th>Total Billed</th><th>Credit Sales</th><th>Receipts</th><th>Receivable</th><th>Customer Advance</th><th>Status</th></tr></thead><tbody id="partiesTable"></tbody></table></div>
+  <h4 style="font-size:13px;margin-top:18px">Receipts (latest first)</h4>
+  <div class="scroll-table"><table><thead><tr><th>Date</th><th>Receipt ID</th><th>Party</th><th>Amount</th><th>Method</th><th>Reference</th><th class="admin-col">Actions</th></tr></thead><tbody id="partyPaymentsTable"></tbody></table></div>
 </div></div>
 
 <!-- 8. CAPITAL -->
@@ -404,7 +404,7 @@ button:disabled{opacity:.55;cursor:not-allowed}
 <div id="rep-PNL">
   <div class="pnl">
     <h4 style="font-size:14px;font-weight:800;border-bottom:1px solid #CBD5E1;padding-bottom:6px;margin-bottom:10px">Trading & Profit & Loss Statement (SKG Trading Company)</h4>
-    <div class="calc-row"><span>Total Revenue from Sales:</span><b id="pnlRev">₹0.00</b></div>
+    <div class="calc-row"><span>Net Sales Revenue (excluding output GST):</span><b id="pnlRev">₹0.00</b></div>
     <div class="calc-row" style="color:#DC2626"><span>Less: Cost of Goods Sold (COGS):</span><b id="pnlCogs">- ₹0.00</b></div>
     <div class="calc-row" style="padding:6px 0;border-top:1px dashed #CBD5E1;border-bottom:1px solid #CBD5E1;margin:6px 0;font-weight:800;color:var(--success)"><span>= GROSS TRADING PROFIT:</span><span id="pnlGross">₹0.00</span></div>
     <div style="font-size:11.5px;font-weight:700;color:#64748B;margin-top:6px">OPERATING EXPENSES (OPEX):</div>
@@ -412,7 +412,14 @@ button:disabled{opacity:.55;cursor:not-allowed}
     <div class="calc-row" style="color:#DC2626;margin-top:4px"><span>Total OPEX Burn:</span><b id="pnlOpexTotal">- ₹0.00</b></div>
     <div class="calc-row" style="color:#DC2626"><span>Spoilage & Damaged Losses:</span><b id="pnlSpoilage">- ₹0.00</b></div>
     <div class="calc-row" style="color:#B45309"><span>Financier Interest Paid:</span><b id="pnlInterest">- ₹0.00</b></div>
-    <div class="calc-row" style="padding:8px 0;border-top:2px solid var(--primary);margin-top:8px;font-size:15px;font-weight:800;color:var(--primary)"><span>= NET IN-HAND PROFIT:</span><span id="pnlNetProfit">₹0.00</span></div>
+    <div class="calc-row" style="padding:8px 0;border-top:2px solid var(--primary);margin-top:8px;font-size:15px;font-weight:800;color:var(--primary)"><span>= NET PROFIT (accrual basis):</span><span id="pnlNetProfit">₹0.00</span></div>
+    <div style="font-size:11.5px;font-weight:700;color:#64748B;margin-top:14px">SALES COLLECTION & CUSTOMER BALANCES (NOT PROFIT)</div>
+    <div class="calc-row"><span>Cash / UPI / Bank Sales (invoice value):</span><b id="pnlCashBankSales">₹0.00</b></div>
+    <div class="calc-row"><span>Credit Sales (invoice value):</span><b id="pnlCreditSales">₹0.00</b></div>
+    <div class="calc-row"><span>Party Receipts collected in selected period:</span><b id="pnlReceipts">₹0.00</b></div>
+    <div class="calc-row"><span>Current Receivables (all-time balance):</span><b id="pnlReceivables">₹0.00</b></div>
+    <div class="calc-row"><span>Current Customer Advances (liability, all-time balance):</span><b id="pnlAdvances">₹0.00</b></div>
+    <p style="font-size:11px;color:#64748B;margin-top:8px">Important: credit sales are still sales revenue under accrual accounting, but are not cash/bank collections. Customer advances are liabilities, not sales income. These collection figures do not get added to profit.</p>
   </div>
   <h4 style="font-size:13.5px;font-weight:700;margin-bottom:6px">Product-Wise Turnover & Margin</h4>
   <div class="scroll-table"><table><thead><tr><th>Product / SKU</th><th>Qty Sold</th><th>Turnover</th><th>Gross Profit</th><th>Margin %</th></tr></thead><tbody id="repProductTable"></tbody></table></div>
@@ -621,7 +628,7 @@ function exportBackup(){
   if(!isAdmin()) return;
   const counters = {};
   for(let i=0;i<localStorage.length;i++){ const k = localStorage.key(i); if(k.startsWith('skg_ctr_')) counters[k] = localStorage.getItem(k); }
-  const data = { app:"SKG-POS", version:2, exportedAt:new Date().toISOString(), items, sales, partyPayments, purchases, opex, selfUse, capitalData, initialCapital, shopUpiId, counters };
+  const data = { app:"SKG-POS", version:3, exportedAt:new Date().toISOString(), items, sales, partyPayments, purchases, opex, selfUse, capitalData, initialCapital, shopUpiId, counters };
   const blob = new Blob([JSON.stringify(data, null, 2)], {type:"application/json"});
   const name = "SKG-POS-backup-" + new Date().toISOString().slice(0,10) + ".json";
   const file = new File([blob], name, {type:"application/json"});
@@ -965,34 +972,92 @@ function renderSelfUse(){
     <td class="admin-col"><button class="btn-action btn-del" onclick="deleteSelfUse(${idx})">Delete</button></td></tr>`).join('');
 }
 
-// --- PARTIES ---
+// --- PARTIES & RECEIPT MANAGEMENT ---
 function partyAccountMap(){
-  const map={};
-  sales.forEach(s=>{
-    const n=String(s.party||'Walk-in Customer').trim()||'Walk-in Customer';
-    if(!map[n]) map[n]={type:s.channel==='B2B'?'Wholesale / B2B':'Retail',billed:0,paid:0,credit:0};
-    const total=Number(s.total)||0; map[n].billed+=total;
-    if(s.mode==='Credit') map[n].credit+=total; else map[n].paid+=total;
+  const map = {};
+  sales.forEach(s => {
+    const n = String(s.party || 'Walk-in Customer').trim() || 'Walk-in Customer';
+    if(!map[n]) map[n] = {type:s.channel === 'B2B' ? 'Wholesale / B2B' : 'Retail', billed:0, creditSales:0, cashBankSales:0, receipts:0};
+    const total = Number(s.total) || 0;
+    map[n].billed += total;
+    if(s.mode === 'Credit') map[n].creditSales += total;
+    else map[n].cashBankSales += total;
   });
-  partyPayments.forEach(p=>{const n=String(p.party||'').trim(); if(!map[n]) map[n]={type:'Customer',billed:0,paid:0,credit:0}; map[n].paid+=Number(p.amount)||0;});
+  partyPayments.forEach(p => {
+    const n = String(p.party || '').trim();
+    if(!n) return;
+    if(!map[n]) map[n] = {type:'Customer', billed:0, creditSales:0, cashBankSales:0, receipts:0};
+    map[n].receipts += Math.max(0, Number(p.amount) || 0);
+  });
+  Object.values(map).forEach(p => {
+    p.receivable = Math.max(0, p.creditSales - p.receipts);
+    p.advance = Math.max(0, p.receipts - p.creditSales);
+  });
   return map;
 }
 function recordPartyPayment(){
   if(!isAdmin()) return;
-  const party=$('partyPayName').value.trim(), amount=Number($('partyPayAmount').value), mode=$('partyPayMode').value, notes=$('partyPayNotes').value.trim();
+  const party = $('partyPayName').value.trim();
+  const amount = Number($('partyPayAmount').value);
+  const mode = $('partyPayMode').value;
+  const notes = $('partyPayNotes').value.trim();
   if(!party){toast('Enter the exact party/customer name.','error');$('partyPayName').focus();return;}
-  if(!Number.isFinite(amount)||amount<=0){toast('Receipt amount must be greater than zero.','error');$('partyPayAmount').focus();return;}
-  partyPayments.push({id:'RCT-'+Date.now(),date:new Date().toISOString().slice(0,10),party,amount,mode,notes});
-  saveAll(); $('partyPayAmount').value=''; $('partyPayNotes').value=''; renderParties(); toast('Receipt recorded. Verify it against the actual payment before closing the day.','success');
+  if(!Number.isFinite(amount) || amount <= 0){toast('Receipt amount must be greater than zero.','error');$('partyPayAmount').focus();return;}
+  const id = 'RCT-' + Date.now() + '-' + Math.floor(Math.random()*1000);
+  partyPayments.push({id, date:new Date().toISOString().slice(0,10), party, amount:Math.round(amount*100)/100, mode, notes});
+  saveAll();
+  $('partyPayAmount').value = ''; $('partyPayNotes').value = '';
+  renderAll();
+  toast('Receipt recorded. Any amount beyond credit sales is shown as customer advance, not income.','success');
+}
+function editPartyPayment(id){
+  if(!isAdmin()) return;
+  const p = partyPayments.find(x => x.id === id);
+  if(!p) { toast('Receipt not found. Refresh and try again.','error'); return; }
+  const date = prompt('Receipt date (YYYY-MM-DD):', p.date || new Date().toISOString().slice(0,10));
+  if(date === null) return;
+  if(!/^\d{4}-\d{2}-\d{2}$/.test(date) || Number.isNaN(Date.parse(date))) { toast('Use a valid date in YYYY-MM-DD format.','error'); return; }
+  const party = prompt('Party / customer name:', p.party || '');
+  if(party === null) return;
+  if(!party.trim()) { toast('Party name cannot be blank.','error'); return; }
+  const amountText = prompt('Receipt amount (₹):', String(p.amount));
+  if(amountText === null) return;
+  const amount = Number(amountText);
+  if(!Number.isFinite(amount) || amount <= 0) { toast('Amount must be greater than zero.','error'); return; }
+  const mode = prompt('Payment method (Cash / UPI / Bank):', p.mode || 'Cash');
+  if(mode === null) return;
+  const normalizedMode = ['cash','upi','bank'].find(x => x === mode.trim().toLowerCase());
+  if(!normalizedMode) { toast('Method must be Cash, UPI, or Bank.','error'); return; }
+  const notes = prompt('Reference / notes:', p.notes || '');
+  if(notes === null) return;
+  p.date = date;
+  p.party = party.trim();
+  p.amount = Math.round(amount*100)/100;
+  p.mode = normalizedMode.charAt(0).toUpperCase() + normalizedMode.slice(1);
+  p.notes = notes.trim();
+  saveAll(); renderAll();
+  toast('Receipt updated. Party receivable / advance balances have been recalculated.','success');
+}
+function deletePartyPayment(id){
+  if(!isAdmin()) return;
+  const p = partyPayments.find(x => x.id === id);
+  if(!p) { toast('Receipt not found. Refresh and try again.','error'); return; }
+  if(!confirm(`Delete receipt ${p.id} for ₹${Number(p.amount).toFixed(2)} from ${p.party}? Party balances and advance liability will be recalculated.`)) return;
+  partyPayments = partyPayments.filter(x => x.id !== id);
+  saveAll(); renderAll();
+  toast('Receipt deleted and party balances recalculated.','success');
 }
 function renderParties(){
-  const map=partyAccountMap(), names=Object.keys(map).sort((a,b)=>a.localeCompare(b));
-  $('partyNameOptions').innerHTML=names.map(n=>`<option value="${safeText(n)}"></option>`).join('');
-  $('partiesTable').innerHTML=names.length?names.map(n=>{
-    const p=map[n], received=Math.min(p.billed,p.paid), balance=Math.max(0,p.credit-partyPayments.filter(x=>x.party===n).reduce((a,x)=>a+(Number(x.amount)||0),0));
-    return `<tr><td><b>${safeText(n)}</b></td><td>${safeText(p.type)}</td><td>₹${p.billed.toFixed(2)}</td><td>₹${received.toFixed(2)}</td><td style="color:${balance>0?'#B91C1C':'#166534'};font-weight:800">₹${balance.toFixed(2)}</td><td>${balance>0?'Payment due':'Settled'}</td></tr>`;
-  }).join(''):'<tr><td colspan="6"><div class="empty-state">No customer transactions yet.</div></td></tr>';
-  $('partyPaymentsTable').innerHTML=partyPayments.slice().reverse().slice(0,30).map(p=>`<tr><td>${safeText(p.date)}</td><td>${safeText(p.party)}</td><td>₹${Number(p.amount).toFixed(2)}</td><td>${safeText(p.mode)}</td><td>${safeText(p.notes||'')}</td></tr>`).join('')||'<tr><td colspan="5">No receipts recorded yet.</td></tr>';
+  const map = partyAccountMap(), names = Object.keys(map).sort((a,b) => a.localeCompare(b));
+  $('partyNameOptions').innerHTML = names.map(n => `<option value="${safeText(n)}"></option>`).join('');
+  $('partiesTable').innerHTML = names.length ? names.map(n => {
+    const p = map[n];
+    const status = p.receivable > 0 ? 'Payment due' : (p.advance > 0 ? 'Advance held' : 'Settled');
+    return `<tr><td><b>${safeText(n)}</b></td><td>${safeText(p.type)}</td><td>₹${p.billed.toFixed(2)}</td><td>₹${p.creditSales.toFixed(2)}</td><td>₹${p.receipts.toFixed(2)}</td><td style="color:${p.receivable>0?'#B91C1C':'#166534'};font-weight:800">₹${p.receivable.toFixed(2)}</td><td style="color:${p.advance>0?'#B45309':'#166534'};font-weight:800">₹${p.advance.toFixed(2)}</td><td>${status}</td></tr>`;
+  }).join('') : '<tr><td colspan="8"><div class="empty-state">No customer transactions yet.</div></td></tr>';
+  $('partyPaymentsTable').innerHTML = partyPayments.slice().sort((a,b) => String(b.date||'').localeCompare(String(a.date||''))).map(p =>
+    `<tr><td>${safeText(p.date||'')}</td><td>${safeText(p.id||'')}</td><td>${safeText(p.party||'')}</td><td>₹${(Number(p.amount)||0).toFixed(2)}</td><td>${safeText(p.mode||'')}</td><td>${safeText(p.notes||'')}</td><td class="admin-col"><button class="btn-action" onclick="editPartyPayment('${safeText(p.id)}')">Edit</button> <button class="btn-action btn-del" onclick="deletePartyPayment('${safeText(p.id)}')">Delete</button></td></tr>`
+  ).join('') || '<tr><td colspan="7">No receipts recorded yet.</td></tr>';
 }
 
 // --- CAPITAL ---
@@ -1031,31 +1096,54 @@ function renderCapital(){
 
 // --- REPORTS ---
 function renderReports(){
-  const filter = $('repFilter').value, today = new Date().toISOString().split('T')[0];
-  const month = today.substring(0,7), year = today.substring(0,4);
+  const filter = $('repFilter').value;
   const inRange = repInRange;
   const fS = sales.filter(inRange), fO = opex.filter(inRange), fU = selfUse.filter(inRange);
-  let rev = 0, profit = 0, cogs = 0; const pMap = {};
+  const fReceipts = partyPayments.filter(inRange);
+  let rev = 0, profit = 0, cogs = 0, cashBankSales = 0, creditSales = 0;
+  const pMap = {};
   fS.forEach(s => {
-    rev += s.total; profit += s.profit || 0; cogs += s.total - (s.profit || 0) - (s.gstAmount || 0);
-    if(!pMap[s.sku]) pMap[s.sku] = { name:s.name, qty:0, rev:0, profit:0 };
-    pMap[s.sku].qty += s.qty; pMap[s.sku].rev += s.total; pMap[s.sku].profit += s.profit || 0;
+    const grossInvoice = Number(s.total) || 0;
+    const outputGst = Number(s.gstAmount) || 0;
+    const netSales = grossInvoice - outputGst;
+    const itemProfit = Number(s.profit) || 0;
+    rev += netSales;
+    profit += itemProfit;
+    cogs += netSales - itemProfit;
+    if(s.mode === 'Credit') creditSales += grossInvoice;
+    else cashBankSales += grossInvoice;
+    if(!pMap[s.sku]) pMap[s.sku] = {name:s.name, qty:0, rev:0, profit:0};
+    pMap[s.sku].qty += Number(s.qty) || 0;
+    pMap[s.sku].rev += netSales;
+    pMap[s.sku].profit += itemProfit;
   });
-  const totOpex = fO.reduce((a,b) => a + b.amount, 0), spoil = fU.reduce((a,b) => a + b.loss, 0);
-  const interest = capitalData.filter(c => c.type.includes("Interest")).reduce((a,b) => a + b.amount, 0);
-  const intCharge = filter === 'ALL' ? interest : 0, net = profit - totOpex - spoil - intCharge;
-  $('pnlRev').innerText = "₹" + inr(rev);
-  $('pnlCogs').innerText = "- ₹" + inr(Math.max(0, cogs));
-  $('pnlGross').innerText = "₹" + inr(profit);
-  const oMap = {}; fO.forEach(o => oMap[o.cat] = (oMap[o.cat] || 0) + o.amount);
-  $('pnlOpexList').innerHTML = Object.entries(oMap).map(([k,v]) => `<div>• ${k}: <b>₹${inr(v)}</b></div>`).join('') || "<div><i>No OPEX logged for this range</i></div>";
-  $('pnlOpexTotal').innerText = "- ₹" + inr(totOpex);
-  $('pnlSpoilage').innerText = "- ₹" + inr(spoil);
-  $('pnlInterest').innerText = "- ₹" + inr(intCharge);
-  const nd = $('pnlNetProfit'); nd.innerText = "₹" + inr(net); nd.style.color = net >= 0 ? "var(--success)" : "var(--danger)";
-  $('repProductTable').innerHTML = Object.values(pMap).sort((a,b) => b.rev - a.rev).map(p =>
-    `<tr><td><b>${p.name}</b></td><td>${p.qty}</td><td>₹${p.rev.toFixed(2)}</td><td style="color:var(--success);font-weight:800">₹${p.profit.toFixed(2)}</td><td>${p.rev > 0 ? (p.profit/p.rev*100).toFixed(1) : 0}%</td></tr>`).join('');
-  lastPnl = { rev, cogs, profit, oMap, totOpex, spoil, intCharge, net, pMap };
+  const totOpex = fO.reduce((a,b) => a + (Number(b.amount)||0), 0);
+  const spoil = fU.reduce((a,b) => a + (Number(b.loss)||0), 0);
+  const interest = capitalData.filter(c => c.type && c.type.includes('Interest') && inRange(c)).reduce((a,b) => a + (Number(b.amount)||0), 0);
+  const intCharge = interest, net = profit - totOpex - spoil - intCharge;
+  const currentPartyMap = partyAccountMap();
+  const currentReceivables = Object.values(currentPartyMap).reduce((a,p) => a + p.receivable, 0);
+  const currentAdvances = Object.values(currentPartyMap).reduce((a,p) => a + p.advance, 0);
+  const receiptsInPeriod = fReceipts.reduce((a,p) => a + (Number(p.amount)||0), 0);
+  $('pnlRev').innerText = '₹' + inr(rev);
+  $('pnlCogs').innerText = '- ₹' + inr(Math.max(0, cogs));
+  $('pnlGross').innerText = '₹' + inr(profit);
+  const oMap = {};
+  fO.forEach(o => oMap[o.cat] = (oMap[o.cat] || 0) + (Number(o.amount)||0));
+  $('pnlOpexList').innerHTML = Object.entries(oMap).map(([k,v]) => `<div>• ${safeText(k)}: <b>₹${inr(v)}</b></div>`).join('') || '<div><i>No OPEX logged for this range</i></div>';
+  $('pnlOpexTotal').innerText = '- ₹' + inr(totOpex);
+  $('pnlSpoilage').innerText = '- ₹' + inr(spoil);
+  $('pnlInterest').innerText = '- ₹' + inr(intCharge);
+  const nd = $('pnlNetProfit'); nd.innerText = '₹' + inr(net); nd.style.color = net >= 0 ? 'var(--success)' : 'var(--danger)';
+  $('pnlCashBankSales').innerText = '₹' + inr(cashBankSales);
+  $('pnlCreditSales').innerText = '₹' + inr(creditSales);
+  $('pnlReceipts').innerText = '₹' + inr(receiptsInPeriod);
+  $('pnlReceivables').innerText = '₹' + inr(currentReceivables);
+  $('pnlAdvances').innerText = '₹' + inr(currentAdvances);
+  $('repProductTable').innerHTML = Object.values(pMap).sort((a,b) => b.rev-a.rev).map(p =>
+    `<tr><td><b>${safeText(p.name)}</b></td><td>${p.qty}</td><td>₹${p.rev.toFixed(2)}</td><td style="color:var(--success);font-weight:800">₹${p.profit.toFixed(2)}</td><td>${p.rev>0?(p.profit/p.rev*100).toFixed(1):0}%</td></tr>`
+  ).join('') || '<tr><td colspan="5">No sales in this period.</td></tr>';
+  lastPnl = {rev,cogs,profit,oMap,totOpex,spoil,intCharge,net,pMap,cashBankSales,creditSales,receiptsInPeriod,currentReceivables,currentAdvances};
   repShow();
 }
 
@@ -1142,14 +1230,18 @@ function buildReport(k){
   else if(k === 'PARTY'){
     R.title = 'Party-wise Report';
     const c = {}, v = {};
-    S.forEach(s => { if(!c[s.party]) c[s.party] = { type:s.channel === 'B2B' ? 'B2B' : 'Retail', bills:[], qty:0, billed:0, gst:0, profit:0 };
-      const x = c[s.party]; x.bills.push(s.billNo); x.qty += s.qty; x.billed += s.total; x.gst += s.gstAmount || 0; x.profit += s.profit || 0; });
+    S.forEach(s => { const name=String(s.party||'Walk-in Customer').trim()||'Walk-in Customer'; if(!c[name]) c[name] = { type:s.channel === 'B2B' ? 'B2B' : 'Retail', bills:[], qty:0, billed:0, credit:0, cashBank:0, gst:0, profit:0 };
+      const x = c[name]; x.bills.push(s.billNo); x.qty += s.qty; x.billed += s.total; if(s.mode==='Credit') x.credit += s.total; else x.cashBank += s.total; x.gst += s.gstAmount || 0; x.profit += s.profit || 0; });
+    const receiptRange = partyPayments.filter(repInRange);
+    const receiptTotals = {}; receiptRange.forEach(p => { const n=String(p.party||'').trim(); receiptTotals[n]=(receiptTotals[n]||0)+(Number(p.amount)||0); });
     P.forEach(p => { if(!v[p.vendor]) v[p.vendor] = { n:0, qty:0, amt:0 }; v[p.vendor].n++; v[p.vendor].qty += p.qty; v[p.vendor].amt += p.total; });
     const cr = Object.entries(c).sort((a,b) => b[1].billed - a[1].billed);
-    R.chips = [['Customers', cr.length], ['Vendors', Object.keys(v).length], ['Total Billed', '₹' + inr(sum(S, s => s.total))]];
-    R.sections.push({ head:'Customers (Sales)', cols:['Party','Type','Invoices','Qty','Billed','GST','Profit'], num:[2,3,4,5,6],
-      rows:cr.map(([n,x]) => [n, x.type, uniq(x.bills), x.qty, n2(x.billed), n2(x.gst), n2(x.profit)]),
-      foot:['TOTAL','', uniq(S.map(s => s.billNo)), sum(S, s => s.qty), n2(sum(S, s => s.total)), n2(sum(S, s => s.gstAmount)), n2(sum(S, s => s.profit))] });
+    const partyBalances = partyAccountMap();
+    R.chips = [['Customers', cr.length], ['Vendors', Object.keys(v).length], ['Total Billed', '₹' + inr(sum(S, s => s.total))], ['Receipts in Period', '₹' + inr(sum(receiptRange, p => p.amount))]];
+    R.sections.push({ head:'Customers (Sales, receipts and current balance)', cols:['Party','Type','Invoices','Qty','Billed','Cash/Bank Sales','Credit Sales','Receipts in Period','Current Receivable','Current Advance','GST','Profit'], num:[2,3,4,5,6,7,8,9,10,11],
+      rows:cr.map(([n,x]) => { const b=partyBalances[n]||{receivable:0,advance:0}; return [n,x.type,uniq(x.bills),x.qty,n2(x.billed),n2(x.cashBank),n2(x.credit),n2(receiptTotals[n]||0),n2(b.receivable),n2(b.advance),n2(x.gst),n2(x.profit)]; }),
+      foot:['TOTAL','',uniq(S.map(s=>s.billNo)),sum(S,s=>s.qty),n2(sum(S,s=>s.total)),n2(sum(S,s=>s.mode!=='Credit'?s.total:0)),n2(sum(S,s=>s.mode==='Credit'?s.total:0)),n2(sum(receiptRange,p=>p.amount)),n2(Object.values(partyBalances).reduce((a,p)=>a+p.receivable,0)),n2(Object.values(partyBalances).reduce((a,p)=>a+p.advance,0)),n2(sum(S,s=>s.gstAmount)),n2(sum(S,s=>s.profit))] });
+    R.notes.push('Current receivables and customer advances are all-time balances. Credit sales remain sales revenue; receipts reduce receivables or remain customer advances and are not counted as new revenue.');
     R.sections.push({ head:'Vendors (Purchases)', cols:['Vendor','Entries','Qty','Purchase Amount'], num:[1,2,3],
       rows:Object.entries(v).sort((a,b) => b[1].amt - a[1].amt).map(([n,x]) => [n, x.n, x.qty, n2(x.amt)]),
       foot:['TOTAL', P.length, sum(P, p => p.qty), n2(sum(P, p => p.total))] });
@@ -1169,9 +1261,10 @@ function buildReport(k){
   else { // PNL (export only; screen uses the statement above)
     R.title = 'Profit & Loss Statement';
     const L = lastPnl || { rev:0, cogs:0, profit:0, oMap:{}, totOpex:0, spoil:0, intCharge:0, net:0, pMap:{} };
-    const rows = [['Total Revenue from Sales', n2(L.rev)], ['Less: Cost of Goods Sold', n2(-Math.max(0, L.cogs))], ['GROSS TRADING PROFIT', n2(L.profit)]];
+    const rows = [['Net Sales Revenue (excluding output GST)', n2(L.rev)], ['Less: Cost of Goods Sold', n2(-Math.max(0, L.cogs))], ['GROSS TRADING PROFIT', n2(L.profit)]];
     Object.entries(L.oMap).forEach(([c,a]) => rows.push(['OPEX - ' + c, n2(-a)]));
-    rows.push(['Total OPEX', n2(-L.totOpex)], ['Spoilage & Damaged Losses', n2(-L.spoil)], ['Financier Interest Paid', n2(-L.intCharge)], ['NET IN-HAND PROFIT', n2(L.net)]);
+    rows.push(['Total OPEX', n2(-L.totOpex)], ['Spoilage & Damaged Losses', n2(-L.spoil)], ['Financier Interest Paid', n2(-L.intCharge)], ['NET PROFIT (accrual basis)', n2(L.net)]);
+    rows.push(['Cash / UPI / Bank Sales (invoice value, not profit)', n2(L.cashBankSales)], ['Credit Sales (invoice value, not collections)', n2(L.creditSales)], ['Party Receipts collected in period (not new income)', n2(L.receiptsInPeriod)], ['Current Receivables (all-time balance)', n2(L.currentReceivables)], ['Current Customer Advances (liability, all-time balance)', n2(L.currentAdvances)]);
     R.sections.push({ head:'Profit & Loss', cols:['Particulars','Amount (INR)'], num:[1], rows });
     R.sections.push({ head:'Product-wise Turnover & Margin', cols:['Product','Qty Sold','Turnover','Gross Profit','Margin %'], num:[1,2,3,4],
       rows:Object.values(L.pMap).sort((a,b) => b.rev - a.rev).map(p => [p.name, p.qty, n2(p.rev), n2(p.profit), p.rev > 0 ? (p.profit/p.rev*100).toFixed(1) : '0.0']) });
