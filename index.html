@@ -188,12 +188,12 @@ button:disabled{opacity:.55;cursor:not-allowed}
 
 <header>
   <div class="nav-left">
-    <button class="menu-btn" onclick="toggleDrawer()">â°</button>
-    <div><span class="brand-title">SKG TRADING CO.</span><span class="brand-sub">The Foodophiles â¢ Wazirabad</span></div>
+    <button class="menu-btn" onclick="toggleDrawer()">☰</button>
+    <div><span class="brand-title">SKG TRADING CO.</span><span class="brand-sub">The Foodophiles • Wazirabad</span></div>
   </div>
   <div class="nav-right">
-    <span class="user-badge badge-set" onclick="openSettingsModal()">âï¸<span class="tx"> Settings</span></span>
-    <span class="user-badge badge-admin" id="roleBadge" onclick="openLogin()">ð¤ ADMIN</span>
+    <span class="user-badge badge-set" onclick="openSettingsModal()">⚙️<span class="tx"> Settings</span></span>
+    <span class="user-badge badge-admin" id="roleBadge" onclick="openLogin()">👤 ADMIN</span>
   </div>
 </header>
 
@@ -202,21 +202,21 @@ button:disabled{opacity:.55;cursor:not-allowed}
   <div>
     <div style="display:flex;justify-content:space-between;align-items:center;border-bottom:1px solid rgba(255,255,255,.15);padding-bottom:12px">
       <b style="font-size:15px;color:#FDBA74">Navigation Menu</b>
-      <button onclick="closeDrawer()" style="background:transparent;border:none;color:#fff;font-size:20px;cursor:pointer">â</button>
+      <button onclick="closeDrawer()" style="background:transparent;border:none;color:#fff;font-size:20px;cursor:pointer">✕</button>
     </div>
     <div class="drawer-nav">
-      <button class="active" onclick="showTab('posView',this)">ð Quick Billing (POS)</button>
-      <button onclick="showTab('inventoryView',this)">ð¦ Live Inventory Stock</button>
-      <button onclick="showTab('purchasesView',this)">ð¥ Purchases Inward</button>
-      <button onclick="showTab('ordersView',this)">ðï¸ Customer Orders</button>
-      <button onclick="showTab('salesView',this)">ð§¾ Sales Invoices History</button>
-      <button onclick="showTab('opexView',this)">ð¼ OPEX (Shop Expenses)</button>
-      <button onclick="showTab('selfuseView',this)">â Spoilage & Self-Use</button>
-      <button onclick="showTab('partiesView',this)">ð¥ Party Ledgers (Khata)</button>
-      <button id="navCapitalBtn" onclick="showTab('capitalView',this)">ð° Capital & Financier</button>
-      <button id="navReportsBtn" onclick="showTab('reportsView',this)">ð Reports & Full PnL</button>
-      <button onclick="openSettingsModal()">âï¸ PIN, UPI & Backup</button>
-      <button onclick="showTab('connectTab',this)">ð Google Sheet Sync</button>
+      <button class="active" onclick="showTab('posView',this)">🛒 Quick Billing (POS)</button>
+      <button onclick="showTab('inventoryView',this)">📦 Live Inventory Stock</button>
+      <button onclick="showTab('purchasesView',this)">📥 Purchases Inward</button>
+      <button onclick="showTab('ordersView',this)">🗓️ Customer Orders</button>
+      <button onclick="showTab('salesView',this)">🧾 Sales Invoices History</button>
+      <button onclick="showTab('opexView',this)">💼 OPEX (Shop Expenses)</button>
+      <button onclick="showTab('selfuseView',this)">☕ Spoilage & Self-Use</button>
+      <button onclick="showTab('partiesView',this)">👥 Party Ledgers (Khata)</button>
+      <button id="navCapitalBtn" onclick="showTab('capitalView',this)">💰 Capital & Financier</button>
+      <button id="navReportsBtn" onclick="showTab('reportsView',this)">📊 Reports & Full PnL</button>
+      <button onclick="openSettingsModal()">⚙️ PIN, UPI & Backup</button>
+      <button onclick="showTab('connectTab',this)">🔗 Google Sheet Sync</button>
     </div>
   </div>
   <div style="font-size:11px;color:#94A3B8;text-align:center;margin-top:12px">
@@ -231,7 +231,7 @@ button:disabled{opacity:.55;cursor:not-allowed}
 <div id="posView" class="view-tab active">
   <div class="pos-grid-layout">
     <div class="pos-product-box">
-      <div class="search-row"><input type="text" id="searchInput" placeholder="ð Search Item, Category, SKU..." oninput="renderProducts()"></div>
+      <div class="search-row"><input type="text" id="searchInput" placeholder="🔍 Search Item, Category, SKU..." oninput="renderProducts()"></div>
       <div class="cat-pills" id="posCategoryFilters" aria-label="Filter products by category">
         <button class="pill active" onclick="setCategory('ALL',this)">All products</button>
       </div>
@@ -244,7 +244,7 @@ button:disabled{opacity:.55;cursor:not-allowed}
           <b style="font-size:14px">Current Invoice: <span id="billSerialNo" style="color:var(--primary)">INV...</span></b>
           <div style="display:flex;gap:6px">
             <button class="btn-clear" onclick="clearCart()">Clear</button>
-            <button id="cartCloseBtn" onclick="closeMobileCart()">â Close</button>
+            <button id="cartCloseBtn" onclick="closeMobileCart()">✕ Close</button>
           </div>
         </div>
         <div class="seg">
@@ -255,11 +255,11 @@ button:disabled{opacity:.55;cursor:not-allowed}
         <div class="cart-items-wrap" id="cartItemsList"><p style="text-align:center;color:var(--muted);font-size:12px;margin-top:30px">Cart is empty.<br>Tap items to add.</p></div>
       </div>
       <div>
-        <div class="calc-row"><span>Subtotal:</span><b id="subtotalDisp">â¹0.00</b></div>
+        <div class="calc-row"><span>Subtotal:</span><b id="subtotalDisp">₹0.00</b></div>
         <div class="calc-row"><span>Discount:</span>
           <div style="display:flex;gap:4px">
             <input type="number" id="discInput" value="0" min="0" oninput="updateCartMath()" class="mini-in" style="width:60px;text-align:right">
-            <select id="discType" onchange="updateCartMath()" class="mini-in"><option value="FLAT">â¹</option><option value="PCT">%</option></select>
+            <select id="discType" onchange="updateCartMath()" class="mini-in"><option value="FLAT">₹</option><option value="PCT">%</option></select>
           </div>
         </div>
         <div class="calc-row"><span>GST Slab:</span>
@@ -267,42 +267,42 @@ button:disabled{opacity:.55;cursor:not-allowed}
             <option value="0">Exempt / Nil (0%)</option><option value="5">GST 5% (2.5% C+S)</option><option value="12">GST 12% (6% C+S)</option><option value="18">GST 18% (9% C+S)</option><option value="28">GST 28% (14% C+S)</option>
           </select>
         </div>
-        <div class="calc-row" id="gstRow" style="display:none;color:#1E40AF"><span>GST Tax Amount:</span><span id="gstAmountDisp">â¹0.00</span></div>
+        <div class="calc-row" id="gstRow" style="display:none;color:#1E40AF"><span>GST Tax Amount:</span><span id="gstAmountDisp">₹0.00</span></div>
         <div class="calc-row" style="margin-top:4px"><span>Payment Mode:</span>
           <select id="paySelect" onchange="toggleUpiBtn()" class="mini-in"><option value="UPI">UPI / QR Code</option><option value="Cash">Cash Counter</option><option value="Credit">Credit / Udhaar</option></select>
         </div>
-        <button id="upiQrBtn" onclick="openUpiQrModal()">ð² Show Exact Amount QR</button>
-        <div class="calc-row" style="font-size:16px;font-weight:800;color:var(--primary);margin:6px 0"><span>Final Total:</span><span id="finalTotalDisp">â¹0.00</span></div>
+        <button id="upiQrBtn" onclick="openUpiQrModal()">📲 Show Exact Amount QR</button>
+        <div class="calc-row" style="font-size:16px;font-weight:800;color:var(--primary);margin:6px 0"><span>Final Total:</span><span id="finalTotalDisp">₹0.00</span></div>
         <button class="btn-pay" onclick="checkoutBill()">Generate Bill & Print Receipt</button>
       </div>
     </div>
   </div>
   <div class="mobile-bottom-bar" onclick="openMobileCart()">
-    <span style="font-weight:700;font-size:13px">ð View Cart (<span id="mobItemCount">0</span> items)</span>
-    <span style="font-weight:800;font-size:15px" id="mobTotalAmount">â¹0.00 â</span>
+    <span style="font-weight:700;font-size:13px">🛒 View Cart (<span id="mobItemCount">0</span> items)</span>
+    <span style="font-weight:800;font-size:15px" id="mobTotalAmount">₹0.00 ➔</span>
   </div>
 </div>
 
 <!-- 2. INVENTORY -->
 <div id="inventoryView" class="view-tab"><div class="card-box">
-  <div class="row-between" style="margin-bottom:0"><h3 class="t">ð¦ Live Stock & SKU Master</h3><button class="btn-submit admin-btn" onclick="openSkuModal(-1)">+ Register New SKU</button></div>
-  <div class="scroll-table"><table><thead><tr><th>SKU</th><th>Item Name</th><th>Category</th><th>Cost (â¹)</th><th>Wholesale (â¹)</th><th>Retail (â¹)</th><th>Stock</th><th>Status</th><th class="admin-col">Actions</th></tr></thead><tbody id="inventoryTable"></tbody></table></div>
+  <div class="row-between" style="margin-bottom:0"><h3 class="t">📦 Live Stock & SKU Master</h3><button class="btn-submit admin-btn" onclick="openSkuModal(-1)">+ Register New SKU</button></div>
+  <div class="scroll-table"><table><thead><tr><th>SKU</th><th>Item Name</th><th>Category</th><th>Cost (₹)</th><th>Wholesale (₹)</th><th>Retail (₹)</th><th>Stock</th><th>Status</th><th class="admin-col">Actions</th></tr></thead><tbody id="inventoryTable"></tbody></table></div>
 </div></div>
 
 <!-- 3. PURCHASES -->
 <div id="purchasesView" class="view-tab"><div class="card-box">
-  <h3 class="t" style="margin-bottom:12px">ð¥ Purchases & Inward Stock Entry</h3>
+  <h3 class="t" style="margin-bottom:12px">📥 Purchases & Inward Stock Entry</h3>
   <div class="form-row">
     <div class="f-group"><label>Select Item</label><select id="purSku"></select></div>
     <div class="f-group"><label>Vendor / Supplier</label><input type="text" id="purVendor" list="vendorNameOptions" placeholder="Choose or type supplier"><datalist id="vendorNameOptions"></datalist></div>
     <div class="f-group"><label>Quantity Inward</label><input type="number" id="purQty" placeholder="50"></div>
-    <div class="f-group"><label>Rate / Unit (â¹)</label><input type="number" id="purRate" placeholder="158"></div>
+    <div class="f-group"><label>Rate / Unit (₹)</label><input type="number" id="purRate" placeholder="158"></div>
     <div class="f-group"><label>Purchase Payment Terms</label><select id="purMode"><option value="Cash">Paid by Cash</option><option value="Bank">Paid by Bank</option><option value="UPI">Paid by UPI</option><option value="Credit">Credit Purchase / Udhaar</option></select></div>
   </div>
   <button class="btn-submit" onclick="addPurchase()">Record Inward Stock</button>
-  <div class="cap-grid" style="margin:14px 0"><div style="background:#FEF3C7"><div class="l" style="color:#92400E">VENDOR PAYABLES</div><div class="v" style="color:#92400E" id="vendorPayableTotal">â¹0.00</div></div><div style="background:#DBEAFE"><div class="l" style="color:#1D4ED8">VENDOR ADVANCES</div><div class="v" style="color:#1D4ED8" id="vendorAdvanceTotal">â¹0.00</div></div></div>
+  <div class="cap-grid" style="margin:14px 0"><div style="background:#FEF3C7"><div class="l" style="color:#92400E">VENDOR PAYABLES</div><div class="v" style="color:#92400E" id="vendorPayableTotal">₹0.00</div></div><div style="background:#DBEAFE"><div class="l" style="color:#1D4ED8">VENDOR ADVANCES</div><div class="v" style="color:#1D4ED8" id="vendorAdvanceTotal">₹0.00</div></div></div>
   <h4 style="margin:14px 0 8px">Record payment to supplier</h4>
-  <div class="form-row"><div class="f-group"><label>Vendor</label><input id="vendorPayName" list="vendorNameOptions" placeholder="Select supplier"></div><div class="f-group"><label>Payment Amount (â¹)</label><input id="vendorPayAmount" type="number" min="0.01" step="0.01" placeholder="e.g. 5000"></div><div class="f-group"><label>Payment Method</label><select id="vendorPayMode"><option>Bank</option><option>UPI</option><option>Cash</option></select></div><div class="f-group"><label>Reference / Notes</label><input id="vendorPayNotes" placeholder="NEFT / UTR / remarks"></div></div>
+  <div class="form-row"><div class="f-group"><label>Vendor</label><input id="vendorPayName" list="vendorNameOptions" placeholder="Select supplier"></div><div class="f-group"><label>Payment Amount (₹)</label><input id="vendorPayAmount" type="number" min="0.01" step="0.01" placeholder="e.g. 5000"></div><div class="f-group"><label>Payment Method</label><select id="vendorPayMode"><option>Bank</option><option>UPI</option><option>Cash</option></select></div><div class="f-group"><label>Reference / Notes</label><input id="vendorPayNotes" placeholder="NEFT / UTR / remarks"></div></div>
   <button class="btn-submit" onclick="recordVendorPayment()">Record Vendor Payment</button>
   <div class="scroll-table"><table><thead><tr><th>ID</th><th>Date</th><th>Item</th><th>Vendor</th><th>Qty</th><th>Rate</th><th>Total</th><th>Payment Terms</th><th class="admin-col">Action</th></tr></thead><tbody id="purchasesTable"></tbody></table></div>
   <h4 style="margin:16px 0 8px">Supplier payment history</h4><div class="scroll-table"><table><thead><tr><th>Date</th><th>Payment ID</th><th>Vendor</th><th>Amount</th><th>Method</th><th>Reference</th><th class="admin-col">Action</th></tr></thead><tbody id="vendorPaymentsTable"></tbody></table></div>
@@ -310,25 +310,25 @@ button:disabled{opacity:.55;cursor:not-allowed}
 
 <!-- CUSTOMER ORDERS -->
 <div id="ordersView" class="view-tab"><div class="card-box">
-  <h3 class="t" style="margin-bottom:8px">ðï¸ Customer Order Booking & Fulfilment</h3>
+  <h3 class="t" style="margin-bottom:8px">🗓️ Customer Order Booking & Fulfilment</h3>
   <p style="font-size:12px;color:var(--muted);margin-bottom:12px">Book multi-item orders, track promised delivery dates, record advances and later payments. Booking does not deduct stock or recognize sales. Delivery converts the order into sales lines and deducts stock. Order advances remain liabilities until delivery.</p>
   <div class="form-row"><div class="f-group"><label>Customer / Party</label><input id="orderParty" list="partyNameOptions" placeholder="Choose or type customer"></div><div class="f-group"><label>Order Date</label><input id="orderDate" type="date"></div><div class="f-group"><label>Delivery Date</label><input id="orderDeliveryDate" type="date"></div><div class="f-group"><label>Order Channel</label><select id="orderChannel"><option value="B2C">Retail / B2C</option><option value="B2B">Wholesale / B2B</option></select></div><div class="f-group"><label>GST Rate</label><select id="orderGst"><option value="0">0%</option><option value="5">5%</option><option value="12">12%</option><option value="18">18%</option><option value="28">28%</option></select></div></div>
   <div style="margin:10px 0 6px;font-weight:800;font-size:13px">Select multiple products and quantities</div><div id="orderProductPicker" class="order-product-picker"></div>
-  <div class="form-row" style="margin-top:12px"><div class="f-group"><label>Booking Advance (â¹)</label><input id="orderAdvance" type="number" min="0" step="0.01" value="0"></div><div class="f-group"><label>Advance Method</label><select id="orderAdvanceMode"><option>UPI</option><option>Bank</option><option>Cash</option></select></div><div class="f-group"><label>Order Notes</label><input id="orderNotes" placeholder="Packing, delivery instructions"></div></div>
-  <div class="calc-row"><span>Estimated Order Total (incl. GST):</span><b id="orderTotalPreview">â¹0.00</b></div><button class="btn-submit" onclick="createCustomerOrder()">ï¼ Book Customer Order</button>
+  <div class="form-row" style="margin-top:12px"><div class="f-group"><label>Booking Advance (₹)</label><input id="orderAdvance" type="number" min="0" step="0.01" value="0"></div><div class="f-group"><label>Advance Method</label><select id="orderAdvanceMode"><option>UPI</option><option>Bank</option><option>Cash</option></select></div><div class="f-group"><label>Order Notes</label><input id="orderNotes" placeholder="Packing, delivery instructions"></div></div>
+  <div class="calc-row"><span>Estimated Order Total (incl. GST):</span><b id="orderTotalPreview">₹0.00</b></div><button class="btn-submit" onclick="createCustomerOrder()">＋ Book Customer Order</button>
   <div class="scroll-table" style="margin-top:16px"><table><thead><tr><th>Order ID</th><th>Customer</th><th>Booked</th><th>Delivery Due</th><th>Items</th><th>Total</th><th>Advance / Paid</th><th>Balance</th><th>Status</th><th>Payment</th><th class="admin-col">Actions</th></tr></thead><tbody id="ordersTable"></tbody></table></div>
-  <div class="cap-grid" style="margin-top:12px"><div style="background:#DBEAFE"><div class="l" style="color:#1D4ED8">BOOKING ADVANCES HELD</div><div class="v" style="color:#1D4ED8" id="orderAdvanceLiability">â¹0.00</div></div><div style="background:#FEF3C7"><div class="l" style="color:#92400E">ORDERS AWAITING DELIVERY</div><div class="v" style="color:#92400E" id="ordersPendingCount">0</div></div></div>
+  <div class="cap-grid" style="margin-top:12px"><div style="background:#DBEAFE"><div class="l" style="color:#1D4ED8">BOOKING ADVANCES HELD</div><div class="v" style="color:#1D4ED8" id="orderAdvanceLiability">₹0.00</div></div><div style="background:#FEF3C7"><div class="l" style="color:#92400E">ORDERS AWAITING DELIVERY</div><div class="v" style="color:#92400E" id="ordersPendingCount">0</div></div></div>
 </div></div>
 
 <!-- 4. SALES -->
 <div id="salesView" class="view-tab"><div class="card-box">
-  <h3 class="t" style="margin-bottom:8px">ð§¾ Serial Invoices History</h3>
+  <h3 class="t" style="margin-bottom:8px">🧾 Serial Invoices History</h3>
   <div class="scroll-table"><table><thead><tr><th>Invoice No</th><th>Date</th><th>Customer</th><th>Item</th><th>Channel</th><th>Qty</th><th>Rate</th><th>GST</th><th>Total</th><th>Mode</th><th class="admin-col">Action</th></tr></thead><tbody id="salesTable"></tbody></table></div>
 </div></div>
 
 <!-- 5. OPEX -->
 <div id="opexView" class="view-tab"><div class="card-box">
-  <div class="row-between"><h3 class="t">ð¼ Operational Expenses (OPEX Tracker)</h3><span style="font-weight:800;color:var(--danger);font-size:14px">Total OPEX: <span id="opexTotalBanner">â¹0.00</span></span></div>
+  <div class="row-between"><h3 class="t">💼 Operational Expenses (OPEX Tracker)</h3><span style="font-weight:800;color:var(--danger);font-size:14px">Total OPEX: <span id="opexTotalBanner">₹0.00</span></span></div>
   <div class="form-row">
     <div class="f-group"><label>Category</label><select id="opCat">
       <option value="Shop Rent (Wazirabad)">Shop Rent (Wazirabad Dual Shop)</option>
@@ -337,17 +337,17 @@ button:disabled{opacity:.55;cursor:not-allowed}
       <option value="Logistics & Transport">Logistics / E-Loader Charging</option>
       <option value="Packaging Bags & Boxes">Packaging Boxes & Seal Pouches</option>
       <option value="Tea, Snacks & Misc">Staff Tea, Refreshments & Misc</option></select></div>
-    <div class="f-group"><label>Amount (â¹)</label><input type="number" id="opAmt" placeholder="1000"></div>
+    <div class="f-group"><label>Amount (₹)</label><input type="number" id="opAmt" placeholder="1000"></div>
     <div class="f-group"><label>Payment Mode</label><select id="opMode"><option value="Cash">Cash</option><option value="UPI">UPI</option><option value="Bank">Bank</option></select></div>
     <div class="f-group"><label>Notes</label><input type="text" id="opNotes" placeholder="Description"></div>
   </div>
   <button class="btn-submit" onclick="addOpex()">Log Expense Entry</button>
-  <div class="scroll-table"><table><thead><tr><th>ID</th><th>Date</th><th>Category</th><th>Amount (â¹)</th><th>Mode</th><th>Notes</th><th class="admin-col">Action</th></tr></thead><tbody id="opexTable"></tbody></table></div>
+  <div class="scroll-table"><table><thead><tr><th>ID</th><th>Date</th><th>Category</th><th>Amount (₹)</th><th>Mode</th><th>Notes</th><th class="admin-col">Action</th></tr></thead><tbody id="opexTable"></tbody></table></div>
 </div></div>
 
 <!-- 6. SELF USE -->
 <div id="selfuseView" class="view-tab"><div class="card-box">
-  <h3 class="t" style="margin-bottom:12px">â Shop Spoilage & Self-Use Log</h3>
+  <h3 class="t" style="margin-bottom:12px">☕ Shop Spoilage & Self-Use Log</h3>
   <div class="form-row">
     <div class="f-group"><label>Item</label><select id="suSku"></select></div>
     <div class="f-group"><label>Qty</label><input type="number" id="suQty" placeholder="1"></div>
@@ -358,20 +358,20 @@ button:disabled{opacity:.55;cursor:not-allowed}
     <div class="f-group"><label>Notes</label><input type="text" id="suNotes" placeholder="Remarks"></div>
   </div>
   <button class="btn-submit" onclick="addSelfUse()">Log Spoilage & Deduct Stock</button>
-  <div class="scroll-table"><table><thead><tr><th>ID</th><th>Date</th><th>Item</th><th>Qty</th><th>Loss (â¹)</th><th>Reason</th><th>Notes</th><th class="admin-col">Action</th></tr></thead><tbody id="selfUseTable"></tbody></table></div>
+  <div class="scroll-table"><table><thead><tr><th>ID</th><th>Date</th><th>Item</th><th>Qty</th><th>Loss (₹)</th><th>Reason</th><th>Notes</th><th class="admin-col">Action</th></tr></thead><tbody id="selfUseTable"></tbody></table></div>
 </div></div>
 
 <!-- 7. PARTIES -->
 <div id="partiesView" class="view-tab"><div class="card-box">
-  <h3 class="t" style="margin-bottom:8px">ð¥ Party Accounts & Khata</h3>
+  <h3 class="t" style="margin-bottom:8px">👥 Party Accounts & Khata</h3>
   <p style="font-size:12px;color:var(--muted);margin-bottom:12px">Accounting treatment: Cash/UPI/Bank invoices are paid sales. Credit invoices create receivables. Receipts first reduce credit receivables; any excess remains a customer advance (liability), not income, until adjusted against a future invoice. Edit/delete receipt entries below if needed.</p>
   <div class="form-row">
     <div class="f-group"><label>Party / Customer</label><input id="partyPayName" list="partyNameOptions" placeholder="Exact customer name"><datalist id="partyNameOptions"></datalist></div>
-    <div class="f-group"><label>Receipt Amount (â¹)</label><input id="partyPayAmount" type="number" min="0.01" step="0.01" placeholder="e.g. 2500"></div>
+    <div class="f-group"><label>Receipt Amount (₹)</label><input id="partyPayAmount" type="number" min="0.01" step="0.01" placeholder="e.g. 2500"></div>
     <div class="f-group"><label>Payment Method</label><select id="partyPayMode"><option>Cash</option><option>UPI</option><option>Bank</option></select></div>
     <div class="f-group"><label>Reference / Notes</label><input id="partyPayNotes" placeholder="UPI ref / remarks"></div>
   </div>
-  <button class="btn-submit" onclick="recordPartyPayment()">ï¼ Record Receipt</button>
+  <button class="btn-submit" onclick="recordPartyPayment()">＋ Record Receipt</button>
   <div class="sync-health">Local data status: <strong id="saveHealth">Ready</strong>. This version still stores data in this browser; it is not cloud-backed or multi-device.</div>
   <div class="scroll-table"><table><thead><tr><th>Party Name</th><th>Type</th><th>Total Billed</th><th>Credit Sales</th><th>Receipts</th><th>Receivable</th><th>Customer Advance</th><th>Status</th></tr></thead><tbody id="partiesTable"></tbody></table></div>
   <h4 style="font-size:13px;margin-top:18px">Receipts (latest first)</h4>
@@ -380,19 +380,19 @@ button:disabled{opacity:.55;cursor:not-allowed}
 
 <!-- 8. CAPITAL -->
 <div id="capitalView" class="view-tab"><div class="card-box">
-  <div class="row-between"><h3 class="t">ð° Capital, Financier Return & Drawings</h3><button class="btn-submit" onclick="editCapital()">âï¸ Edit Initial Capital</button></div>
+  <div class="row-between"><h3 class="t">💰 Capital, Financier Return & Drawings</h3><button class="btn-submit" onclick="editCapital()">✏️ Edit Initial Capital</button></div>
   <div class="cap-grid">
-    <div style="background:#F1F5F9"><div class="l" style="color:#64748B">INITIAL CAPITAL</div><div class="v" style="color:var(--primary)" id="capInitDisp">â¹0</div></div>
-    <div style="background:#FEF3C7"><div class="l" style="color:#B45309">INTEREST PAID</div><div class="v" style="color:#B45309" id="capInterestDisp">â¹0</div></div>
-    <div style="background:#E0F2FE"><div class="l" style="color:#0369A1">TOTAL DRAWINGS</div><div class="v" style="color:#0369A1" id="capDrawingsDisp">â¹0</div></div>
-    <div style="background:#DCFCE7"><div class="l" style="color:#15803D">NET CAPITAL BALANCE</div><div class="v" style="color:#15803D" id="capNetDisp">â¹0</div></div>
+    <div style="background:#F1F5F9"><div class="l" style="color:#64748B">INITIAL CAPITAL</div><div class="v" style="color:var(--primary)" id="capInitDisp">₹0</div></div>
+    <div style="background:#FEF3C7"><div class="l" style="color:#B45309">INTEREST PAID</div><div class="v" style="color:#B45309" id="capInterestDisp">₹0</div></div>
+    <div style="background:#E0F2FE"><div class="l" style="color:#0369A1">TOTAL DRAWINGS</div><div class="v" style="color:#0369A1" id="capDrawingsDisp">₹0</div></div>
+    <div style="background:#DCFCE7"><div class="l" style="color:#15803D">NET CAPITAL BALANCE</div><div class="v" style="color:#15803D" id="capNetDisp">₹0</div></div>
   </div>
   <div class="form-row">
     <div class="f-group"><label>Transaction Type</label><select id="capType">
       <option value="Financier Interest Paid">Financier Interest / Cost of Capital</option>
       <option value="Personal Drawings">Personal Drawings (Household)</option>
       <option value="Capital Infusion">Capital Infusion (+)</option></select></div>
-    <div class="f-group"><label>Amount (â¹)</label><input type="number" id="capAmt" placeholder="22500"></div>
+    <div class="f-group"><label>Amount (₹)</label><input type="number" id="capAmt" placeholder="22500"></div>
     <div class="f-group"><label>Notes</label><input type="text" id="capNotes" placeholder="Bank reference"></div>
   </div>
   <button class="btn-submit" onclick="addCapital()">Save Capital Transaction</button>
@@ -401,7 +401,7 @@ button:disabled{opacity:.55;cursor:not-allowed}
 
 <!-- 9. REPORTS -->
 <div id="reportsView" class="view-tab"><div class="card-box">
-  <h3 class="t" style="margin-bottom:8px">ð Reports Centre</h3>
+  <h3 class="t" style="margin-bottom:8px">📊 Reports Centre</h3>
   <div class="cat-pills no-print" id="repPills">
     <button class="pill active" onclick="setReport('PNL',this)">P&L</button>
     <button class="pill" onclick="setReport('SALES',this)">Sales</button>
@@ -418,32 +418,32 @@ button:disabled{opacity:.55;cursor:not-allowed}
       <span id="repCustom" style="display:none;gap:6px;align-items:center"><input type="date" id="repFrom" onchange="renderReports()" class="mini-in"> <span>to</span> <input type="date" id="repTo" onchange="renderReports()" class="mini-in"></span>
     </div>
     <div style="display:flex;gap:6px">
-      <button class="btn-submit" onclick="exportReport()" style="background:#15803D">â¬ï¸ Export CSV</button>
-      <button class="btn-submit" onclick="printReport()" style="background:#475569">ð¨ï¸ Print / PDF</button>
+      <button class="btn-submit" onclick="exportReport()" style="background:#15803D">⬇️ Export CSV</button>
+      <button class="btn-submit" onclick="printReport()" style="background:#475569">🖨️ Print / PDF</button>
     </div>
   </div>
   <div id="repTitlePrint" style="display:none;font-weight:800;margin-bottom:6px"></div>
 <div id="rep-PNL">
   <div class="pnl">
     <h4 style="font-size:14px;font-weight:800;border-bottom:1px solid #CBD5E1;padding-bottom:6px;margin-bottom:10px">Trading & Profit & Loss Statement (SKG Trading Company)</h4>
-    <div class="calc-row"><span>Net Sales Revenue (excluding output GST):</span><b id="pnlRev">â¹0.00</b></div>
-    <div class="calc-row" style="color:#DC2626"><span>Less: Cost of Goods Sold (COGS):</span><b id="pnlCogs">- â¹0.00</b></div>
-    <div class="calc-row" style="padding:6px 0;border-top:1px dashed #CBD5E1;border-bottom:1px solid #CBD5E1;margin:6px 0;font-weight:800;color:var(--success)"><span>= GROSS TRADING PROFIT:</span><span id="pnlGross">â¹0.00</span></div>
+    <div class="calc-row"><span>Net Sales Revenue (excluding output GST):</span><b id="pnlRev">₹0.00</b></div>
+    <div class="calc-row" style="color:#DC2626"><span>Less: Cost of Goods Sold (COGS):</span><b id="pnlCogs">- ₹0.00</b></div>
+    <div class="calc-row" style="padding:6px 0;border-top:1px dashed #CBD5E1;border-bottom:1px solid #CBD5E1;margin:6px 0;font-weight:800;color:var(--success)"><span>= GROSS TRADING PROFIT:</span><span id="pnlGross">₹0.00</span></div>
     <div style="font-size:11.5px;font-weight:700;color:#64748B;margin-top:6px">OPERATING EXPENSES (OPEX):</div>
     <div id="pnlOpexList" style="margin-left:8px;font-size:12px;color:#475569"></div>
-    <div class="calc-row" style="color:#DC2626;margin-top:4px"><span>Total OPEX Burn:</span><b id="pnlOpexTotal">- â¹0.00</b></div>
-    <div class="calc-row" style="color:#DC2626"><span>Spoilage & Damaged Losses:</span><b id="pnlSpoilage">- â¹0.00</b></div>
-    <div class="calc-row" style="color:#B45309"><span>Financier Interest Paid:</span><b id="pnlInterest">- â¹0.00</b></div>
-    <div class="calc-row" style="padding:8px 0;border-top:2px solid var(--primary);margin-top:8px;font-size:15px;font-weight:800;color:var(--primary)"><span>= NET PROFIT (accrual basis):</span><span id="pnlNetProfit">â¹0.00</span></div>
+    <div class="calc-row" style="color:#DC2626;margin-top:4px"><span>Total OPEX Burn:</span><b id="pnlOpexTotal">- ₹0.00</b></div>
+    <div class="calc-row" style="color:#DC2626"><span>Spoilage & Damaged Losses:</span><b id="pnlSpoilage">- ₹0.00</b></div>
+    <div class="calc-row" style="color:#B45309"><span>Financier Interest Paid:</span><b id="pnlInterest">- ₹0.00</b></div>
+    <div class="calc-row" style="padding:8px 0;border-top:2px solid var(--primary);margin-top:8px;font-size:15px;font-weight:800;color:var(--primary)"><span>= NET PROFIT (accrual basis):</span><span id="pnlNetProfit">₹0.00</span></div>
     <div style="font-size:11.5px;font-weight:700;color:#64748B;margin-top:14px">SALES COLLECTION & CUSTOMER BALANCES (NOT PROFIT)</div>
-    <div class="calc-row"><span>Cash / UPI / Bank Sales (invoice value):</span><b id="pnlCashBankSales">â¹0.00</b></div>
-    <div class="calc-row"><span>Credit Sales (invoice value):</span><b id="pnlCreditSales">â¹0.00</b></div>
-    <div class="calc-row"><span>Party Receipts collected in selected period:</span><b id="pnlReceipts">â¹0.00</b></div>
-    <div class="calc-row"><span>Current Receivables (all-time balance):</span><b id="pnlReceivables">â¹0.00</b></div>
-    <div class="calc-row"><span>Current Customer Advances from receipts (all-time balance):</span><b id="pnlAdvances">â¹0.00</b></div>
-    <div class="calc-row"><span>Customer Order Advances Held (liability):</span><b id="pnlOrderAdvances">â¹0.00</b></div>
-    <div class="calc-row"><span>Vendor Payables (all-time balance):</span><b id="pnlVendorPayables">â¹0.00</b></div>
-    <div class="calc-row"><span>Vendor Advances (all-time balance):</span><b id="pnlVendorAdvances">â¹0.00</b></div>
+    <div class="calc-row"><span>Cash / UPI / Bank Sales (invoice value):</span><b id="pnlCashBankSales">₹0.00</b></div>
+    <div class="calc-row"><span>Credit Sales (invoice value):</span><b id="pnlCreditSales">₹0.00</b></div>
+    <div class="calc-row"><span>Party Receipts collected in selected period:</span><b id="pnlReceipts">₹0.00</b></div>
+    <div class="calc-row"><span>Current Receivables (all-time balance):</span><b id="pnlReceivables">₹0.00</b></div>
+    <div class="calc-row"><span>Current Customer Advances from receipts (all-time balance):</span><b id="pnlAdvances">₹0.00</b></div>
+    <div class="calc-row"><span>Customer Order Advances Held (liability):</span><b id="pnlOrderAdvances">₹0.00</b></div>
+    <div class="calc-row"><span>Vendor Payables (all-time balance):</span><b id="pnlVendorPayables">₹0.00</b></div>
+    <div class="calc-row"><span>Vendor Advances (all-time balance):</span><b id="pnlVendorAdvances">₹0.00</b></div>
     <p style="font-size:11px;color:#64748B;margin-top:8px">Important: credit sales are still sales revenue under accrual accounting, but are not cash/bank collections. Customer advances are liabilities, not sales income. These collection figures do not get added to profit.</p>
   </div>
   <h4 style="font-size:13.5px;font-weight:700;margin-bottom:6px">Product-Wise Turnover & Margin</h4>
@@ -454,7 +454,7 @@ button:disabled{opacity:.55;cursor:not-allowed}
 
 <!-- 10. SHEET SYNC -->
 <div id="connectTab" class="view-tab"><div class="card-box">
-  <h3 style="font-size:16px;margin-bottom:8px">ð How to Connect this POS Directly to Your Google Sheet (Free)</h3>
+  <h3 style="font-size:16px;margin-bottom:8px">🔗 How to Connect this POS Directly to Your Google Sheet (Free)</h3>
   <p style="font-size:13px;line-height:1.6;margin-bottom:14px">Extensions &gt; Apps Script me code paste karein aur Web App deploy karein.</p>
 <pre class="code">// GOOGLE APPS SCRIPT CODE
 function doPost(e) {
@@ -474,30 +474,30 @@ function doPost(e) {
 <!-- MODAL: SETTINGS -->
 <div id="settingsModal" class="modal-screen"><div class="modal-body" style="max-width:380px">
   <div style="display:flex;justify-content:space-between;align-items:center;border-bottom:1px solid #E2E8F0;padding-bottom:8px;margin-bottom:12px">
-    <h3 style="font-size:16px;font-weight:800;color:var(--primary)">âï¸ Security, UPI & Backup</h3>
-    <button onclick="closeSettingsModal()" style="background:transparent;border:none;font-size:18px;cursor:pointer;color:#64748B">â</button>
+    <h3 style="font-size:16px;font-weight:800;color:var(--primary)">⚙️ Security, UPI & Backup</h3>
+    <button onclick="closeSettingsModal()" style="background:transparent;border:none;font-size:18px;cursor:pointer;color:#64748B">✕</button>
   </div>
   <div class="set-box" style="background:#F8FAFC;border-color:#CBD5E1">
-    <b style="color:var(--primary)">ð± Shop UPI ID (Payment QR)</b>
+    <b style="color:var(--primary)">📱 Shop UPI ID (Payment QR)</b>
     <p style="font-size:11.5px;color:#64748B;margin-bottom:8px">Customer QR scan par yahi UPI address open hoga:</p>
     <div class="f-group" style="margin-bottom:8px"><input type="text" id="cfgUpiId" placeholder="e.g. skgtrading@upi" style="font-weight:700"></div>
     <button class="btn-submit" onclick="saveUpiConfig()" style="width:100%">Save Shop UPI ID</button>
   </div>
   <div class="set-box" style="background:#DCFCE7;border-color:#BBF7D0">
-    <b style="color:#166534">ð¾ Data Backup</b>
+    <b style="color:#166534">💾 Data Backup</b>
     <p style="font-size:11.5px;color:#166534;margin-bottom:8px">Phone clear/reset hone par data na jaye, isliye regular backup lein.</p>
-    <button class="btn-submit" onclick="exportBackup()" style="width:100%;background:#15803D;margin-bottom:6px">â¬ï¸ Download Backup (JSON)</button>
-    <button class="btn-submit" onclick="document.getElementById('importFile').click()" style="width:100%;background:#475569">â¬ï¸ Restore from Backup</button>
+    <button class="btn-submit" onclick="exportBackup()" style="width:100%;background:#15803D;margin-bottom:6px">⬇️ Download Backup (JSON)</button>
+    <button class="btn-submit" onclick="document.getElementById('importFile').click()" style="width:100%;background:#475569">⬆️ Restore from Backup</button>
     <input type="file" id="importFile" accept=".json,application/json" style="display:none" onchange="importBackup(this)">
   </div>
   <div class="set-box" style="background:#FEF3C7;border-color:#FDE68A">
-    <b style="color:#92400E">ð Change ADMIN PIN</b>
+    <b style="color:#92400E">🔒 Change ADMIN PIN</b>
     <div class="f-group" style="margin-bottom:6px"><label style="color:#78350F">Current Admin PIN</label><input type="password" id="curAdminPin" placeholder="Enter current Admin PIN" autocomplete="off" inputmode="numeric"></div>
     <div class="f-group" style="margin-bottom:8px"><label style="color:#78350F">New Admin PIN (Min 4 digits)</label><input type="password" id="newAdminPin" placeholder="Enter new 4-digit PIN" autocomplete="off" inputmode="numeric"></div>
     <button class="btn-submit" onclick="saveAdminPinConfig()" style="width:100%;background:#B45309">Update Admin PIN</button>
   </div>
   <div class="set-box" style="background:#E0F2FE;border-color:#BAE6FD;margin-bottom:0">
-    <b style="color:#0369A1">ð¤ Change STAFF / USER PIN</b>
+    <b style="color:#0369A1">👤 Change STAFF / USER PIN</b>
     <p style="font-size:11px;color:#0284C7;margin-bottom:6px">Staff/Counter boy is PIN se login karega:</p>
     <div class="f-group" style="margin-bottom:8px"><input type="password" id="newStaffPin" placeholder="Enter new Staff PIN" autocomplete="off" inputmode="numeric"></div>
     <button class="btn-submit" onclick="saveStaffPinConfig()" style="width:100%;background:#0284C7">Update Staff PIN</button>
@@ -516,8 +516,8 @@ function doPost(e) {
 </div></div>
 
 <!-- MODAL: SKU -->
-<div id="orderPaymentModal" class="modal-screen" onclick="if(event.target===this)closeOrderPaymentModal()"><div class="modal-body"><h3 style="font-size:15px;font-weight:800;margin-bottom:8px">Record Order Payment</h3><p id="orderPaymentHelp" style="font-size:12px;color:var(--muted);margin-bottom:12px"></p><input type="hidden" id="orderPaymentId"><div class="f-group"><label>Payment Date</label><input id="orderPaymentDate" type="date"></div><div class="f-group"><label>Amount (â¹)</label><input id="orderPaymentAmount" type="number" min="0.01" step="0.01"></div><div class="f-group"><label>Payment Method</label><select id="orderPaymentMode"><option>UPI</option><option>Bank</option><option>Cash</option></select></div><div class="f-group"><label>Reference / Notes</label><input id="orderPaymentNotes" placeholder="UPI ref / remarks"></div><div style="display:flex;gap:8px;margin-top:12px"><button class="btn-submit" onclick="saveOrderPayment()">Save Payment</button><button class="btn-grey" onclick="closeOrderPaymentModal()">Cancel</button></div></div></div>
-<div id="receiptEditModal" class="modal-screen" onclick="if(event.target===this)closeReceiptEditModal()"><div class="modal-body"><h3 style="font-size:15px;font-weight:800;margin-bottom:12px">Edit Party Receipt</h3><input type="hidden" id="editReceiptId"><div class="form-row" style="display:block"><div class="f-group"><label>Receipt Date</label><input id="editReceiptDate" type="date"></div><div class="f-group"><label>Party / Customer</label><input id="editReceiptParty" list="partyNameOptions"></div><div class="f-group"><label>Amount (â¹)</label><input id="editReceiptAmount" type="number" min="0.01" step="0.01"></div><div class="f-group"><label>Payment Method</label><select id="editReceiptMode"><option>Cash</option><option>UPI</option><option>Bank</option></select></div><div class="f-group"><label>Reference / Notes</label><input id="editReceiptNotes"></div></div><div style="display:flex;gap:8px;margin-top:12px"><button class="btn-submit" onclick="saveEditedPartyPayment()">Save Changes</button><button class="btn-grey" onclick="closeReceiptEditModal()">Cancel</button></div></div></div>
+<div id="orderPaymentModal" class="modal-screen" onclick="if(event.target===this)closeOrderPaymentModal()"><div class="modal-body"><h3 style="font-size:15px;font-weight:800;margin-bottom:8px">Record Order Payment</h3><p id="orderPaymentHelp" style="font-size:12px;color:var(--muted);margin-bottom:12px"></p><input type="hidden" id="orderPaymentId"><div class="f-group"><label>Payment Date</label><input id="orderPaymentDate" type="date"></div><div class="f-group"><label>Amount (₹)</label><input id="orderPaymentAmount" type="number" min="0.01" step="0.01"></div><div class="f-group"><label>Payment Method</label><select id="orderPaymentMode"><option>UPI</option><option>Bank</option><option>Cash</option></select></div><div class="f-group"><label>Reference / Notes</label><input id="orderPaymentNotes" placeholder="UPI ref / remarks"></div><div style="display:flex;gap:8px;margin-top:12px"><button class="btn-submit" onclick="saveOrderPayment()">Save Payment</button><button class="btn-grey" onclick="closeOrderPaymentModal()">Cancel</button></div></div></div>
+<div id="receiptEditModal" class="modal-screen" onclick="if(event.target===this)closeReceiptEditModal()"><div class="modal-body"><h3 style="font-size:15px;font-weight:800;margin-bottom:12px">Edit Party Receipt</h3><input type="hidden" id="editReceiptId"><div class="form-row" style="display:block"><div class="f-group"><label>Receipt Date</label><input id="editReceiptDate" type="date"></div><div class="f-group"><label>Party / Customer</label><input id="editReceiptParty" list="partyNameOptions"></div><div class="f-group"><label>Amount (₹)</label><input id="editReceiptAmount" type="number" min="0.01" step="0.01"></div><div class="f-group"><label>Payment Method</label><select id="editReceiptMode"><option>Cash</option><option>UPI</option><option>Bank</option></select></div><div class="f-group"><label>Reference / Notes</label><input id="editReceiptNotes"></div></div><div style="display:flex;gap:8px;margin-top:12px"><button class="btn-submit" onclick="saveEditedPartyPayment()">Save Changes</button><button class="btn-grey" onclick="closeReceiptEditModal()">Cancel</button></div></div></div>
 <div id="skuModal" class="modal-screen"><div class="modal-body">
   <h3 id="skuModalTitle" style="font-size:15px;font-weight:800;margin-bottom:12px">Add / Edit SKU</h3>
   <input type="hidden" id="editSkuIdx" value="-1">
@@ -526,9 +526,9 @@ function doPost(e) {
     <div class="f-group"><label>Item Name</label><input type="text" id="mName"></div>
     <div class="f-group"><label>Category</label><input type="text" id="mCat"></div>
     <div class="f-group"><label>Unit</label><input type="text" id="mUnit"></div>
-    <div class="f-group"><label>Purchase Cost (â¹)</label><input type="number" id="mCost"></div>
-    <div class="f-group"><label>Wholesale Rate (â¹)</label><input type="number" id="mB2b"></div>
-    <div class="f-group"><label>Retail MRP (â¹)</label><input type="number" id="mB2c"></div>
+    <div class="f-group"><label>Purchase Cost (₹)</label><input type="number" id="mCost"></div>
+    <div class="f-group"><label>Wholesale Rate (₹)</label><input type="number" id="mB2b"></div>
+    <div class="f-group"><label>Retail MRP (₹)</label><input type="number" id="mB2c"></div>
     <div class="f-group"><label>Stock Quantity</label><input type="number" id="mStock"></div>
   </div>
   <div style="display:flex;justify-content:flex-end;gap:8px"><button class="btn-grey" onclick="closeSkuModal()">Cancel</button><button class="btn-submit" onclick="saveSku()">Save SKU</button></div>
@@ -537,7 +537,7 @@ function doPost(e) {
 <!-- MODAL: UPI QR -->
 <div id="upiModal" class="modal-screen"><div class="modal-body" style="text-align:center;max-width:320px">
   <h3 style="font-size:15px;font-weight:800;color:var(--primary);margin-bottom:4px">UPI Payment (Exact Amount)</h3>
-  <div style="font-size:24px;font-weight:800;color:var(--success);margin:6px 0" id="qrAmt">â¹0.00</div>
+  <div style="font-size:24px;font-weight:800;color:var(--success);margin:6px 0" id="qrAmt">₹0.00</div>
   <div style="background:#FFF;padding:8px;display:inline-block;border:1px solid var(--border);border-radius:8px;margin:6px 0"><img id="qrImg" src="" alt="UPI QR" style="width:180px;height:180px;display:block"></div>
   <div style="font-size:11px;color:#64748B;margin-bottom:12px">Ref: <span id="qrRef"></span></div>
   <button onclick="closeUpiModal()" class="btn-submit" style="width:100%">Done / Close</button>
@@ -637,23 +637,23 @@ function closeSettingsModal(){ $('settingsModal').style.display = 'none'; }
 function saveUpiConfig(){
   if(!isAdmin()) return;
   const v = $('cfgUpiId').value.trim();
-  if(v.length >= 3 && v.includes("@")){ shopUpiId = v; localStorage.setItem('skg_upi', v); alert("â Shop UPI ID updated: " + v); }
-  else alert("â Please enter a valid UPI address (e.g. mobile@upi or name@bank)");
+  if(v.length >= 3 && v.includes("@")){ shopUpiId = v; localStorage.setItem('skg_upi', v); alert("✅ Shop UPI ID updated: " + v); }
+  else alert("❌ Please enter a valid UPI address (e.g. mobile@upi or name@bank)");
 }
 function saveAdminPinConfig(){
   const cur = $('curAdminPin').value.trim(), nxt = $('newAdminPin').value.trim();
-  if(cur !== adminPin){ alert("â Current Admin PIN is incorrect!"); return; }
-  if(!nxt || nxt.length < 4){ alert("â New Admin PIN must be at least 4 digits!"); return; }
+  if(cur !== adminPin){ alert("❌ Current Admin PIN is incorrect!"); return; }
+  if(!nxt || nxt.length < 4){ alert("❌ New Admin PIN must be at least 4 digits!"); return; }
   adminPin = nxt; localStorage.setItem('skg_admin_pin', nxt);
   $('curAdminPin').value = ""; $('newAdminPin').value = "";
-  alert("â ADMIN PIN successfully changed!");
+  alert("✅ ADMIN PIN successfully changed!");
 }
 function saveStaffPinConfig(){
   if(!isAdmin()) return;
   const nxt = $('newStaffPin').value.trim();
-  if(!nxt || nxt.length < 4){ alert("â New Staff PIN must be at least 4 digits!"); return; }
+  if(!nxt || nxt.length < 4){ alert("❌ New Staff PIN must be at least 4 digits!"); return; }
   userPin = nxt; localStorage.setItem('skg_user_pin', nxt); $('newStaffPin').value = "";
-  alert("â STAFF PIN successfully updated!");
+  alert("✅ STAFF PIN successfully updated!");
 }
 
 // --- BACKUP / RESTORE ---
@@ -689,8 +689,8 @@ function importBackup(inp){
       if(d.shopUpiId){ shopUpiId = d.shopUpiId; localStorage.setItem('skg_upi', shopUpiId); }
       Object.entries(d.counters||{}).forEach(([k,v]) => localStorage.setItem(k, v));
       saveAll(); closeSettingsModal(); renderAll();
-      alert("â Backup restore ho gaya!");
-    }catch(e){ alert("â Ye valid SKG POS backup file nahi hai."); }
+      alert("✅ Backup restore ho gaya!");
+    }catch(e){ alert("❌ Ye valid SKG POS backup file nahi hai."); }
     inp.value = "";
   };
   r.readAsText(f);
@@ -701,7 +701,7 @@ function updateRoleView(){
   const adm = currentUserRole === "ADMIN";
   const b = $('roleBadge'), l = $('drawerUserLabel');
   b.className = "user-badge " + (adm ? "badge-admin" : "badge-staff");
-  b.innerText = adm ? "ð¤ ADMIN" : "ð¤ STAFF";
+  b.innerText = adm ? "👤 ADMIN" : "👤 STAFF";
   l.innerText = adm ? "ADMIN" : "STAFF USER";
   l.style.color = adm ? "#FDBA74" : "#38BDF8";
   $('navCapitalBtn').style.display = adm ? "flex" : "none";
@@ -713,16 +713,16 @@ function openLogin(){ $('loginPin').value = ""; $('loginRole').value = currentUs
 function closeLogin(){ $('loginModal').style.display = 'none'; }
 function authenticateUser(){
   const role = $('loginRole').value, pin = $('loginPin').value.trim();
-  if(!pin){ alert("â Please enter PIN passcode!"); return; }
+  if(!pin){ alert("❌ Please enter PIN passcode!"); return; }
   const ok = role === "ADMIN" ? pin === adminPin : pin === userPin;
-  if(!ok){ alert(role === "ADMIN" ? "â Incorrect Admin PIN!" : "â Incorrect Staff PIN!"); return; }
+  if(!ok){ alert(role === "ADMIN" ? "❌ Incorrect Admin PIN!" : "❌ Incorrect Staff PIN!"); return; }
   currentUserRole = role;
   localStorage.setItem('skg_role', role);
-  alert(role === "ADMIN" ? "â Logged in as ADMIN. Full modification & PnL controls active." : "â Logged in as STAFF. Billing & entry mode active.");
+  alert(role === "ADMIN" ? "✅ Logged in as ADMIN. Full modification & PnL controls active." : "✅ Logged in as STAFF. Billing & entry mode active.");
   closeLogin(); renderAll();
 }
 function isAdmin(){
-  if(currentUserRole !== "ADMIN"){ alert("â Access Denied! Only ADMIN can delete or edit records."); return false; }
+  if(currentUserRole !== "ADMIN"){ alert("⛔ Access Denied! Only ADMIN can delete or edit records."); return false; }
   return true;
 }
 
@@ -733,7 +733,7 @@ function openMobileCart(){ $('cartBox').classList.add('mobile-open'); $('cartClo
 function closeMobileCart(){ $('cartBox').classList.remove('mobile-open'); $('cartCloseBtn').style.display = 'none'; }
 function showTab(id, btn){
   if((id === 'capitalView' || id === 'reportsView') && currentUserRole !== 'ADMIN'){
-    alert("â Confidential Admin Section! Please login as Admin."); openLogin(); return;
+    alert("⛔ Confidential Admin Section! Please login as Admin."); openLogin(); return;
   }
   document.querySelectorAll('.view-tab').forEach(t => t.classList.remove('active'));
   document.querySelectorAll('.drawer-nav button').forEach(b => b.classList.remove('active'));
@@ -778,9 +778,9 @@ function renderProducts(){
   const filtered=items.filter(i => (currentCategory === 'ALL' || i.cat === currentCategory) && (String(i.name||'').toLowerCase().includes(q) || String(i.sku||'').toLowerCase().includes(q)));
   filtered.forEach(i => {
     const price = currentChannel === 'B2C' ? i.b2c : i.b2b, low = i.stock <= 5;
-    const c = document.createElement('button'); c.type='button'; c.className = 'p-card'; c.setAttribute('aria-label',`Add ${i.name} to cart, price â¹${price}`); c.onclick = () => addToCart(i);
-    c.innerHTML = `<div><div class="p-title">${safeText(i.name)}</div><div class="p-cat">${safeText(i.cat)} â¢ ${safeText(i.unit)}</div></div>
-      <div class="p-bottom"><span class="p-price">â¹${Number(price||0).toFixed(2)}</span><span class="p-stock ${low?'stock-low':'stock-ok'}">${Number(i.stock||0)} in stock</span></div>`;
+    const c = document.createElement('button'); c.type='button'; c.className = 'p-card'; c.setAttribute('aria-label',`Add ${i.name} to cart, price ₹${price}`); c.onclick = () => addToCart(i);
+    c.innerHTML = `<div><div class="p-title">${safeText(i.name)}</div><div class="p-cat">${safeText(i.cat)} • ${safeText(i.unit)}</div></div>
+      <div class="p-bottom"><span class="p-price">₹${Number(price||0).toFixed(2)}</span><span class="p-stock ${low?'stock-low':'stock-ok'}">${Number(i.stock||0)} in stock</span></div>`;
     grid.appendChild(c);
   });
   if(!filtered.length) grid.innerHTML='<div class="empty-state" role="status">No matching products. Try another search or add a product in Inventory.</div>';
@@ -803,33 +803,33 @@ function renderCart(){
   $('mobItemCount').innerText = cart.reduce((a,c) => a + c.qty, 0);
   if(!cart.length){
     list.innerHTML = '<p style="text-align:center;color:var(--muted);font-size:12px;margin-top:30px">Cart is empty.<br>Tap items to add.</p>';
-    $('subtotalDisp').innerText = "â¹0.00"; $('finalTotalDisp').innerText = "â¹0.00";
-    $('mobTotalAmount').innerText = "â¹0.00 â"; $('gstRow').style.display = 'none';
+    $('subtotalDisp').innerText = "₹0.00"; $('finalTotalDisp').innerText = "₹0.00";
+    $('mobTotalAmount').innerText = "₹0.00 ➔"; $('gstRow').style.display = 'none';
     return;
   }
   list.innerHTML = '';
   cart.forEach(c => {
     const rate = currentChannel === 'B2C' ? c.b2c : c.b2b;
     const row = document.createElement('div'); row.className = 'cart-row';
-    row.innerHTML = `<div style="flex:1;min-width:0"><b>${safeText(c.name)}</b><div style="color:#64748B;font-size:11px">â¹${Number(rate).toFixed(2)} x ${c.qty}</div></div>
+    row.innerHTML = `<div style="flex:1;min-width:0"><b>${safeText(c.name)}</b><div style="color:#64748B;font-size:11px">₹${Number(rate).toFixed(2)} x ${c.qty}</div></div>
       <div style="display:flex;align-items:center;gap:4px"><button class="q-btn" onclick="updateCartQty('${c.sku}',-1)">-</button><b>${c.qty}</b><button class="q-btn" onclick="updateCartQty('${c.sku}',1)">+</button></div>
-      <div style="min-width:55px;text-align:right;font-weight:800">â¹${rate*c.qty}</div>`;
+      <div style="min-width:55px;text-align:right;font-weight:800">₹${rate*c.qty}</div>`;
     list.appendChild(row);
   });
   updateCartMath();
 }
 function updateCartMath(){
   const subtotal = cart.reduce((a,c) => a + (currentChannel === 'B2C' ? c.b2c : c.b2b) * c.qty, 0);
-  $('subtotalDisp').innerText = "â¹" + subtotal.toFixed(2);
+  $('subtotalDisp').innerText = "₹" + subtotal.toFixed(2);
   const dv = parseFloat($('discInput').value) || 0;
   let discAmt = $('discType').value === 'PCT' ? subtotal * dv / 100 : dv;
   discAmt = Math.min(subtotal, Math.max(0, discAmt));
   const after = subtotal - discAmt, gstPct = parseFloat($('gstSelect').value) || 0;
   const gstAmt = after * gstPct / 100, finalTotal = after + gstAmt;
   $('gstRow').style.display = gstPct > 0 ? 'flex' : 'none';
-  if(gstPct > 0) $('gstAmountDisp').innerText = `â¹${gstAmt.toFixed(2)} (${gstPct}%)`;
-  $('finalTotalDisp').innerText = "â¹" + finalTotal.toFixed(2);
-  $('mobTotalAmount').innerText = "â¹" + finalTotal.toFixed(2) + " â";
+  if(gstPct > 0) $('gstAmountDisp').innerText = `₹${gstAmt.toFixed(2)} (${gstPct}%)`;
+  $('finalTotalDisp').innerText = "₹" + finalTotal.toFixed(2);
+  $('mobTotalAmount').innerText = "₹" + finalTotal.toFixed(2) + " ➔";
   return { subtotal, discAmt, gstPct, gstAmt, finalTotal };
 }
 function toggleUpiBtn(){ $('upiQrBtn').style.display = $('paySelect').value === 'UPI' ? 'block' : 'none'; if($('paySelect').value==='Credit') toast('Credit invoice: collect payment later in Party Accounts.'); }
@@ -838,7 +838,7 @@ function openUpiQrModal(){
   if(m.finalTotal <= 0){ alert("Cart is empty!"); return; }
   const billNo = getBillSerial(), amt = m.finalTotal.toFixed(2);
   const url = `upi://pay?pa=${encodeURIComponent(shopUpiId)}&pn=The%20Foodophiles&am=${amt}&cu=INR&tn=${billNo}`;
-  $('qrAmt').innerText = "â¹" + amt;
+  $('qrAmt').innerText = "₹" + amt;
   $('qrRef').innerText = billNo + " (" + shopUpiId + ")";
   $('qrImg').src = `https://api.qrserver.com/v1/create-qr-code/?size=250x250&data=${encodeURIComponent(url)}`;
   $('upiModal').style.display = 'flex';
@@ -869,13 +869,13 @@ function showReceipt(billNo, cust, mode, m){
   $('rcptHeader').innerText = m.gstPct > 0 ? "TAX INVOICE (GST)" : "RETAIL CASH MEMO";
   $('rcptMeta').innerHTML = `<div><b>Invoice:</b> ${billNo}</div><div><b>Date:</b> ${new Date().toLocaleDateString()} ${new Date().toLocaleTimeString()}</div><div><b>Customer:</b> ${cust}</div><div><b>Mode:</b> ${mode}</div>`;
   let h = `<tr><th>Item</th><th style="text-align:center">Qty</th><th style="text-align:right">Rate</th><th style="text-align:right">Total</th></tr>`;
-  sales.filter(s => s.billNo === billNo).forEach(s => h += `<tr><td style="white-space:normal">${s.name}</td><td style="text-align:center">${s.qty}</td><td style="text-align:right">â¹${s.rate}</td><td style="text-align:right">â¹${s.subtotal.toFixed(2)}</td></tr>`);
+  sales.filter(s => s.billNo === billNo).forEach(s => h += `<tr><td style="white-space:normal">${s.name}</td><td style="text-align:center">${s.qty}</td><td style="text-align:right">₹${s.rate}</td><td style="text-align:right">₹${s.subtotal.toFixed(2)}</td></tr>`);
   $('rcptTable').innerHTML = h;
-  let mh = `<div class="calc-row"><span>Subtotal:</span><span>â¹${m.subtotal.toFixed(2)}</span></div>`;
-  if(m.discAmt > 0) mh += `<div class="calc-row" style="color:red"><span>Discount:</span><span>-â¹${m.discAmt.toFixed(2)}</span></div>`;
-  if(m.gstPct > 0) mh += `<div class="calc-row" style="color:blue"><span>GST (${m.gstPct}%):</span><span>+â¹${m.gstAmt.toFixed(2)}</span></div>`;
+  let mh = `<div class="calc-row"><span>Subtotal:</span><span>₹${m.subtotal.toFixed(2)}</span></div>`;
+  if(m.discAmt > 0) mh += `<div class="calc-row" style="color:red"><span>Discount:</span><span>-₹${m.discAmt.toFixed(2)}</span></div>`;
+  if(m.gstPct > 0) mh += `<div class="calc-row" style="color:blue"><span>GST (${m.gstPct}%):</span><span>+₹${m.gstAmt.toFixed(2)}</span></div>`;
   $('rcptMath').innerHTML = mh;
-  $('rcptTotal').innerText = "â¹" + m.finalTotal.toFixed(2);
+  $('rcptTotal').innerText = "₹" + m.finalTotal.toFixed(2);
   $('receiptModal').style.display = 'flex';
 }
 function closeReceipt(){ $('receiptModal').style.display = 'none'; }
@@ -917,7 +917,7 @@ function deleteSku(idx){
 }
 function renderInventory(){
   $('inventoryTable').innerHTML = items.length ? items.map((i,idx) => { const low = i.stock <= 5; return `<tr>
-    <td><b>${i.sku}</b></td><td>${i.name}</td><td>${i.cat}</td><td>â¹${i.cost}</td><td>â¹${i.b2b}</td><td>â¹${i.b2c}</td>
+    <td><b>${i.sku}</b></td><td>${i.name}</td><td>${i.cat}</td><td>₹${i.cost}</td><td>₹${i.b2b}</td><td>₹${i.b2c}</td>
     <td><b>${i.stock} ${i.unit}</b></td><td><span class="p-stock ${low?'stock-low':'stock-ok'}">${low?'LOW':'OK'}</span></td>
     <td class="admin-col"><button class="btn-action btn-edit" onclick="openSkuModal(${idx})">Edit</button><button class="btn-action btn-del" onclick="deleteSku(${idx})">Delete</button></td></tr>`; }).join('') : '<tr><td colspan="9"><div class="empty-state">No products yet. Register your first SKU.</div></td></tr>';
 }
@@ -947,16 +947,16 @@ function recordVendorPayment(){
   vendorPayments.push({id:'VPM-'+Date.now(),date:new Date().toISOString().slice(0,10),vendor,amount:Math.round(amount*100)/100,mode:$('vendorPayMode').value,notes:$('vendorPayNotes').value.trim()});
   saveAll();$('vendorPayAmount').value='';$('vendorPayNotes').value='';renderAll();toast('Vendor payment recorded. Excess payment appears as vendor advance.','success');
 }
-function deleteVendorPayment(idx){if(!isAdmin())return;const v=vendorPayments[idx];if(!v)return;if(confirm(`Delete supplier payment ${v.id} for â¹${Number(v.amount).toFixed(2)}? Vendor balance will be recalculated.`)){vendorPayments.splice(idx,1);saveAll();renderAll();}}
+function deleteVendorPayment(idx){if(!isAdmin())return;const v=vendorPayments[idx];if(!v)return;if(confirm(`Delete supplier payment ${v.id} for ₹${Number(v.amount).toFixed(2)}? Vendor balance will be recalculated.`)){vendorPayments.splice(idx,1);saveAll();renderAll();}}
 function deletePurchase(idx){
   if(!isAdmin())return;const p=purchases[idx];if(!p)return;
   if(confirm(`Delete purchase ${p.id}? ${p.qty} units will be deducted from current stock. Any vendor payable is recalculated.`)){const it=items.find(i=>i.sku===p.sku);if(it)it.stock=Math.max(0,it.stock-(Number(p.qty)||0));purchases.splice(idx,1);saveAll();renderAll();}
 }
 function renderPurchases(){
   const vendors=Object.values(vendorAccountMap());$('vendorNameOptions').innerHTML=vendors.map(v=>`<option value="${safeText(v.name)}"></option>`).join('');
-  $('purchasesTable').innerHTML=purchases.slice().reverse().map((p,ri)=>{const idx=purchases.length-1-ri;return `<tr><td>${safeText(p.id)}</td><td>${safeText(p.date)}</td><td>${safeText(p.name)}</td><td>${safeText(p.vendor)}</td><td>+${Number(p.qty)||0}</td><td>â¹${Number(p.rate||0).toFixed(2)}</td><td><b>â¹${Number(p.total||0).toFixed(2)}</b></td><td>${safeText(p.mode||'Cash')}</td><td class="admin-col"><button class="btn-action btn-del" onclick="deletePurchase(${idx})">Delete</button></td></tr>`;}).join('')||'<tr><td colspan="9">No purchase entries yet.</td></tr>';
-  const map=vendorAccountMap(),vals=Object.values(map);$('vendorPayableTotal').innerText='â¹'+inr(vals.reduce((a,v)=>a+v.payable,0));$('vendorAdvanceTotal').innerText='â¹'+inr(vals.reduce((a,v)=>a+v.advance,0));
-  $('vendorPaymentsTable').innerHTML=vendorPayments.slice().reverse().map((v,ri)=>{const idx=vendorPayments.length-1-ri;return `<tr><td>${safeText(v.date)}</td><td>${safeText(v.id)}</td><td>${safeText(v.vendor)}</td><td>â¹${Number(v.amount||0).toFixed(2)}</td><td>${safeText(v.mode)}</td><td>${safeText(v.notes||'')}</td><td class="admin-col"><button class="btn-action btn-del" onclick="deleteVendorPayment(${idx})">Delete</button></td></tr>`;}).join('')||'<tr><td colspan="7">No vendor payments recorded yet.</td></tr>';
+  $('purchasesTable').innerHTML=purchases.slice().reverse().map((p,ri)=>{const idx=purchases.length-1-ri;return `<tr><td>${safeText(p.id)}</td><td>${safeText(p.date)}</td><td>${safeText(p.name)}</td><td>${safeText(p.vendor)}</td><td>+${Number(p.qty)||0}</td><td>₹${Number(p.rate||0).toFixed(2)}</td><td><b>₹${Number(p.total||0).toFixed(2)}</b></td><td>${safeText(p.mode||'Cash')}</td><td class="admin-col"><button class="btn-action btn-del" onclick="deletePurchase(${idx})">Delete</button></td></tr>`;}).join('')||'<tr><td colspan="9">No purchase entries yet.</td></tr>';
+  const map=vendorAccountMap(),vals=Object.values(map);$('vendorPayableTotal').innerText='₹'+inr(vals.reduce((a,v)=>a+v.payable,0));$('vendorAdvanceTotal').innerText='₹'+inr(vals.reduce((a,v)=>a+v.advance,0));
+  $('vendorPaymentsTable').innerHTML=vendorPayments.slice().reverse().map((v,ri)=>{const idx=vendorPayments.length-1-ri;return `<tr><td>${safeText(v.date)}</td><td>${safeText(v.id)}</td><td>${safeText(v.vendor)}</td><td>₹${Number(v.amount||0).toFixed(2)}</td><td>${safeText(v.mode)}</td><td>${safeText(v.notes||'')}</td><td class="admin-col"><button class="btn-action btn-del" onclick="deleteVendorPayment(${idx})">Delete</button></td></tr>`;}).join('')||'<tr><td colspan="7">No vendor payments recorded yet.</td></tr>';
 }
 
 // --- SALES ---
@@ -970,9 +970,9 @@ function cancelSale(idx){
 }
 function renderSales(){
   const bills=new Map();
-  sales.forEach((s,idx)=>{if(!bills.has(s.billNo))bills.set(s.billNo,{...s,indices:[],items:[],qty:0,total:0,gst:0});const b=bills.get(s.billNo);b.indices.push(idx);b.items.push(`${s.name} Ã ${s.qty}`);b.qty+=Number(s.qty)||0;b.total+=Number(s.total)||0;b.gst+=Number(s.gstAmount)||0;});
+  sales.forEach((s,idx)=>{if(!bills.has(s.billNo))bills.set(s.billNo,{...s,indices:[],items:[],qty:0,total:0,gst:0});const b=bills.get(s.billNo);b.indices.push(idx);b.items.push(`${s.name} × ${s.qty}`);b.qty+=Number(s.qty)||0;b.total+=Number(s.total)||0;b.gst+=Number(s.gstAmount)||0;});
   const rows=[...bills.values()].reverse();
-  $('salesTable').innerHTML = rows.length?rows.map(b => `<tr><td title="${safeText(b.items.join(', '))}"><b>${safeText(b.billNo)}</b><div style="font-size:10px;color:#64748B">${b.indices.length} line item(s)</div></td><td>${safeText(b.date)}</td><td>${safeText(b.party)}</td><td title="${safeText(b.items.join(', '))}">${safeText(b.items.slice(0,2).join(', '))}${b.items.length>2?'â¦':''}</td><td>${safeText(b.channel)}</td><td>${b.qty}</td><td>â</td><td>â¹${b.gst.toFixed(2)}</td><td><b>â¹${b.total.toFixed(2)}</b></td><td>${safeText(b.mode)}</td>
+  $('salesTable').innerHTML = rows.length?rows.map(b => `<tr><td title="${safeText(b.items.join(', '))}"><b>${safeText(b.billNo)}</b><div style="font-size:10px;color:#64748B">${b.indices.length} line item(s)</div></td><td>${safeText(b.date)}</td><td>${safeText(b.party)}</td><td title="${safeText(b.items.join(', '))}">${safeText(b.items.slice(0,2).join(', '))}${b.items.length>2?'…':''}</td><td>${safeText(b.channel)}</td><td>${b.qty}</td><td>—</td><td>₹${b.gst.toFixed(2)}</td><td><b>₹${b.total.toFixed(2)}</b></td><td>${safeText(b.mode)}</td>
     <td class="admin-col"><button class="btn-action btn-del" onclick="cancelInvoice('${safeText(b.billNo)}')">Cancel & Restore</button></td></tr>`).join(''):'<tr><td colspan="11"><div class="empty-state">No invoices yet. Completed sales will appear here.</div></td></tr>';
 }
 function cancelInvoice(billNo){
@@ -993,9 +993,9 @@ function addOpex(){
 }
 function deleteOpex(idx){ if(!isAdmin()) return; if(confirm("Delete this expense entry?")){ opex.splice(idx,1); saveAll(); renderAll(); } }
 function renderOpex(){
-  $('opexTable').innerHTML = opex.map((o,idx) => `<tr><td>${o.id}</td><td>${o.date}</td><td>${o.cat}</td><td style="color:#DC2626;font-weight:800">â¹${o.amount.toFixed(2)}</td><td>${o.mode}</td><td>${o.notes}</td>
+  $('opexTable').innerHTML = opex.map((o,idx) => `<tr><td>${o.id}</td><td>${o.date}</td><td>${o.cat}</td><td style="color:#DC2626;font-weight:800">₹${o.amount.toFixed(2)}</td><td>${o.mode}</td><td>${o.notes}</td>
     <td class="admin-col"><button class="btn-action btn-del" onclick="deleteOpex(${idx})">Delete</button></td></tr>`).join('');
-  $('opexTotalBanner').innerText = "â¹" + inr(opex.reduce((a,o) => a + o.amount, 0));
+  $('opexTotalBanner').innerText = "₹" + inr(opex.reduce((a,o) => a + o.amount, 0));
 }
 
 // --- SELF USE ---
@@ -1017,7 +1017,7 @@ function deleteSelfUse(idx){
   }
 }
 function renderSelfUse(){
-  $('selfUseTable').innerHTML = selfUse.map((s,idx) => `<tr><td>${s.id}</td><td>${s.date}</td><td>${s.name}</td><td>${s.qty}</td><td style="color:#DC2626;font-weight:700">â¹${s.loss}</td><td>${s.reason}</td><td>${s.notes}</td>
+  $('selfUseTable').innerHTML = selfUse.map((s,idx) => `<tr><td>${s.id}</td><td>${s.date}</td><td>${s.name}</td><td>${s.qty}</td><td style="color:#DC2626;font-weight:700">₹${s.loss}</td><td>${s.reason}</td><td>${s.notes}</td>
     <td class="admin-col"><button class="btn-action btn-del" onclick="deleteSelfUse(${idx})">Delete</button></td></tr>`).join('');
 }
 
@@ -1066,7 +1066,7 @@ function deletePartyPayment(id){
   if(!isAdmin()) return;
   const p = partyPayments.find(x => x.id === id);
   if(!p) { toast('Receipt not found. Refresh and try again.','error'); return; }
-  if(!confirm(`Delete receipt ${p.id} for â¹${Number(p.amount).toFixed(2)} from ${p.party}? Party balances and advance liability will be recalculated.`)) return;
+  if(!confirm(`Delete receipt ${p.id} for ₹${Number(p.amount).toFixed(2)} from ${p.party}? Party balances and advance liability will be recalculated.`)) return;
   if(p.orderId){const o=customerOrders.find(x=>x.id===p.orderId);const m=String(p.id).match(/-PAY-(\d+)$/);if(o&&m&&o.payments){o.payments.splice(Number(m[1])-1,1);o.paidTotal=o.payments.reduce((a,x)=>a+(Number(x.amount)||0),0);partyPayments=partyPayments.filter(x=>x.orderId!==o.id);if(o.delivered){(o.payments||[]).forEach((pay,i)=>partyPayments.push({id:`${o.id}-PAY-${i+1}`,date:pay.date||o.deliveredDate||o.date,party:o.party,amount:pay.amount,mode:pay.mode||'UPI',notes:`${o.id} ${pay.notes||'Order advance/payment'}`,orderId:o.id,billNo:o.billNo}));}}else partyPayments=partyPayments.filter(x=>x.id!==id);}else partyPayments = partyPayments.filter(x => x.id !== id);
   saveAll(); renderAll();
   toast('Receipt deleted and party balances recalculated.','success');
@@ -1077,10 +1077,10 @@ function renderParties(){
   $('partiesTable').innerHTML = names.length ? names.map(n => {
     const key=Object.keys(map).find(k=>normParty(k)===normParty(n)), p=map[key]||{type:'Customer',billed:0,creditSales:0,receipts:0,receivable:0,advance:0};
     const status = p.receivable > 0 ? 'Payment due' : (p.advance > 0 ? 'Advance held' : 'Settled');
-    return `<tr><td><b>${safeText(n)}</b></td><td>${safeText(p.type)}</td><td>â¹${p.billed.toFixed(2)}</td><td>â¹${p.creditSales.toFixed(2)}</td><td>â¹${p.receipts.toFixed(2)}</td><td style="color:${p.receivable>0?'#B91C1C':'#166534'};font-weight:800">â¹${p.receivable.toFixed(2)}</td><td style="color:${p.advance>0?'#B45309':'#166534'};font-weight:800">â¹${p.advance.toFixed(2)}</td><td>${status}</td></tr>`;
+    return `<tr><td><b>${safeText(n)}</b></td><td>${safeText(p.type)}</td><td>₹${p.billed.toFixed(2)}</td><td>₹${p.creditSales.toFixed(2)}</td><td>₹${p.receipts.toFixed(2)}</td><td style="color:${p.receivable>0?'#B91C1C':'#166534'};font-weight:800">₹${p.receivable.toFixed(2)}</td><td style="color:${p.advance>0?'#B45309':'#166534'};font-weight:800">₹${p.advance.toFixed(2)}</td><td>${status}</td></tr>`;
   }).join('') : '<tr><td colspan="8"><div class="empty-state">No customer transactions yet.</div></td></tr>';
   $('partyPaymentsTable').innerHTML = partyPayments.slice().sort((a,b) => String(b.date||'').localeCompare(String(a.date||''))).map(p =>
-    `<tr><td>${safeText(p.date||'')}</td><td>${safeText(p.id||'')}</td><td>${safeText(p.party||'')}</td><td>â¹${(Number(p.amount)||0).toFixed(2)}</td><td>${safeText(p.mode||'')}</td><td>${safeText(p.notes||'')}</td><td class="admin-col"><button class="btn-action" onclick="editPartyPayment('${safeText(p.id)}')">Edit</button> <button class="btn-action btn-del" onclick="deletePartyPayment('${safeText(p.id)}')">Delete</button></td></tr>`
+    `<tr><td>${safeText(p.date||'')}</td><td>${safeText(p.id||'')}</td><td>${safeText(p.party||'')}</td><td>₹${(Number(p.amount)||0).toFixed(2)}</td><td>${safeText(p.mode||'')}</td><td>${safeText(p.notes||'')}</td><td class="admin-col"><button class="btn-action" onclick="editPartyPayment('${safeText(p.id)}')">Edit</button> <button class="btn-action btn-del" onclick="deletePartyPayment('${safeText(p.id)}')">Delete</button></td></tr>`
   ).join('') || '<tr><td colspan="7">No receipts recorded yet.</td></tr>';
 }
 
@@ -1089,10 +1089,10 @@ function orderLineTotal(order){return (order.lines||[]).reduce((a,l)=>a+(Number(
 function orderGrandTotal(order){const base=orderLineTotal(order);return Math.round((base+(base*(Number(order.gstRate)||0)/100))*100)/100;}
 function renderOrderPicker(){
   const root=$('orderProductPicker');if(!root)return;
-  root.innerHTML=items.map(i=>`<label class="order-product-option"><input type="checkbox" class="order-item-check" value="${safeText(i.sku)}" onchange="updateOrderPreview()"><span><b>${safeText(i.name)}</b><small style="display:block;color:#64748B">${safeText(i.sku)} Â· Stock ${Number(i.stock)||0} Â· â¹${Number(($('orderChannel')?.value==='B2B'?i.b2b:i.b2c)||0).toFixed(2)}</small></span><input aria-label="Quantity for ${safeText(i.name)}" type="number" class="order-item-qty" data-sku="${safeText(i.sku)}" min="1" step="1" value="1" onchange="updateOrderPreview()" onclick="event.stopPropagation()"></label>`).join('')||'<div class="empty-state">Register products in Inventory first.</div>';
+  root.innerHTML=items.map(i=>`<label class="order-product-option"><input type="checkbox" class="order-item-check" value="${safeText(i.sku)}" onchange="updateOrderPreview()"><span><b>${safeText(i.name)}</b><small style="display:block;color:#64748B">${safeText(i.sku)} · Stock ${Number(i.stock)||0} · ₹${Number(($('orderChannel')?.value==='B2B'?i.b2b:i.b2c)||0).toFixed(2)}</small></span><input aria-label="Quantity for ${safeText(i.name)}" type="number" class="order-item-qty" data-sku="${safeText(i.sku)}" min="1" step="1" value="1" onchange="updateOrderPreview()" onclick="event.stopPropagation()"></label>`).join('')||'<div class="empty-state">Register products in Inventory first.</div>';
 }
 function getOrderDraftLines(){return [...document.querySelectorAll('.order-item-check:checked')].map(ch=>{const it=items.find(i=>i.sku===ch.value),q=document.querySelector(`.order-item-qty[data-sku="${CSS.escape(ch.value)}"]`),qty=Math.floor(Number(q?.value)||0);return it&&qty>0?{sku:it.sku,name:it.name,qty,rate:Number($('orderChannel').value==='B2B'?it.b2b:it.b2c)||0,cost:Number(it.cost)||0}:null;}).filter(Boolean);}
-function updateOrderPreview(){const lines=getOrderDraftLines(),base=lines.reduce((a,l)=>a+l.qty*l.rate,0),gst=Number($('orderGst').value)||0;$('orderTotalPreview').innerText='â¹'+inr(base+base*gst/100);}
+function updateOrderPreview(){const lines=getOrderDraftLines(),base=lines.reduce((a,l)=>a+l.qty*l.rate,0),gst=Number($('orderGst').value)||0;$('orderTotalPreview').innerText='₹'+inr(base+base*gst/100);}
 function createCustomerOrder(){
   if(!isAdmin())return;const known=[...new Set([...sales.map(s=>s.party),...customerOrders.map(o=>o.party)].filter(Boolean))],party=canonicalParty($('orderParty').value,known),lines=getOrderDraftLines(),date=$('orderDate').value||new Date().toISOString().slice(0,10),deliveryDate=$('orderDeliveryDate').value,advance=Number($('orderAdvance').value)||0,gstRate=Number($('orderGst').value)||0;
   if(!party){toast('Enter customer name.','error');return;}if(!lines.length){toast('Select at least one product and quantity.','error');return;}if(advance<0||!Number.isFinite(advance)){toast('Advance cannot be negative.','error');return;}if(!deliveryDate){toast('Select promised delivery date.','error');return;}
@@ -1102,7 +1102,7 @@ function createCustomerOrder(){
 }
 function addOrderPayment(id){
   if(!isAdmin())return;const o=customerOrders.find(x=>x.id===id);if(!o||o.status==='Cancelled'||o.delivered)return;
-  $('orderPaymentId').value=o.id;$('orderPaymentDate').value=new Date().toISOString().slice(0,10);$('orderPaymentAmount').value='';$('orderPaymentMode').value='UPI';$('orderPaymentNotes').value='';$('orderPaymentHelp').textContent=`${o.id} Â· ${o.party} Â· Balance due â¹${Math.max(0,o.total-o.paidTotal).toFixed(2)}`;$('orderPaymentModal').style.display='flex';
+  $('orderPaymentId').value=o.id;$('orderPaymentDate').value=new Date().toISOString().slice(0,10);$('orderPaymentAmount').value='';$('orderPaymentMode').value='UPI';$('orderPaymentNotes').value='';$('orderPaymentHelp').textContent=`${o.id} · ${o.party} · Balance due ₹${Math.max(0,o.total-o.paidTotal).toFixed(2)}`;$('orderPaymentModal').style.display='flex';
 }
 function closeOrderPaymentModal(){$('orderPaymentModal').style.display='none';}
 function saveOrderPayment(){
@@ -1110,10 +1110,10 @@ function saveOrderPayment(){
   if(!date){toast('Choose payment date.','error');return;}if(!Number.isFinite(amount)||amount<=0){toast('Payment must be greater than zero.','error');return;}if(amount>o.total-o.paidTotal+0.005){toast('Payment exceeds order balance. Record the extra amount separately as a customer receipt.','error');return;}
   o.payments=o.payments||[];o.payments.push({date,amount:Math.round(amount*100)/100,mode,notes:$('orderPaymentNotes').value.trim()||'Order payment'});o.paidTotal=Math.round((o.paidTotal+amount)*100)/100;saveAll();closeOrderPaymentModal();renderAll();toast('Order payment saved.','success');
 }
-function updateOrderStatus(id,status){if(!isAdmin())return;const o=customerOrders.find(x=>x.id===id);if(!o)return;if(status==='Cancelled'&&o.delivered){toast('Delivered orders cannot be cancelled here. Use sales invoice cancellation and reconcile payments separately.','error');return;}if(status==='Delivered'){deliverCustomerOrder(id);return;}if(status==='Cancelled'&&o.paidTotal>0&&!confirm(`Cancel order ${id}? â¹${o.paidTotal.toFixed(2)} received must remain recorded as customer advance until refunded or reallocated.`))return;o.status=status;saveAll();renderAll();}
+function updateOrderStatus(id,status){if(!isAdmin())return;const o=customerOrders.find(x=>x.id===id);if(!o)return;if(status==='Cancelled'&&o.delivered){toast('Delivered orders cannot be cancelled here. Use sales invoice cancellation and reconcile payments separately.','error');return;}if(status==='Delivered'){deliverCustomerOrder(id);return;}if(status==='Cancelled'&&o.paidTotal>0&&!confirm(`Cancel order ${id}? ₹${o.paidTotal.toFixed(2)} received must remain recorded as customer advance until refunded or reallocated.`))return;o.status=status;saveAll();renderAll();}
 function deliverCustomerOrder(id){
   if(!isAdmin())return;const o=customerOrders.find(x=>x.id===id);if(!o||o.delivered||o.status==='Cancelled')return;
-  if(o.paidTotal<o.total-0.005&&!confirm(`Order balance is â¹${(o.total-o.paidTotal).toFixed(2)}. Deliver on credit? The unpaid balance will be tracked as receivable.`))return;
+  if(o.paidTotal<o.total-0.005&&!confirm(`Order balance is ₹${(o.total-o.paidTotal).toFixed(2)}. Deliver on credit? The unpaid balance will be tracked as receivable.`))return;
   for(const l of o.lines){const it=items.find(i=>i.sku===l.sku);if(!it||it.stock<l.qty){toast(`Insufficient stock for ${l.name}. Record purchase/inward stock first.`, 'error');return;}}
   const billNo=getBillSerial(),base=orderLineTotal(o),gstTotal=Math.max(0,o.total-base),today=new Date().toISOString().slice(0,10);
   o.lines.forEach(l=>{const it=items.find(i=>i.sku===l.sku),lineBase=l.qty*l.rate,ratio=base?lineBase/base:0,gst=gstTotal*ratio;it.stock-=l.qty;sales.push({billNo,date:today,party:o.party,sku:l.sku,name:l.name,channel:o.channel,qty:l.qty,rate:l.rate,subtotal:lineBase,discount:0,gstRate:o.gstRate,gstAmount:gst,total:lineBase+gst,mode:'Credit',profit:lineBase-l.cost*l.qty,orderId:o.id});});
@@ -1124,14 +1124,14 @@ function deliverCustomerOrder(id){
 function renderOrders(){
   const date=$('orderDate'),dd=$('orderDeliveryDate');if(date&&!date.value)date.value=new Date().toISOString().slice(0,10);
   renderOrderPicker();updateOrderPreview();
-  $('ordersTable').innerHTML=customerOrders.slice().reverse().map(o=>{const bal=Math.max(0,(Number(o.total)||orderGrandTotal(o))-(Number(o.paidTotal)||0)),fullyPaid=bal<0.005,itemsText=(o.lines||[]).map(l=>`${l.name} Ã${l.qty}`).join(', '),status=o.status==='Delivered'?(fullyPaid?'Delivered Â· Fully paid':'Delivered Â· Balance due'):o.status;const actions=o.status==='Cancelled'?'Cancelled':o.status==='Delivered'?`Invoice ${safeText(o.billNo||'created')}`:`<button class="btn-action" onclick="addOrderPayment('${safeText(o.id)}')">Add Payment</button> <select class="mini-in" aria-label="Order status" onchange="updateOrderStatus('${safeText(o.id)}',this.value)"><option value="${safeText(o.status)}">${safeText(o.status)}</option><option value="Confirmed">Confirmed</option><option value="Ready">Ready for delivery</option><option value="Delivered">Mark Delivered</option><option value="Cancelled">Cancel</option></select>`;return `<tr><td><b>${safeText(o.id)}</b></td><td>${safeText(o.party)}</td><td>${safeText(o.date)}</td><td>${safeText(o.deliveryDate)}</td><td title="${safeText(itemsText)}">${safeText(itemsText.slice(0,60))}${itemsText.length>60?'â¦':''}</td><td>â¹${Number(o.total||orderGrandTotal(o)).toFixed(2)}</td><td>â¹${Number(o.paidTotal||0).toFixed(2)}</td><td style="font-weight:800;color:${bal>0?'#B91C1C':'#166534'}">â¹${bal.toFixed(2)}</td><td>${safeText(status)}</td><td>${fullyPaid?'Fully paid':o.status==='Delivered'?'Balance due':'Advance / part payment'}</td><td class="admin-col">${actions}</td></tr>`;}).join('')||'<tr><td colspan="11">No customer orders booked yet.</td></tr>';
-  const outstandingAdvances=customerOrders.filter(o=>!o.delivered).reduce((a,o)=>a+(Number(o.paidTotal)||0),0);$('orderAdvanceLiability').innerText='â¹'+inr(outstandingAdvances);$('ordersPendingCount').innerText=customerOrders.filter(o=>!o.delivered&&o.status!=='Cancelled').length;
+  $('ordersTable').innerHTML=customerOrders.slice().reverse().map(o=>{const bal=Math.max(0,(Number(o.total)||orderGrandTotal(o))-(Number(o.paidTotal)||0)),fullyPaid=bal<0.005,itemsText=(o.lines||[]).map(l=>`${l.name} ×${l.qty}`).join(', '),status=o.status==='Delivered'?(fullyPaid?'Delivered · Fully paid':'Delivered · Balance due'):o.status;const actions=o.status==='Cancelled'?'Cancelled':o.status==='Delivered'?`Invoice ${safeText(o.billNo||'created')}`:`<button class="btn-action" onclick="addOrderPayment('${safeText(o.id)}')">Add Payment</button> <select class="mini-in" aria-label="Order status" onchange="updateOrderStatus('${safeText(o.id)}',this.value)"><option value="${safeText(o.status)}">${safeText(o.status)}</option><option value="Confirmed">Confirmed</option><option value="Ready">Ready for delivery</option><option value="Delivered">Mark Delivered</option><option value="Cancelled">Cancel</option></select>`;return `<tr><td><b>${safeText(o.id)}</b></td><td>${safeText(o.party)}</td><td>${safeText(o.date)}</td><td>${safeText(o.deliveryDate)}</td><td title="${safeText(itemsText)}">${safeText(itemsText.slice(0,60))}${itemsText.length>60?'…':''}</td><td>₹${Number(o.total||orderGrandTotal(o)).toFixed(2)}</td><td>₹${Number(o.paidTotal||0).toFixed(2)}</td><td style="font-weight:800;color:${bal>0?'#B91C1C':'#166534'}">₹${bal.toFixed(2)}</td><td>${safeText(status)}</td><td>${fullyPaid?'Fully paid':o.status==='Delivered'?'Balance due':'Advance / part payment'}</td><td class="admin-col">${actions}</td></tr>`;}).join('')||'<tr><td colspan="11">No customer orders booked yet.</td></tr>';
+  const outstandingAdvances=customerOrders.filter(o=>!o.delivered).reduce((a,o)=>a+(Number(o.paidTotal)||0),0);$('orderAdvanceLiability').innerText='₹'+inr(outstandingAdvances);$('ordersPendingCount').innerText=customerOrders.filter(o=>!o.delivered&&o.status!=='Cancelled').length;
 }
 
 // --- CAPITAL ---
 function editCapital(){
   if(!isAdmin()) return;
-  const c = prompt("Enter revised Initial Capital in â¹:", initialCapital);
+  const c = prompt("Enter revised Initial Capital in ₹:", initialCapital);
   if(c && !isNaN(c) && parseFloat(c) > 0){
     initialCapital = parseFloat(c); localStorage.setItem('skg_capital_val', initialCapital);
     if(capitalData.length && capitalData[0].type.includes("Initial")){ capitalData[0].amount = initialCapital; capitalData[0].balance = initialCapital; }
@@ -1152,14 +1152,14 @@ function renderCapital(){
   $('capitalTable').innerHTML = capitalData.map((c,idx) => {
     if(c.type.includes("Interest")) interest += c.amount;
     if(c.type.includes("Drawings")) drawings += c.amount;
-    return `<tr><td>${c.id}</td><td>${c.date}</td><td>${c.type}</td><td>â¹${c.amount.toLocaleString('en-IN')}</td><td><b>â¹${c.balance.toLocaleString('en-IN')}</b></td><td>${c.notes}</td>
+    return `<tr><td>${c.id}</td><td>${c.date}</td><td>${c.type}</td><td>₹${c.amount.toLocaleString('en-IN')}</td><td><b>₹${c.balance.toLocaleString('en-IN')}</b></td><td>${c.notes}</td>
       <td>${idx > 0 ? `<button class="btn-action btn-del" onclick="deleteCapital(${idx})">Delete</button>` : '-'}</td></tr>`;
   }).join('');
   const cur = capitalData.length ? capitalData[capitalData.length-1].balance : initialCapital;
-  $('capInitDisp').innerText = "â¹" + initialCapital.toLocaleString('en-IN');
-  $('capInterestDisp').innerText = "â¹" + interest.toLocaleString('en-IN');
-  $('capDrawingsDisp').innerText = "â¹" + drawings.toLocaleString('en-IN');
-  $('capNetDisp').innerText = "â¹" + cur.toLocaleString('en-IN');
+  $('capInitDisp').innerText = "₹" + initialCapital.toLocaleString('en-IN');
+  $('capInterestDisp').innerText = "₹" + interest.toLocaleString('en-IN');
+  $('capDrawingsDisp').innerText = "₹" + drawings.toLocaleString('en-IN');
+  $('capNetDisp').innerText = "₹" + cur.toLocaleString('en-IN');
 }
 
 // --- REPORTS ---
@@ -1195,26 +1195,26 @@ function renderReports(){
   const unfulfilledOrderAdvances = customerOrders.filter(o=>!o.delivered).reduce((a,o)=>a+(Number(o.paidTotal)||0),0);
   const vendorBalances=Object.values(vendorAccountMap());const vendorPayables=vendorBalances.reduce((a,v)=>a+v.payable,0),vendorAdvances=vendorBalances.reduce((a,v)=>a+v.advance,0);
   const receiptsInPeriod = fReceipts.reduce((a,p) => a + (Number(p.amount)||0), 0);
-  $('pnlRev').innerText = 'â¹' + inr(rev);
-  $('pnlCogs').innerText = '- â¹' + inr(Math.max(0, cogs));
-  $('pnlGross').innerText = 'â¹' + inr(profit);
+  $('pnlRev').innerText = '₹' + inr(rev);
+  $('pnlCogs').innerText = '- ₹' + inr(Math.max(0, cogs));
+  $('pnlGross').innerText = '₹' + inr(profit);
   const oMap = {};
   fO.forEach(o => oMap[o.cat] = (oMap[o.cat] || 0) + (Number(o.amount)||0));
-  $('pnlOpexList').innerHTML = Object.entries(oMap).map(([k,v]) => `<div>â¢ ${safeText(k)}: <b>â¹${inr(v)}</b></div>`).join('') || '<div><i>No OPEX logged for this range</i></div>';
-  $('pnlOpexTotal').innerText = '- â¹' + inr(totOpex);
-  $('pnlSpoilage').innerText = '- â¹' + inr(spoil);
-  $('pnlInterest').innerText = '- â¹' + inr(intCharge);
-  const nd = $('pnlNetProfit'); nd.innerText = 'â¹' + inr(net); nd.style.color = net >= 0 ? 'var(--success)' : 'var(--danger)';
-  $('pnlCashBankSales').innerText = 'â¹' + inr(cashBankSales);
-  $('pnlCreditSales').innerText = 'â¹' + inr(creditSales);
-  $('pnlReceipts').innerText = 'â¹' + inr(receiptsInPeriod);
-  $('pnlReceivables').innerText = 'â¹' + inr(currentReceivables);
-  $('pnlAdvances').innerText = 'â¹' + inr(currentAdvances);
-  $('pnlOrderAdvances').innerText = 'â¹' + inr(unfulfilledOrderAdvances);
-  $('pnlVendorPayables').innerText = 'â¹' + inr(vendorPayables);
-  $('pnlVendorAdvances').innerText = 'â¹' + inr(vendorAdvances);
+  $('pnlOpexList').innerHTML = Object.entries(oMap).map(([k,v]) => `<div>• ${safeText(k)}: <b>₹${inr(v)}</b></div>`).join('') || '<div><i>No OPEX logged for this range</i></div>';
+  $('pnlOpexTotal').innerText = '- ₹' + inr(totOpex);
+  $('pnlSpoilage').innerText = '- ₹' + inr(spoil);
+  $('pnlInterest').innerText = '- ₹' + inr(intCharge);
+  const nd = $('pnlNetProfit'); nd.innerText = '₹' + inr(net); nd.style.color = net >= 0 ? 'var(--success)' : 'var(--danger)';
+  $('pnlCashBankSales').innerText = '₹' + inr(cashBankSales);
+  $('pnlCreditSales').innerText = '₹' + inr(creditSales);
+  $('pnlReceipts').innerText = '₹' + inr(receiptsInPeriod);
+  $('pnlReceivables').innerText = '₹' + inr(currentReceivables);
+  $('pnlAdvances').innerText = '₹' + inr(currentAdvances);
+  $('pnlOrderAdvances').innerText = '₹' + inr(unfulfilledOrderAdvances);
+  $('pnlVendorPayables').innerText = '₹' + inr(vendorPayables);
+  $('pnlVendorAdvances').innerText = '₹' + inr(vendorAdvances);
   $('repProductTable').innerHTML = Object.values(pMap).sort((a,b) => b.rev-a.rev).map(p =>
-    `<tr><td><b>${safeText(p.name)}</b></td><td>${p.qty}</td><td>â¹${p.rev.toFixed(2)}</td><td style="color:var(--success);font-weight:800">â¹${p.profit.toFixed(2)}</td><td>${p.rev>0?(p.profit/p.rev*100).toFixed(1):0}%</td></tr>`
+    `<tr><td><b>${safeText(p.name)}</b></td><td>${p.qty}</td><td>₹${p.rev.toFixed(2)}</td><td style="color:var(--success);font-weight:800">₹${p.profit.toFixed(2)}</td><td>${p.rev>0?(p.profit/p.rev*100).toFixed(1):0}%</td></tr>`
   ).join('') || '<tr><td colspan="5">No sales in this period.</td></tr>';
   lastPnl = {rev,cogs,profit,oMap,totOpex,spoil,intCharge,net,pMap,cashBankSales,creditSales,receiptsInPeriod,currentReceivables,currentAdvances,unfulfilledOrderAdvances,vendorPayables,vendorAdvances};
   repShow();
@@ -1258,14 +1258,14 @@ function buildReport(k){
   const R = { key:k, title:'', chips:[], notes:[], sections:[] };
   if(k === 'SALES'){
     R.title = 'Sales Report';
-    R.chips = [['Invoices', uniq(S.map(s => s.billNo))], ['Qty Sold', sum(S, s => s.qty)], ['Total Sales', 'â¹' + inr(sum(S, s => s.total))]];
+    R.chips = [['Invoices', uniq(S.map(s => s.billNo))], ['Qty Sold', sum(S, s => s.qty)], ['Total Sales', '₹' + inr(sum(S, s => s.total))]];
     R.sections.push({ cols:['Invoice','Date','Customer','Item','Channel','Qty','Rate','Discount','GST','Total','Mode'], num:[5,6,7,8,9],
       rows:S.map(s => [s.billNo, s.date, s.party, s.name, s.channel, s.qty, n2(s.rate), n2(s.discount), n2(s.gstAmount), n2(s.total), s.mode]),
       foot:['TOTAL','','','','', sum(S, s => s.qty), '', n2(sum(S, s => s.discount)), n2(sum(S, s => s.gstAmount)), n2(sum(S, s => s.total)), ''] });
   }
   else if(k === 'PURCHASES'){
     R.title = 'Purchases Report';
-    R.chips = [['Entries', P.length], ['Qty Inward', sum(P, p => p.qty)], ['Total Purchase', 'â¹' + inr(sum(P, p => p.total))]];
+    R.chips = [['Entries', P.length], ['Qty Inward', sum(P, p => p.qty)], ['Total Purchase', '₹' + inr(sum(P, p => p.total))]];
     R.sections.push({ cols:['ID','Date','Item','Vendor','Qty','Rate','Total','Mode'], num:[4,5,6],
       rows:P.map(p => [p.id, p.date, p.name, p.vendor, p.qty, n2(p.rate), n2(p.total), p.mode]),
       foot:['TOTAL','','','', sum(P, p => p.qty), '', n2(sum(P, p => p.total)), ''] });
@@ -1279,7 +1279,7 @@ function buildReport(k){
       if(r > 0){ if(!inv[s.billNo]) inv[s.billNo] = { date:s.date, party:s.party, r, tx:0, g:0, v:0 }; inv[s.billNo].tx += tx; inv[s.billNo].g += g; inv[s.billNo].v += s.total; }
     });
     const totG = sum(S, s => s.gstAmount), totTx = sum(S, s => s.total - (s.gstAmount || 0));
-    R.chips = [['Taxable Value', 'â¹' + inr(totTx)], ['Total GST', 'â¹' + inr(totG)], ['CGST / SGST', 'â¹' + inr(totG/2) + ' each']];
+    R.chips = [['Taxable Value', '₹' + inr(totTx)], ['Total GST', '₹' + inr(totG)], ['CGST / SGST', '₹' + inr(totG/2) + ' each']];
     R.notes = ['Sirf sales par lagi GST (output tax) dikhti hai. Purchases mein GST record nahi hota, isliye Input Tax Credit is report mein nahi hai. Vendor credit purchase se payable banta hai; payment cash/bank outflow tab record hota hai jab supplier ko payment enter karein.'];
     const slabs = Object.keys(sl).map(Number).sort((a,b) => a - b);
     R.sections.push({ head:'Slab-wise Summary', cols:['GST Slab %','Taxable Value','CGST','SGST','Total GST','Invoice Value'], num:[0,1,2,3,4,5],
@@ -1295,7 +1295,7 @@ function buildReport(k){
       return [i.sku, i.name, i.cat, i.unit, i.stock, n2(i.cost), n2(i.stock * i.cost), n2(i.stock * i.b2c), pq, sq, uq, i.stock <= 5 ? 'LOW' : 'OK'];
     });
     const sv = sum(items, i => i.stock * i.cost);
-    R.chips = [['SKUs', items.length], ['Stock Value (Cost)', 'â¹' + inr(sv)], ['Stock Value (Retail)', 'â¹' + inr(sum(items, i => i.stock * i.b2c))], ['Low Stock', items.filter(i => i.stock <= 5).length]];
+    R.chips = [['SKUs', items.length], ['Stock Value (Cost)', '₹' + inr(sv)], ['Stock Value (Retail)', '₹' + inr(sum(items, i => i.stock * i.b2c))], ['Low Stock', items.filter(i => i.stock <= 5).length]];
     R.notes = ['Stock current hai. Purchased / Sold / Spoilage columns upar chuni hui date range ke hain.'];
     R.sections.push({ cols:['SKU','Item','Category','Unit','Stock','Cost','Stock Value (Cost)','Stock Value (Retail)','Purchased','Sold','Spoilage/Self-use','Status'], num:[4,5,6,7,8,9,10],
       rows, foot:['TOTAL','','','', sum(items, i => i.stock), '', n2(sv), n2(sum(items, i => i.stock * i.b2c)), sum(rows, r => r[8]), sum(rows, r => r[9]), sum(rows, r => r[10]), ''] });
@@ -1310,7 +1310,7 @@ function buildReport(k){
     P.forEach(p => { if(!v[p.vendor]) v[p.vendor] = { n:0, qty:0, amt:0 }; v[p.vendor].n++; v[p.vendor].qty += p.qty; v[p.vendor].amt += p.total; });
     const cr = Object.entries(c).sort((a,b) => b[1].billed - a[1].billed);
     const partyBalances = partyAccountMap();
-    R.chips = [['Customers', cr.length], ['Vendors', Object.keys(v).length], ['Total Billed', 'â¹' + inr(sum(S, s => s.total))], ['Receipts in Period', 'â¹' + inr(sum(receiptRange, p => p.amount))]];
+    R.chips = [['Customers', cr.length], ['Vendors', Object.keys(v).length], ['Total Billed', '₹' + inr(sum(S, s => s.total))], ['Receipts in Period', '₹' + inr(sum(receiptRange, p => p.amount))]];
     R.sections.push({ head:'Customers (Sales, receipts and current balance)', cols:['Party','Type','Invoices','Qty','Billed','Cash/Bank Sales','Credit Sales','Receipts in Period','Current Receivable','Current Advance','GST','Profit'], num:[2,3,4,5,6,7,8,9,10,11],
       rows:cr.map(([n,x]) => { const pk=Object.keys(partyBalances).find(k=>normParty(k)===normParty(n));const b=partyBalances[pk]||{receivable:0,advance:0};const rk=Object.keys(receiptTotals).find(k=>normParty(k)===normParty(n));return [n,x.type,uniq(x.bills),x.qty,n2(x.billed),n2(x.cashBank),n2(x.credit),n2(receiptTotals[rk]||0),n2(b.receivable),n2(b.advance),n2(x.gst),n2(x.profit)]; }),
       foot:['TOTAL','',uniq(S.map(s=>s.billNo)),sum(S,s=>s.qty),n2(sum(S,s=>s.total)),n2(sum(S,s=>['Cash','UPI','Bank'].includes(s.mode)?s.total:0)),n2(sum(S,s=>s.mode==='Credit'?s.total:0)),n2(sum(receiptRange,p=>p.amount)),n2(Object.values(partyBalances).reduce((a,p)=>a+p.receivable,0)),n2(Object.values(partyBalances).reduce((a,p)=>a+p.advance,0)),n2(sum(S,s=>s.gstAmount)),n2(sum(S,s=>s.profit))] });
@@ -1327,7 +1327,7 @@ function buildReport(k){
       return { r:[i.sku, i.name, sum(ss, s => s.qty), n2(rev), n2(pr), rev > 0 ? (pr/rev*100).toFixed(1) : '0.0', sum(pp, p => p.qty), n2(sum(pp, p => p.total)), sum(uu, u => u.qty), n2(sum(uu, u => u.loss)), i.stock], rev };
     }).sort((a,b) => b.rev - a.rev).map(x => x.r);
     const tr = sum(rows, r => r[3]), tp = sum(rows, r => r[4]);
-    R.chips = [['Turnover', 'â¹' + inr(tr)], ['Gross Profit', 'â¹' + inr(tp)], ['Margin', (tr > 0 ? tp/tr*100 : 0).toFixed(1) + '%']];
+    R.chips = [['Turnover', '₹' + inr(tr)], ['Gross Profit', '₹' + inr(tp)], ['Margin', (tr > 0 ? tp/tr*100 : 0).toFixed(1) + '%']];
     R.sections.push({ cols:['SKU','Item','Qty Sold','Turnover','Gross Profit','Margin %','Qty Purchased','Purchase Value','Spoilage Qty','Spoilage Loss','Stock Now'], num:[2,3,4,5,6,7,8,9,10],
       rows, foot:['TOTAL','', sum(rows, r => r[2]), n2(tr), n2(tp), tr > 0 ? (tp/tr*100).toFixed(1) : '0.0', sum(rows, r => r[6]), n2(sum(rows, r => r[7])), sum(rows, r => r[8]), n2(sum(rows, r => r[9])), sum(rows, r => r[10])] });
   }
@@ -1346,7 +1346,7 @@ function buildReport(k){
 }
 function renderGeneric(R){
   let h = '<div class="rep-chips">' + R.chips.map(c => `<div class="rep-chip">${esc(c[0])}<b>${esc(c[1])}</b></div>`).join('') + '</div>';
-  R.notes.forEach(n => h += `<div class="rep-note">â¹ï¸ ${esc(n)}</div>`);
+  R.notes.forEach(n => h += `<div class="rep-note">ℹ️ ${esc(n)}</div>`);
   R.sections.forEach(s => {
     const isN = i => (s.num || []).includes(i);
     if(s.head) h += `<div class="rep-head">${esc(s.head)}</div>`;
